@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="388dp"
+        android:layout_height="436dp"
+        app:srcCompat="@drawable/eight_ball"
+        tools:layout_editor_absoluteX="11dp"
+        tools:layout_editor_absoluteY="43dp"
+        tools:srcCompat="@drawable/eight_ball" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="161dp"
+        android:layout_height="125dp"
+        android:text="TextView"
+        android:textColor="#0F8E8E"
+        android:textSize="34sp"
+        tools:layout_editor_absoluteX="125dp"
+        tools:layout_editor_absoluteY="205dp"
+        tools:text="ANSWER" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="130dp"
+        tools:layout_editor_absoluteY="20dp"
+        tools:text="MAGIC 8 BALL RULES" />
 </androidx.constraintlayout.widget.ConstraintLayout>

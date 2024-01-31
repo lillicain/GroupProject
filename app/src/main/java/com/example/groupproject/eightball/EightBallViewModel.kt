@@ -1,4 +1,8 @@
 package com.example.groupproject.eightball
 
-class EightBallViewModel {
+import androidx.lifecycle.ViewModel
+
+class EightBallViewModel: ViewModel() {
+    val eightBall = EightBall()
+
 }

@@ -28,10 +28,10 @@ enum class Answer(val value: String) {
 data class EightBall (
     var selectedAnswer: List<Answer> = listOf(Answer.entries.toTypedArray().random())
 ) {
-    fun addAnswer() {
-
+    fun addAnswer(answer: Answer) {
+        selectedAnswer = listOf(answer)
     }
-    fun clearAnswers() {
-
+    fun resetAnswer() {
+        selectedAnswer = listOf(Answer.entries.toTypedArray().random())
     }
 }
