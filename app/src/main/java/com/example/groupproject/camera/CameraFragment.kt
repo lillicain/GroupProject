@@ -26,7 +26,7 @@ class CameraFragment: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(layout.fragment_camera)
 
-       // previewView = findViewById(id.preview)
+       //previewView = findViewById(id.preview)
 
 
         // Initialize CameraX
