@@ -1,4 +1,7 @@
 package com.example.groupproject.home
 
-class HomeViewModel {
+import androidx.lifecycle.ViewModel
+
+class HomeViewModel : ViewModel() {
+
 }
