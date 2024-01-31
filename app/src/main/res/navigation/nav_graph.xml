@@ -3,16 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/searchFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/searchFragment"
-
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
+        android:id="@+id/homeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/searchFragment"
-            app:destination="@id/searchFragment" />
+            android:id="@+id/homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 
 
