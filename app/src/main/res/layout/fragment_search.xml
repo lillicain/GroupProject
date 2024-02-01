@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.android.dictionaryapi.MainActivity">
+        tools:context="com.example.android.groupproject.MainActivity">
 
         <EditText
             android:id="@+id/editText"
@@ -35,7 +35,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editText"
-            app:listData="@{viewModel.text}"
+
             app:spanCount="1"
             tools:itemCount="10" />
 
