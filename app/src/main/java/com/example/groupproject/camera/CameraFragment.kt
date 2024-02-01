@@ -18,7 +18,7 @@ import com.example.groupproject.R.*
 import com.example.groupproject.R.id.*
 
 class CameraFragment: AppCompatActivity() {
-    private lateinit var previewView: MainActivity
+    private lateinit var previewView: CameraFragment
     private lateinit var cameraProvider: ProcessCameraProvider
     private lateinit var cameraSelector: CameraSelector
     private lateinit var preview: Preview
