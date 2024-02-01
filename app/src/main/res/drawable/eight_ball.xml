@@ -14,17 +14,17 @@
       android:pathData="M285.89,291.64m-198.89,0a198.89,198.89 0,1 1,397.78 0a198.89,198.89 0,1 1,-397.78 0"
       android:strokeColor="#231f20"/>
   <path
-      android:strokeWidth="1"
+      android:strokeWidth="5"
       android:pathData="M127.6,171.22L285.89,490.53"
       android:fillColor="#00000000"
       android:strokeColor="#1a4d93"/>
   <path
-      android:strokeWidth="1"
+      android:strokeWidth="5"
       android:pathData="M446.15,173.86L285.89,490.53"
       android:fillColor="#00000000"
       android:strokeColor="#1a4d93"/>
   <path
-      android:strokeWidth="1"
+      android:strokeWidth="5"
       android:pathData="M127.6,171.22L446.15,173.86"
       android:fillColor="#00000000"
       android:strokeColor="#1a4d93"/>
