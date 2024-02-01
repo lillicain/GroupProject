@@ -44,8 +44,8 @@ class HomeFragment : Fragment() {
             this.findNavController().navigate(HomeFragmentDirections.actionToEightBall())
         }
 
-        binding.magic8BallButton.setOnClickListener {
-            this.findNavController().navigate(HomeFragmentDirections.actionToEightBall())
+        binding.cameraButton.setOnClickListener {
+            this.findNavController().navigate(HomeFragmentDirections.actionToCameraFragment())
         }
 
         return binding.root
