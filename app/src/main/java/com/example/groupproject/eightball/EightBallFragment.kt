@@ -49,13 +49,15 @@ class EightBallFragment: Fragment(), SensorEventListener {
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        TODO("Not yet implemented")
+
     }
     override fun onSensorChanged(event: SensorEvent?) {
         // Check if the event is a shake
         if (isShake(event)) {
             // Perform the action in the ViewModel
             viewModel.showAnswer()
+        } else {
+            print("EVIL IS HERE")
         }
     }
 
