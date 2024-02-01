@@ -7,9 +7,10 @@ import java.lang.reflect.Modifier
 
 
 //@Composable
-//
-//class CameraPreview(controller: LifecycleCameraController, modifier: Modifier) {
-//    val lifecycleOwner = LocalLifecycleOwner.current
+
+class CameraPreview(controller: LifecycleCameraController, modifier: Modifier) {
+    val lifecycleOwner = this //LocalLifecycleOwner.current
+
 //    AndroidView(
 //    factory = {
 //        PreviewView(it).apply {
@@ -19,8 +20,8 @@ import java.lang.reflect.Modifier
 //    },
 //    modifier = modifier
 //    )
-//
-//}
+
+}
 //
 //@Composable
 //fun PhotoBottomSheetContent(
