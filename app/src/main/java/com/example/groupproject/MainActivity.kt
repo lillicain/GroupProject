@@ -114,7 +114,8 @@ class MainActivity : AppCompatActivity() {
                 var surface = Surface(textureView.surfaceTexture)
                 capReq.addTarget(surface)
 
-                cameraDevice.createCaptureSession(listOf(surface, imageReader.surface), object: CameraCaptureSession.StateCallback {
+                cameraDevice.createCaptureSession(listOf(surface, imageReader.surface), object:
+                    CameraCaptureSession.StateCallback() {
                     override fun onConfigured(session: CameraCaptureSession) {
                         cameraCaptureSession = session
                         cameraCaptureSession.setRepeatingRequest(capReq.build(), null, null)
@@ -126,19 +127,13 @@ class MainActivity : AppCompatActivity() {
 
                 }, handler)
             }
-
             override fun onDisconnected(camera: CameraDevice) {
-
             }
 
             override fun onError(camera: CameraDevice, error: Int) {
-
             }
-
         }, handler)
     }
-
-
 
     fun getPermissions() {
         var permissionList = mutableListOf<String>()
