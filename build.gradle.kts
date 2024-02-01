@@ -1,6 +1,6 @@
 buildscript {
     dependencies {
-        classpath("androidx.navigation.safeargs:androidx.navigation.safeargs.gradle.plugin:2.7.6")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.6")
     }
 }
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
