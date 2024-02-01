@@ -38,9 +38,14 @@ class HomeFragment : Fragment() {
 //            }
 //        }
 
-        binding.magic8BallButton.setOnClickListener {
-//            this.findNavController().navigate()
+        //TODO: Buttons navigation
 
+        binding.magic8BallButton.setOnClickListener {
+            this.findNavController().navigate(HomeFragmentDirections.actionToEightBall())
+        }
+
+        binding.magic8BallButton.setOnClickListener {
+            this.findNavController().navigate(HomeFragmentDirections.actionToEightBall())
         }
 
         return binding.root
