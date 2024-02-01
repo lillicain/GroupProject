@@ -5,14 +5,32 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
 
+
     <fragment
         android:id="@+id/homeFragment"
+        android:name="com.example.groupproject.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/homeFragment"
-            app:destination="@id/homeFragment" />
+            android:id="@+id/actionToEightBall"
+            app:destination="@id/eightBallFragment" />
+        <action
+            android:id="@+id/actionToCameraFragment"
+            app:destination="@id/cameraFragment" />
     </fragment>
 
+    <fragment
+        android:id="@+id/eightBallFragment"
+        android:name="com.example.groupproject.eightball.EightBallFragment"
+        android:label="fragment_eight_ball"
+        tools:layout="@layout/fragment_eight_ball" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.example.groupproject.camera.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" >
+    </fragment>
 
 </navigation>
