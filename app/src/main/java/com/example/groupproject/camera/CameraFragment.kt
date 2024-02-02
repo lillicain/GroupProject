@@ -46,15 +46,15 @@ import java.io.File
 import java.io.FileOutputStream
 
 class CameraFragment: Fragment() {
-    lateinit var cameraManager: CameraManager
-    lateinit var textureView: TextureView
-    lateinit var cameraCaptureSession: CameraCaptureSession
-    lateinit var cameraDevice: CameraDevice
-    lateinit var captureRequest: CaptureRequest
-    lateinit var handler: Handler
-    lateinit var handlerThread: HandlerThread
-    lateinit var capReq: CaptureRequest.Builder
-    lateinit var imageReader: ImageReader
+//    lateinit var cameraManager: CameraManager
+//    lateinit var textureView: TextureView
+//    lateinit var cameraCaptureSession: CameraCaptureSession
+//    lateinit var cameraDevice: CameraDevice
+//    lateinit var captureRequest: CaptureRequest
+//    lateinit var handler: Handler
+//    lateinit var handlerThread: HandlerThread
+//    lateinit var capReq: CaptureRequest.Builder
+//    lateinit var imageReader: ImageReader
 //    lateinit var viewModel: CameraViewModel
 
 

@@ -19,6 +19,7 @@ import android.view.Surface
 import android.view.TextureView
 import android.widget.Button
 import android.widget.Toast
+import com.example.groupproject.R.*
 import java.io.File
 import java.io.FileOutputStream
 
@@ -33,22 +34,20 @@ class MainActivity : AppCompatActivity() {
     lateinit var capReq: CaptureRequest.Builder
     lateinit var imageReader: ImageReader
 
-//    lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
-
     override fun onDestroy() {
         super.onDestroy()
         cameraDevice.close()
         handler.removeCallbacksAndMessages(null)
         handlerThread.quitSafely()
     }
-    @SuppressLint("MissingInflatedId")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-setContentView(R.layout.activity_main)
+setContentView(layout.activity_main)
 
         getPermissions()
 
-        textureView = textureView.findViewById(R.id.textureView)
+        textureView = textureView.findViewById(id.textureView)
         cameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
         handlerThread = HandlerThread("videoThread")
         handlerThread.start()
@@ -89,7 +88,7 @@ setContentView(R.layout.activity_main)
             }
         }, handler)
 
-        findViewById<Button>(R.id.capture).apply {
+        findViewById<Button>(id.capture).apply {
             setOnClickListener {
                 capReq = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
                 capReq.addTarget(imageReader.surface)
@@ -99,7 +98,6 @@ setContentView(R.layout.activity_main)
     }
 
     @SuppressLint("MissingPermission")
-
     fun open_camera() {
         cameraManager.openCamera(cameraManager.cameraIdList[0], object: CameraDevice.StateCallback() {
 
