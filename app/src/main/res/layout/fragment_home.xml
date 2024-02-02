@@ -8,29 +8,44 @@
             type="com.example.groupproject.home.HomeViewModel"/>
     </data>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".MainActivity">
 
-<ListView
-    android:id="@+id/listView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
 
-    <Button
-        android:id="@+id/magic8BallButton"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Magic 8 Ball"/>
+        android:orientation="vertical">
+        <ImageButton
+            android:id="@+id/magic8BallButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#87BBA2"
+            android:drawablePadding="8dp"
+            android:text="Magic 8 Ball"
+            android:padding="16dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/eight_ball"
+            />
 
-    <Button
+        <Button
         android:id="@+id/cameraButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#55828B"
+
         android:text="Camera"
         />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/ringtoneButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#364958"
+            android:text="Ringtones" />
+    </LinearLayout>
+</ScrollView>
 </layout>
