@@ -8,6 +8,7 @@ class EightBallViewModel: ViewModel() {
 //     val eightBall = EightBall()
 
     private val _eightBall = MutableLiveData<EightBall>()
+    val greengusString = "GREENGUS"
     val eightBall: LiveData<EightBall>
         get() = _eightBall
 
