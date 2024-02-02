@@ -37,7 +37,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.groupproject.DataBinderMapperImpl
-import com.example.groupproject.Manifest
 import com.example.groupproject.R
 import com.example.groupproject.R.*
 import com.example.groupproject.R.id.*
@@ -66,9 +65,9 @@ class CameraFragment: Fragment() {
     ): View? {
         val application = requireNotNull(activity).application
 //val binding = Fr
-        val binding = FragmentCameraBinding.inflate(inflater)
-
-        binding.lifecycleOwner = this
+//        val binding = FragmentCameraBinding.inflate(inflater)
+//
+//        binding.lifecycleOwner = this
 
         return super.onCreateView(inflater, container, savedInstanceState)
 //
