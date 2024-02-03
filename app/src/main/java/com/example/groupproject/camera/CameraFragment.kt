@@ -1,11 +1,11 @@
 package com.example.groupproject.camera
 
-import android.Manifest.*
-import android.Manifest.permission.*
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.*
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.ImageFormat
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraCaptureSession
@@ -27,7 +27,24 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.camera.core.Preview
+import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.content.ContextCompat.getExternalFilesDirs
@@ -37,6 +54,7 @@ import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.groupproject.DataBinderMapperImpl
 import com.example.groupproject.R
 import com.example.groupproject.R.*
@@ -45,6 +63,57 @@ import com.example.groupproject.databinding.FragmentSearchBinding
 import com.example.groupproject.databinding.FragmentSearchBindingImpl
 import java.io.File
 import java.io.FileOutputStream
+
+@Composable
+fun CameraPreview(
+    controller: LifecycleCameraController,
+    modifier: Modifier = Modifier
+) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+    AndroidView(
+        factory = {
+            PreviewView(it).apply {
+                this.controller = controller
+                controller.bindToLifecycle(lifecycleOwner)
+            }
+        },
+        modifier = modifier
+    )
+}
+
+@Composable
+fun PhotoBottomSheetContent(
+    bitmaps: List<Bitmap>,
+    modifier: Modifier = Modifier
+) {
+    if(bitmaps.isEmpty()) {
+        Box(
+            modifier = modifier
+                .padding(16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text("There are no photos yet")
+        }
+    } else {
+        LazyVerticalStaggeredGrid(
+            columns = StaggeredGridCells.Fixed(2),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalItemSpacing = 16.dp,
+            contentPadding = PaddingValues(16.dp),
+            modifier = modifier
+        ) {
+
+//            items(bitmaps) { bitmap ->
+//                Image(
+//                    bitmap = bitmap.asImageBitmap(),
+//                    contentDescription = null,
+//                    modifier = Modifier
+//                        .clip(RoundedCornerShape(10.dp))
+//                )
+//            }
+        }
+    }
+}
 
 class CameraFragment: Fragment() {
 //    lateinit var cameraManager: CameraManager
