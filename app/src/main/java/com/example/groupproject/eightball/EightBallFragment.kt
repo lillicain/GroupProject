@@ -27,6 +27,8 @@ class EightBallFragment: Fragment(), SensorEventListener {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentEightBallBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel  // Set up data binding
+        binding.lifecycleOwner = viewLifecycleOwner // Set the lifecycle owner for LiveData
         return binding.root
     }
 

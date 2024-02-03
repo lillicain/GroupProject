@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 
 class EightBallViewModel: ViewModel() {
 //     val eightBall = EightBall()
-
-    private val _eightBall = MutableLiveData<EightBall>()
     val greengusString = "GREENGUS"
+    private val _eightBall = MutableLiveData<EightBall>()
+
     val eightBall: LiveData<EightBall>
         get() = _eightBall
 
@@ -19,15 +19,7 @@ class EightBallViewModel: ViewModel() {
     val queuedAnswer: LiveData<MutableList<Answer>>
         get() = _queuedAnswer
     init {
-        _selectedAnswer.value = Answer.SIGNS_POINT_TO_YES
-        _queuedAnswer.value = mutableListOf()
-    }
-    fun addAnswer(answer: Answer) {
-        eightBall.value?.addAnswer(answer)
-    }
-    fun showAnswer() {
-        println(eightBall.value?.selectedAnswer?.value.toString())
-        eightBall.value?.setAnswer()
+        _eightBall.value = EightBall(Answer.YES_DEFINITELY)
     }
     fun resetAnswer() {
 //        eightBall.value?.resetAnswer()
