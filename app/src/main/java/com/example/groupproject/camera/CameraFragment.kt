@@ -28,6 +28,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.camera.core.Preview
 import androidx.camera.view.PreviewView
+import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.content.ContextCompat.getExternalFilesDirs
 import androidx.core.content.ContextCompat.getSystemService
