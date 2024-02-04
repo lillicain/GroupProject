@@ -10,17 +10,28 @@ import android.hardware.camera2.CameraDevice
 import android.hardware.camera2.CameraManager
 import android.hardware.camera2.CaptureRequest
 import android.media.ImageReader
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.os.HandlerThread
+import android.view.OrientationEventListener
 import android.view.Surface
 import android.view.SurfaceView
 import android.view.TextureView
 import android.widget.Button
 import android.widget.Toast
+import androidx.camera.core.AspectRatio
+import androidx.camera.core.Camera
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageCapture
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.video.Recorder
+import androidx.camera.video.Recording
+import androidx.camera.video.VideoCapture
 import com.example.groupproject.R.*
+import com.example.groupproject.databinding.ActivityMainBinding
 import java.io.File
 import java.io.FileOutputStream
 
@@ -36,10 +47,41 @@ class MainActivity : AppCompatActivity() {
     lateinit var imageReader: ImageReader
 
 
+    val mainBinding: ActivityMainBinding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
+    }
+
+    private val multiplePermissionId = 14
+    private val multiplePermissionNameList = if (Build.VERSION.SDK_INT >= 33) {
+        arrayListOf(
+            android.Manifest.permission.CAMERA,
+            android.Manifest.permission.RECORD_AUDIO
+        )
+    } else {
+        arrayListOf(
+            android.Manifest.permission.CAMERA,
+            android.Manifest.permission.RECORD_AUDIO,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+    }
+
+    private lateinit var videoCapture: VideoCapture<Recorder>
+    private var recording: Recording? = null
+
+    private var isPhoto = true
+
+    private lateinit var imageCapture: ImageCapture
+    private lateinit var cameraProvider: ProcessCameraProvider
+    private lateinit var camera: Camera
+    private lateinit var cameraSelector: CameraSelector
+    private var orientationEventListener: OrientationEventListener? = null
+    private var lensFacing = CameraSelector.LENS_FACING_BACK
+    private var aspectRatio = AspectRatio.RATIO_16_9
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.fragment_camera)
 
 
 //        getPermissions()
@@ -162,6 +204,7 @@ class MainActivity : AppCompatActivity() {
 //                getPermissions()
 //            }
 //        }
+
     }
 }
 
