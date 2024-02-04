@@ -52,110 +52,111 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 
-class MainActivity(function: () -> Unit) : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
-    @OptIn(ExperimentalMaterial3Api::class)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!hasRequiredPermissions()) {
-            ActivityCompat.requestPermissions(
-                this, CAMERAX_PERMISSIONS, 0
-            )
+//        if (!hasRequiredPermissions()) {
+//            ActivityCompat.requestPermissions(
+//                this, CAMERAX_PERMISSIONS, 0
+//            )
+    }
         }
 
-        setContent {
-
-//           MainActivity {
-                val scope = rememberCoroutineScope()
-                val scaffoldState = rememberBottomSheetScaffoldState()
-                val controller = remember {
-                    LifecycleCameraController(applicationContext).apply {
-                        setEnabledUseCases(
-                            CameraController.IMAGE_CAPTURE or
-                                    CameraController.VIDEO_CAPTURE
-                        )
-                    }
-                }
-                val viewModel = viewModel<CameraViewModel>()
-                val bitmaps by viewModel.bitmaps.collectAsState()
-
-
-            BottomSheetScaffold(
-                    scaffoldState = scaffoldState,
-                    sheetPeekHeight = 0.dp,
-                    sheetContent = {
-                        PhotoBottomSheetContent(
-                            bitmaps = bitmaps,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        )
-                    }
-                ) { padding ->
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(padding)
-                    ) {
-
-                        CameraPreview(
-                            controller = controller,
-                            modifier = Modifier
-                                .fillMaxSize()
-                        )
-
-                        IconButton(
-                            onClick = {
-                                controller.cameraSelector =
-                                    if (controller.cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) {
-                                        CameraSelector.DEFAULT_FRONT_CAMERA
-                                    } else CameraSelector.DEFAULT_BACK_CAMERA
-                            },
-                            modifier = Modifier
-                                .offset(16.dp, 16.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Cameraswitch,
-                                contentDescription = "Switch camera"
-                            )
-                        }
-
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .align(Alignment.BottomCenter)
-                                .padding(16.dp),
-                            horizontalArrangement = Arrangement.SpaceAround
-                        ) {
-                            IconButton(
-                                onClick = {
-                                    scope.launch {
-                                        scaffoldState.bottomSheetState.expand()
-                                    }
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Photo,
-                                    contentDescription = "Open gallery"
-                                )
-                            }
-                            IconButton(
-                                onClick = {
-                                    takePhoto(
-                                        controller = controller,
-                                        onPhotoTaken = viewModel::onTakePhoto
-                                    )
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.PhotoCamera,
-                                    contentDescription = "Take photo"
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-        }
+//        setContent {
+//
+////           MainActivity {
+//                val scope = rememberCoroutineScope()
+//                val scaffoldState = rememberBottomSheetScaffoldState()
+//                val controller = remember {
+//                    LifecycleCameraController(applicationContext).apply {
+//                        setEnabledUseCases(
+//                            CameraController.IMAGE_CAPTURE or
+//                                    CameraController.VIDEO_CAPTURE
+//                        )
+//                    }
+//                }
+//                val viewModel = viewModel<CameraViewModel>()
+//                val bitmaps by viewModel.bitmaps.collectAsState()
+//
+//
+//            BottomSheetScaffold(
+//                    scaffoldState = scaffoldState,
+//                    sheetPeekHeight = 0.dp,
+//                    sheetContent = {
+//                        PhotoBottomSheetContent(
+//                            bitmaps = bitmaps,
+//                            modifier = Modifier
+//                                .fillMaxWidth()
+//                        )
+//                    }
+//                ) { padding ->
+//                    Box(
+//                        modifier = Modifier
+//                            .fillMaxSize()
+//                            .padding(padding)
+//                    ) {
+//
+//                        CameraPreview(
+//                            controller = controller,
+//                            modifier = Modifier
+//                                .fillMaxSize()
+//                        )
+//
+//                        IconButton(
+//                            onClick = {
+//                                controller.cameraSelector =
+//                                    if (controller.cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) {
+//                                        CameraSelector.DEFAULT_FRONT_CAMERA
+//                                    } else CameraSelector.DEFAULT_BACK_CAMERA
+//                            },
+//                            modifier = Modifier
+//                                .offset(16.dp, 16.dp)
+//                        ) {
+//                            Icon(
+//                                imageVector = Icons.Default.Cameraswitch,
+//                                contentDescription = "Switch camera"
+//                            )
+//                        }
+//
+//                        Row(
+//                            modifier = Modifier
+//                                .fillMaxWidth()
+//                                .align(Alignment.BottomCenter)
+//                                .padding(16.dp),
+//                            horizontalArrangement = Arrangement.SpaceAround
+//                        ) {
+//                            IconButton(
+//                                onClick = {
+//                                    scope.launch {
+//                                        scaffoldState.bottomSheetState.expand()
+//                                    }
+//                                }
+//                            ) {
+//                                Icon(
+//                                    imageVector = Icons.Default.Photo,
+//                                    contentDescription = "Open gallery"
+//                                )
+//                            }
+//                            IconButton(
+//                                onClick = {
+//                                    takePhoto(
+//                                        controller = controller,
+//                                        onPhotoTaken = viewModel::onTakePhoto
+//                                    )
+//                                }
+//                            ) {
+//                                Icon(
+//                                    imageVector = Icons.Default.PhotoCamera,
+//                                    contentDescription = "Take photo"
+//                                )
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
 
     private fun takePhoto(
