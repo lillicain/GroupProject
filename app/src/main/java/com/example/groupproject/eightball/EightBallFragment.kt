@@ -57,7 +57,7 @@ class EightBallFragment: Fragment(), SensorEventListener {
         // Check if the event is a shake
         if (isShake(event)) {
             // Perform the action in the ViewModel
-            viewModel.showAnswer()
+//            viewModel.showAnswer()
         } else {
             print("EVIL IS HERE")
         }

@@ -30,7 +30,7 @@ data class EightBall (
     private var queuedAnswers: MutableList<Answer> = mutableListOf()
 ) {
     init {
-        setAnswer()
+
     }
     fun setAnswer() {
         if (queuedAnswers.isNotEmpty()) {
