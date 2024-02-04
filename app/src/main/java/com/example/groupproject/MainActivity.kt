@@ -45,43 +45,38 @@ import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.groupproject.R.*
-import com.example.groupproject.camera.CameraPreview
 import com.example.groupproject.camera.CameraViewModel
-import com.example.groupproject.camera.PhotoBottomSheetContent
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity() {
 
-
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        if (!hasRequiredPermissions()) {
-//            ActivityCompat.requestPermissions(
-//                this, CAMERAX_PERMISSIONS, 0
-//            )
-    }
-        }
+        if (!hasRequiredPermissions()) {
+            ActivityCompat.requestPermissions(
+                this, CAMERAX_PERMISSIONS, 0
+            )
 
-//        setContent {
-//
-////           MainActivity {
-//                val scope = rememberCoroutineScope()
-//                val scaffoldState = rememberBottomSheetScaffoldState()
-//                val controller = remember {
-//                    LifecycleCameraController(applicationContext).apply {
-//                        setEnabledUseCases(
-//                            CameraController.IMAGE_CAPTURE or
-//                                    CameraController.VIDEO_CAPTURE
-//                        )
-//                    }
-//                }
-//                val viewModel = viewModel<CameraViewModel>()
-//                val bitmaps by viewModel.bitmaps.collectAsState()
-//
-//
-//            BottomSheetScaffold(
+            setContent {
+
+                val scope = rememberCoroutineScope()
+                val scaffoldState = rememberBottomSheetScaffoldState()
+                val controller = remember {
+                    LifecycleCameraController(applicationContext).apply {
+                        setEnabledUseCases(
+                            CameraController.IMAGE_CAPTURE or
+                                    CameraController.VIDEO_CAPTURE
+                        )
+                    }
+                }
+                val viewModel = viewModel<CameraViewModel>()
+                val bitmaps by viewModel.bitmaps.collectAsState()
+
+
+//                BottomSheetScaffold(
 //                    scaffoldState = scaffoldState,
 //                    sheetPeekHeight = 0.dp,
 //                    sheetContent = {
@@ -119,7 +114,7 @@ class MainActivity : AppCompatActivity() {
 //                                contentDescription = "Switch camera"
 //                            )
 //                        }
-//
+
 //                        Row(
 //                            modifier = Modifier
 //                                .fillMaxWidth()
@@ -152,14 +147,14 @@ class MainActivity : AppCompatActivity() {
 //                                    contentDescription = "Take photo"
 //                                )
 //                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
+                        }
+                    }
+                }
 
 
-    private fun takePhoto(
+
+
+    fun takePhoto(
         controller: LifecycleCameraController,
         onPhotoTaken: (Bitmap) -> Unit
     ) {
@@ -204,6 +199,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+
     companion object {
          val CAMERAX_PERMISSIONS = arrayOf(
             android.Manifest.permission.CAMERA,
@@ -211,6 +207,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 }
+
 
 
 //    lateinit var cameraManager: CameraManager
