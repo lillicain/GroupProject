@@ -8,6 +8,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,17 +55,20 @@ class EightBallFragment: Fragment(), SensorEventListener {
 
     }
     override fun onSensorChanged(event: SensorEvent?) {
+        event?.values?.let { values ->
+            Log.d("SensorValues", values.joinToString())
+        }
         // Check if the event is a shake
         if (isShake(event)) {
             // Perform the action in the ViewModel
-//            viewModel.showAnswer()
+            viewModel.showAnswer()
         } else {
             print("EVIL IS HERE")
         }
     }
 
     private fun isShake(event: SensorEvent?): Boolean {
-        val threshold = 12.0f // You may need to adjust this threshold based on testing
+        val threshold = 100.0f // You may need to adjust this threshold based on testing
         // Calculate the acceleration magnitude
         val acceleration = event?.values?.let { values ->
             values.map { it * it }.sum()
