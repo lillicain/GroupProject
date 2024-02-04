@@ -6,7 +6,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.*
 import android.content.pm.PackageManager
+import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.ImageFormat
+import android.graphics.Paint
+import android.graphics.RectF
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
@@ -18,6 +22,8 @@ import android.os.Environment
 import android.os.Environment.DIRECTORY_PICTURES
 import android.os.Handler
 import android.os.HandlerThread
+import android.os.Looper
+import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Surface
@@ -45,6 +51,50 @@ import com.example.groupproject.databinding.FragmentSearchBinding
 import com.example.groupproject.databinding.FragmentSearchBindingImpl
 import java.io.File
 import java.io.FileOutputStream
+
+class FocusCircleView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
+
+    private val paint = Paint()
+
+    var focusCircle: RectF? = null
+
+    private var handler = Handler(Looper.getMainLooper())
+    private var removeFocusRunnable = Runnable { }
+
+    init {
+        paint.color = Color.WHITE
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth = 5f
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        focusCircle?.let { rect ->
+            // Calculate the outer circle radius
+            val outerRadius = rect.width() / 1.2f
+
+            // Calculate the inner circle radius
+            val innerRadius = outerRadius / 2
+
+            // Draw the outer circle
+            canvas.drawCircle(rect.centerX(), rect.centerY(), outerRadius, paint)
+
+            // Draw the inner circle
+            canvas.drawCircle(rect.centerX(), rect.centerY(), innerRadius, paint)
+
+            scheduleFocusCircleRemoval()
+        }
+    }
+
+    private fun scheduleFocusCircleRemoval() {
+        handler.removeCallbacks(removeFocusRunnable)
+        removeFocusRunnable = Runnable {
+            focusCircle = null
+            invalidate()
+        }
+        handler.postDelayed(removeFocusRunnable, 2000)
+    }
+}
 
 class CameraFragment: Fragment() {
 //    lateinit var cameraManager: CameraManager
