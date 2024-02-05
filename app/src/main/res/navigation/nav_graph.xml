@@ -17,6 +17,9 @@
         <action
             android:id="@+id/actionToCameraFragment"
             app:destination="@id/cameraFragment" />
+        <action
+            android:id="@+id/actionToRingtoneFragment"
+            app:destination="@id/ringtoneFragment" />
     </fragment>
 
     <fragment
@@ -31,6 +34,13 @@
         android:name="com.example.groupproject.camera.CameraFragment"
         android:label="fragment_camera"
         tools:layout="@layout/fragment_camera" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/ringtoneFragment"
+        android:name="com.example.groupproject.ringtone.RingtoneFragment"
+        android:label="fragment_ringtone"
+        tools:layout="@layout/fragment_ringtone" >
     </fragment>
 
 </navigation>

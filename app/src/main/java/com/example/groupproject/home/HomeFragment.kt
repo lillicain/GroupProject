@@ -48,6 +48,10 @@ class HomeFragment : Fragment() {
             this.findNavController().navigate(HomeFragmentDirections.actionToCameraFragment())
         }
 
+        binding.ringtoneButton.setOnClickListener {
+            this.findNavController().navigate(HomeFragmentDirections.actionToRingtoneFragment())
+        }
+
         return binding.root
     }
 
