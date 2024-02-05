@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -18,22 +18,42 @@ tools:context=".MainActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingHorizontal="100dp"
+        >
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            >
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tools"
+                android:background="#c9e4ca"
+                android:textAlignment="center"
+                android:padding="6dp"
+                android:textSize="25sp"
+                />
+        </com.google.android.material.card.MaterialCardView>
+
         <ImageButton
             android:id="@+id/magic8BallButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
             android:backgroundTint="#87BBA2"
             android:drawablePadding="8dp"
             android:text="Magic 8 Ball"
             android:padding="16dp"
             android:scaleType="fitCenter"
             android:src="@drawable/eight_ball"
+
             />
 
         <Button
         android:id="@+id/cameraButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="#55828B"
 
@@ -42,10 +62,11 @@ tools:context=".MainActivity">
 
         <Button
             android:id="@+id/ringtoneButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#364958"
             android:text="Ringtones" />
+
     </LinearLayout>
 </ScrollView>
 </layout>
