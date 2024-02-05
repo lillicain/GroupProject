@@ -62,5 +62,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="MAGIC 8 BALL RULES" />
+    
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
