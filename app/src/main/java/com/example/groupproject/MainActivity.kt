@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.fragment_camera)
 
 //        setContentView(mainBinding.root)
 
@@ -95,7 +95,6 @@ class MainActivity : AppCompatActivity() {
 //            override fun onSurfaceTextureUpdated(surface: SurfaceTexture) {
 //            }
 //        }
-//
 //        imageReader = ImageReader.newInstance(1080, 1920, ImageFormat.JPEG, 1)
 //        imageReader.setOnImageAvailableListener(object: ImageReader.OnImageAvailableListener {
 //            override fun onImageAvailable(reader: ImageReader?) {
