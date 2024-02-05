@@ -9,9 +9,10 @@ import okhttp3.RequestBody
 
 @Parcelize
 data class SearchText(
-//    val language: String,
-//    val strength: Int,
-    val text: String
+    val text: String,
+    val style: String?,
+    val startIndex: Int?,
+    val endIndex: Int?
 ) : Parcelable
 
 val client = OkHttpClient()
@@ -27,3 +28,5 @@ val request = Request.Builder()
     .build()
 
 val response = client.newCall(request).execute()
+
+val key = "6i8rh0iJ3C0Rc9fRcFhX2LarE4oVwa3N"

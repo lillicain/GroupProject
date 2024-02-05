@@ -11,10 +11,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.android.groupproject.MainActivity">
+        tools:context="com.example.android.groupproject.seach.SearchFragment">
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
@@ -29,12 +29,12 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:clipToPadding="false"
-            android:padding="6dp"
+            android:padding="10dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editText"
+            app:layout_constraintTop_toBottomOf="@id/text"
 
             app:spanCount="1"
             tools:itemCount="10" />
@@ -47,7 +47,7 @@
             app:layout_constraintBottom_toTopOf="@+id/photos_grid"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText" />
+            app:layout_constraintTop_toBottomOf="@+id/text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
