@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.fragment_search)
+        setContentView(R.layout.fragment_camera)
 
 
 //        getPermissions()
