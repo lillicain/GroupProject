@@ -1,10 +1,11 @@
 package com.example.groupproject.search
 
+import android.widget.EditText
+
 class SearchViewModel {
-    val text: String?
+    val text: String
 
     init {
         text = ""
     }
-
 }
