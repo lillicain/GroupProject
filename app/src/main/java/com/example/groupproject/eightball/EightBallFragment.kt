@@ -14,6 +14,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.GridLayout
 import com.example.groupproject.databinding.FragmentEightBallBinding
 
 class EightBallFragment: Fragment(), SensorEventListener {
@@ -43,6 +44,8 @@ class EightBallFragment: Fragment(), SensorEventListener {
             // Optionally, update UI or trigger transition here
             applyTransition(newAnswer)
         }
+        val gridLayout: GridLayout = binding.gridLayout
+        viewModel.createButtons(gridLayout)
     }
 
     override fun onResume() {

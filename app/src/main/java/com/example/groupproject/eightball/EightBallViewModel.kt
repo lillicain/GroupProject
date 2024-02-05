@@ -1,6 +1,8 @@
 package com.example.groupproject.eightball
 
 import android.os.CountDownTimer
+import android.widget.Button
+import android.widget.GridLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,7 +28,18 @@ class EightBallViewModel : ViewModel() {
     init {
         _eightBall.value = EightBall(Answer.entries.random())
     }
+    fun createButtons(gridLayout: GridLayout) {
+        val answers = Answer.values()
 
+        for (answer in answers) {
+            val button = Button(gridLayout.context)
+            button.layoutParams = GridLayout.LayoutParams()
+            button.text = answer.value
+            button.setOnClickListener { addAnswer(answer) } // Adjust this based on your click logic
+
+            gridLayout.addView(button)
+        }
+    }
     fun showAnswer() {
         if (canShake) {
             _eightBall.value?.setAnswer()
