@@ -45,43 +45,31 @@ class MainActivity : AppCompatActivity() {
     lateinit var handlerThread: HandlerThread
     lateinit var capReq: CaptureRequest.Builder
     lateinit var imageReader: ImageReader
-
-
+    lateinit var videoCapture: VideoCapture<Recorder>
+    lateinit var imageCapture: ImageCapture
+    lateinit var cameraProvider: ProcessCameraProvider
+    lateinit var camera: Camera
+    lateinit var cameraSelector: CameraSelector
+    var orientationEventListener: OrientationEventListener? = null
+    var lensFacing = CameraSelector.LENS_FACING_BACK
+    var aspectRatio = AspectRatio.RATIO_16_9
+    var recording: Recording? = null
+    var isPhoto = true
     val mainBinding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
-
-    private val multiplePermissionId = 14
-    private val multiplePermissionNameList = if (Build.VERSION.SDK_INT >= 33) {
-        arrayListOf(
-            android.Manifest.permission.CAMERA,
-            android.Manifest.permission.RECORD_AUDIO
-        )
+    val multiplePermissionId = 14
+    val multiplePermissionNameList = if (Build.VERSION.SDK_INT >= 33) {
+        arrayListOf(android.Manifest.permission.CAMERA, android.Manifest.permission.RECORD_AUDIO)
     } else {
-        arrayListOf(
-            android.Manifest.permission.CAMERA,
-            android.Manifest.permission.RECORD_AUDIO,
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
+        arrayListOf(android.Manifest.permission.CAMERA, android.Manifest.permission.RECORD_AUDIO, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
-
-    private lateinit var videoCapture: VideoCapture<Recorder>
-    private var recording: Recording? = null
-
-    private var isPhoto = true
-
-    private lateinit var imageCapture: ImageCapture
-    private lateinit var cameraProvider: ProcessCameraProvider
-    private lateinit var camera: Camera
-    private lateinit var cameraSelector: CameraSelector
-    private var orientationEventListener: OrientationEventListener? = null
-    private var lensFacing = CameraSelector.LENS_FACING_BACK
-    private var aspectRatio = AspectRatio.RATIO_16_9
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.fragment_camera)
+        setContentView(R.layout.activity_main)
+
+//        setContentView(mainBinding.root)
 
 
 //        getPermissions()
