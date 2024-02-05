@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.example.groupproject.eightball.Answer"/>
         <variable
             name="viewModel"
             type="com.example.groupproject.eightball.EightBallViewModel" />
@@ -25,6 +26,23 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:srcCompat="@drawable/eight_ball"
         tools:srcCompat="@drawable/eight_ball" />
+    <!-- Your existing views... -->
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:columnCount="3"
+        android:rowCount="3"
+        app:layout_constraintTop_toBottomOf="@+id/testButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- Dynamically generate buttons from enum values -->
+        <!-- Add more buttons dynamically -->
+
+    </GridLayout>
 
     <TextView
         android:id="@+id/textView"
@@ -62,6 +80,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="MAGIC 8 BALL RULES" />
-    
+
+    <Button
+        android:id="@+id/buttonDynamic"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:layout_marginTop="23dp"
+        android:onClick="@{() -> viewModel.addAnswer(Answer.CERTAIN)}"
+        android:text="@{Answer.CERTAIN.value}"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
