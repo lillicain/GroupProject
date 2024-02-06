@@ -22,7 +22,7 @@ import androidx.camera.video.VideoCapture
 import com.example.groupproject.R
 import com.example.groupproject.databinding.ActivityMainBinding
 
-class CameraActivity {
+//class CameraActivity {
 //    lateinit var cameraManager: CameraManager
 //    lateinit var textureView: TextureView
 //    lateinit var cameraCaptureSession: CameraCaptureSession
@@ -478,4 +478,4 @@ class CameraActivity {
 //
 //}
 
-}
+//}

@@ -1,5 +1,7 @@
 // CameraActivity.kt
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
@@ -7,6 +9,8 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.example.groupproject.R
 import com.example.groupproject.databinding.ActivityCameraBinding
@@ -31,16 +35,58 @@ class CameraActivity : AppCompatActivity() {
         binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize CameraView
-        binding.previewView.post {
-            startCamera()
-        }
-
         // Set up capture button
         binding.captureButton.setOnClickListener {
             captureImage()
         }
+
+        // Initialize CameraView
+        binding.previewView.post {
+            Log.d("Cam", "Camera initialization start")
+            startCamera()
+            Log.d("Cam", "Camera initialization end")
+        }
     }
+    private val CAMERA_PERMISSION_REQUEST_CODE = 100
+
+// ...
+
+    private fun checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Camera permission not granted, request it
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.CAMERA),
+                CAMERA_PERMISSION_REQUEST_CODE
+            )
+        } else {
+            // Camera permission already granted, proceed with camera initialization
+            startCamera()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Camera permission granted, proceed with camera initialization
+                startCamera()
+            } else {
+                // Camera permission denied, handle accordingly (e.g., show a message)
+                Log.e("Cam", "Camera permission denied")
+            }
+        }
+    }
+
 
     private fun startCamera() {
         val previewView: PreviewView = binding.previewView
@@ -97,7 +143,7 @@ class CameraActivity : AppCompatActivity() {
             .build()
 
         // Take the picture
-        takePicture.launch(null)
+        takePicture.launch(photoUri)
     }
 
 
