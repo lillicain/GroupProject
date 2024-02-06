@@ -22,6 +22,9 @@
         <action
             android:id="@+id/actionToEvilGardenFragment"
             app:destination="@id/evilGardenFragment" />
+        <action
+            android:id="@+id/actionToSearchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
 
     <fragment
