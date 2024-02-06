@@ -67,6 +67,14 @@
                     android:backgroundTint="#364958"
                     android:text="Ringtones"/>
 
+                <Button
+                    android:id="@+id/searchButton"
+                    android:layout_width="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="#364958"
+                    android:text="Search Button"
+                    android:paddingVertical="100dp"/>
 
             </GridLayout>
             <Button

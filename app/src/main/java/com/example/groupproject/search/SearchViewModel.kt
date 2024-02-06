@@ -12,56 +12,55 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class SearchViewModel : ViewModel() {
-    val newItem: MutableLiveData<List<SearchText>> by lazy {
-        MutableLiveData<List<SearchText>>()
+
     }
-
-    private val _status = MutableLiveData<MyAPIStatus>()
-    val status: MutableLiveData<MyAPIStatus>
-        get() = _status
-
-    private val _properties = MutableLiveData<List<SearchText>>()
-
-    val properties: LiveData<List<SearchText>>
-        get() = _properties
-
-    private val _navigateToSelectedProperty = MutableLiveData<SearchText>()
-    val navigateToSelectedProperty: LiveData<SearchText>
-        get() = _navigateToSelectedProperty
-
-    private var viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main )
-
-    init {
-        getItemDetails()
-    }
-
-    fun getItemDetails() {
-        viewModelScope.launch {
-            _status.value = MyAPIStatus.LOADING
-            try {
-                _status.value = MyAPIStatus.DONE
-            } catch (e: Exception) {
-                print(e)
-                _status.value = MyAPIStatus.ERROR
-                _properties.value = ArrayList()
-            }
-        }
-    }
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
-    }
-
-    fun displayDetails(property: SearchText) {
-        _navigateToSelectedProperty.value = property
-    }
-
-    fun displayAllDetails() {
-        _navigateToSelectedProperty.value = null
-    }
-
-    fun updateFilter() {
-        getItemDetails()
-    }
-}
+//
+//    private val _status = MutableLiveData<MyAPIStatus>()
+//    val status: MutableLiveData<MyAPIStatus>
+//        get() = _status
+//
+//    private val _properties = MutableLiveData<List<SearchText>>()
+//
+//    val properties: LiveData<List<SearchText>>
+//        get() = _properties
+//
+//    private val _navigateToSelectedProperty = MutableLiveData<SearchText>()
+//    val navigateToSelectedProperty: LiveData<SearchText>
+//        get() = _navigateToSelectedProperty
+//
+//    private var viewModelJob = Job()
+//    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main )
+//
+//    init {
+//        getItemDetails()
+//    }
+//
+//    fun getItemDetails() {
+//        viewModelScope.launch {
+//            _status.value = MyAPIStatus.LOADING
+//            try {
+//                _status.value = MyAPIStatus.DONE
+//            } catch (e: Exception) {
+//                print(e)
+//                _status.value = MyAPIStatus.ERROR
+//                _properties.value = ArrayList()
+//            }
+//        }
+//    }
+//    override fun onCleared() {
+//        super.onCleared()
+//        viewModelJob.cancel()
+//    }
+//
+//    fun displayDetails(property: SearchText) {
+//        _navigateToSelectedProperty.value = property
+//    }
+//
+//    fun displayAllDetails() {
+//        _navigateToSelectedProperty.value = null
+//    }
+//
+//    fun updateFilter() {
+//        getItemDetails()
+//    }
+//}

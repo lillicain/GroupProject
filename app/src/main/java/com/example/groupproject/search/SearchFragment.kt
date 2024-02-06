@@ -22,11 +22,13 @@ val viewModel: SearchViewModel by lazy { ViewModelProvider(this).get(SearchViewM
 //        binding.viewModel = viewModel
 
 
-        viewModel.navigateToSelectedProperty.observe(viewLifecycleOwner) {
-            if (null != it) {
-                viewModel.displayAllDetails()
-            }
-        }
+//        viewModel.navigateToSelectedProperty.observe(viewLifecycleOwner) {
+//            if (null != it) {
+//                viewModel.displayAllDetails()
+//            }
+//        }
+
+//        var response = response
         return binding.root
 
     }
