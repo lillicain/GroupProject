@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.groupproject.search.SearchViewModel"/>
+            type="com.example.groupproject.search.SearchTextViewModel"/>
         <variable
             name="searchText"
             type="com.example.groupproject.search.SearchText"/>
@@ -14,25 +14,18 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.groupproject.search.SearchFragment">
+        tools:context="com.example.groupproject.search.SearchTextFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:padding="25dp">
 
-            <EditText
-                android:id="@+id/searchText"
+            <TextView
+                android:id="@+id/searchTextFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Search"
-                android:inputType="text"
-                android:padding="20dp"/>
-
-            <Button
-                android:id="@+id/searchTextFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Search"/>
+                android:text="@{viewModel.selectedProperty.text}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
