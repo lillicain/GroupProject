@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var preview: Preview
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.fragment_search)
 
         cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
         preview = Preview.Builder().build()
