@@ -12,6 +12,10 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class SearchViewModel : ViewModel() {
+
+
+    enum class MyAPIStatus { LOADING, ERROR, DONE }
+
     val newItem: MutableLiveData<List<SearchText>> by lazy {
         MutableLiveData<List<SearchText>>()
     }
