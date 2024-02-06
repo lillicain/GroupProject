@@ -5,7 +5,6 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
 
-
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.groupproject.home.HomeFragment"
@@ -45,6 +44,16 @@
         android:label="fragment_ringtone"
         tools:layout="@layout/fragment_ringtone" >
     </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.groupproject.search.SearchFragment"
+        android:label="fragment_searcht"
+        tools:layout="@layout/fragment_search"/>
+    <fragment
+        android:id="@+id/searchTextFragment"
+        android:name="com.example.groupproject.search.SearchTextFragment"
+        android:label="fragment_search_text"
+        tools:layout="@layout/fragment_search_text"/>
 
     <fragment
         android:id="@+id/evilGardenFragment"
