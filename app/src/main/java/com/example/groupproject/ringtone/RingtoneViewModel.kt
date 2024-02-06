@@ -1,14 +1,14 @@
 package com.example.groupproject.ringtone
 
 import android.app.Application
+import android.media.Ringtone
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 
-class RingtoneViewModel(ringtone: RingtoneProperty, app: Application): ViewModel() {
-    private val _selectedRingtone = MutableLiveData<RingtoneProperty>()
+class RingtoneViewModel(ringtone: RingtoneData, app: Application) {
+    private val _selectedRingtone = MutableLiveData<RingtoneData>()
 
-    val selectedRingtone: LiveData<RingtoneProperty>
+    val selectedRingtone: LiveData<RingtoneData>
         get() = _selectedRingtone
 
     init {
