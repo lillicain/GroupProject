@@ -1,47 +1,46 @@
 package com.example.groupproject.ringtone
 
+import android.content.DialogInterface
 import android.content.DialogInterface.OnClickListener
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.groupproject.databinding.ListViewItemBinding
 
-//class RingtoneListAdapter(private val onClickListener: OnClickListener): ListAdapter<RingtoneProperty, RingtoneListAdapter.RingtoneViewHolder>(DiffCallback) {
-//    class RingtoneViewHolder(private var binding: GridViewItemBinding):
-//            RecyclerView.ViewHolder(binding.root) {
-//                fun bind(ringtoneData: RingtoneProperty) {
-//                    binding.property =
-//                }
-//            }
-//
-//}
+class RingtoneListAdapter(private val onClickListener: OnClickListener): ListAdapter<RingtoneProperty, RingtoneListAdapter.RingtoneViewHolder>(DiffCallback) {
+    class RingtoneViewHolder(private var binding: ListViewItemBinding):
+            RecyclerView.ViewHolder(binding.root) {
+                fun bind(ringtoneProperty: RingtoneProperty) {
+                    binding.property = ringtoneProperty
+                    binding.executePendingBindings()
+                }
+            }
 
-//class PhotoGridAdapter(private val onClickListener: OnClickListener): ListAdapter<MarsProperty, PhotoGridAdapter.MarsPropertyViewHolder>(DiffCallback) {
-//    class MarsPropertyViewHolder(private var binding: GridViewItemBinding):
-//        RecyclerView.ViewHolder(binding.root) {
-//        fun bind(marsProperty: MarsProperty) {
-//            binding.property = marsProperty
-//            binding.executePendingBindings()
-//        }
-//    }
-//    companion object DiffCallback: DiffUtil.ItemCallback<MarsProperty>() {
-//        override fun areItemsTheSame(oldItem: MarsProperty, newItem: MarsProperty): Boolean {
-//            return oldItem === newItem
-//        }
-//
-//        override fun areContentsTheSame(oldItem: MarsProperty, newItem: MarsProperty): Boolean {
-//            return oldItem.id == newItem.id
-//        }
-//    }
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MarsPropertyViewHolder {
-//        return MarsPropertyViewHolder(GridViewItemBinding.inflate(LayoutInflater.from(parent.context))) // inflates this for every piece of data we have.
-//    }
-//    override fun onBindViewHolder(holder: MarsPropertyViewHolder, position: Int) {
-//        val marsProperty = getItem(position)
-//        holder.itemView.setOnClickListener {
-//            onClickListener.onClick(marsProperty)
-//        }
-//        holder.bind(marsProperty)
-//    }
-//    class OnClickListener(val clickListener: (marsProperty:MarsProperty) -> Unit) {
-//        fun onClick(marsProperty:MarsProperty) = clickListener(marsProperty)
-//    }
-//}
+    companion object DiffCallback: DiffUtil.ItemCallback<RingtoneProperty>() {
+        override fun areItemsTheSame(oldItem: RingtoneProperty, newItem: RingtoneProperty): Boolean {
+            return oldItem === newItem
+        }
+
+        override fun areContentsTheSame(oldItem: RingtoneProperty, newItem: RingtoneProperty): Boolean {
+            return oldItem.name == newItem.name
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RingtoneViewHolder {
+       return RingtoneViewHolder(ListViewItemBinding.inflate(LayoutInflater.from(parent.context)))
+    }
+
+    override fun onBindViewHolder(holder: RingtoneViewHolder, position: Int) {
+        val ringtoneProperty = getItem(position)
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(ringtoneProperty)
+        }
+        holder.bind(ringtoneProperty)
+    }
+
+    class OnClickListener(val clickListener:(ringtoneProperty:RingtoneProperty) -> Unit) {
+        fun onClick(ringtoneProperty: RingtoneProperty) = clickListener(ringtoneProperty)
+    }
+}

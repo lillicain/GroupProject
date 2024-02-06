@@ -21,7 +21,7 @@ class AudioPlayer: AppCompatActivity() {
         mediaPlayer?.setAudioStreamType(AudioManager.STREAM_MUSIC)
 
         try {
-            mediaPlayer?.setDataSource(allRingtones().gowBell.url) // put my array of links here
+            mediaPlayer?.setDataSource(allRingtones().allMyRingtones[1].url) // put my array of links here
             mediaPlayer?.setOnPreparedListener {
 
             }
