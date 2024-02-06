@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
         <variable
             name="viewModel"
-            type="com.example.groupproject.search.SearchViewModel" />
+            type="com.example.groupproject.search.SearchTextViewModel"/>
         <variable
             name="searchText"
-            type="com.example.groupproject.search.SearchText" />
+            type="com.example.groupproject.search.SearchText"/>
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".SearchFragment">
+        tools:context="com.example.groupproject.search.SearchTextFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -21,11 +22,10 @@
             android:padding="25dp">
 
             <TextView
-                android:id="@+id/detailFragment"
+                android:id="@+id/searchTextFragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"  android:text="@{viewModel.properties.toString()}"
-                />
-
+                android:layout_height="match_parent"
+                android:text="@{viewModel.selectedProperty.text}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
