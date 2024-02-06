@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="property"
+            type="com.example.groupproject.ringtone.RingtoneProperty"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/ringtone_name"
+            android:layout_width="wrap_content"
+            android:layout_height="43dp"
+            android:paddingStart="9dp"
+            android:paddingEnd="9dp"
+            android:text="@{property.name}"
+            tools:text="Name" />
+
+        <TextView
+            android:id="@+id/ringtone_year"
+            android:layout_width="wrap_content"
+            android:layout_height="43dp"
+            android:layout_marginStart="80dp"
+            android:layout_toEndOf="@+id/ringtone_name"
+            android:text="@{property.year}"
+            tools:text="Year" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="74dp"
+            android:layout_toEndOf="@+id/ringtone_year"
+            android:text="@{property.url}"
+            tools:text="Play"/>
+    </RelativeLayout>
+
+
+</layout>
