@@ -15,7 +15,7 @@
             app:destination="@id/eightBallFragment" />
         <action
             android:id="@+id/actionToCameraFragment"
-            app:destination="@id/cameraFragment" />
+            app:destination="@id/searchFragment" />
         <action
             android:id="@+id/actionToRingtoneFragment"
             app:destination="@id/ringtoneFragment" />
@@ -32,10 +32,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/cameraFragment"
-        android:name="com.example.groupproject.camera.CameraFragment"
+        android:id="@+id/searchFragment"
+        android:name="com.example.groupproject.search.SearchFragment"
         android:label="fragment_camera"
-        tools:layout="@layout/fragment_camera" >
+        tools:layout="@layout/fragment_search" >
     </fragment>
 
     <fragment
@@ -44,11 +44,7 @@
         android:label="fragment_ringtone"
         tools:layout="@layout/fragment_ringtone" >
     </fragment>
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.example.groupproject.search.SearchFragment"
-        android:label="fragment_searcht"
-        tools:layout="@layout/fragment_search"/>
+
     <fragment
         android:id="@+id/searchTextFragment"
         android:name="com.example.groupproject.search.SearchTextFragment"

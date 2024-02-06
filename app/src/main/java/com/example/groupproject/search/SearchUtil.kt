@@ -1,8 +1,8 @@
-package com.example.groupproject.search
-
 import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.example.groupproject.search.SearchText
+import com.google.gson.Gson
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.MediaType
@@ -15,19 +15,29 @@ import retrofit2.http.GET
 
 val client = OkHttpClient()
 
+val testData = SearchText("world war three has started", "general", 1, 10)
+
+val jsonBody = Gson().toJson(testData)
+
+val searchKey = "6i8rh0iJ3C0Rc9fRcFhX2LarE4oVwa3N"
+
+
 val mediaType = MediaType.parse("application/json")
-val body = RequestBody.create(mediaType, "{\"style\":\"general\"}")
+val body = RequestBody.create(mediaType, jsonBody)
 val request = Request.Builder()
     .url("https://api.ai21.com/studio/v1/paraphrase")
     .post(body)
     .addHeader("accept", "application/json")
     .addHeader("content-type", "application/json")
-    .addHeader("Authorization", "Bearer YOUR_API_KEY")
+    .addHeader("Authorization", "Bearer ${searchKey}")
     .build()
 
 val searchResponse = client.newCall(request).execute()
 
-val searchKey = "6i8rh0iJ3C0Rc9fRcFhX2LarE4oVwa3N"
+val response = client.newCall(request).execute()
+
+
+
 
 
 private val moshi = Moshi.Builder()
