@@ -6,10 +6,8 @@ import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context.*
 import android.content.DialogInterface
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.RectF
-import android.media.VolumeShaper
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -44,7 +42,6 @@ import androidx.camera.video.Recording
 import androidx.camera.video.VideoCapture
 import androidx.camera.video.VideoRecordEvent
 import androidx.compose.material3.Surface
-import androidx.compose.ui.tooling.PreviewActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -62,85 +59,6 @@ import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 class CameraFragment : Fragment() {
-
-    private lateinit var cameraFragment: CameraFragment
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            startActivityCameraFragment()
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-//        Toast.makeText(this, "Camera success!", Toast.LENGTH_SHORT).show()
-    }
-
-    /**
-     * Check if you have Camera Permission
-     *      if you don't have it then permission is requested
-     */
-    private fun hasPermissionAndOpenCamera() {
-        if (ContextCompat.checkSelfPermission(this.requireContext(), android.Manifest.permission.CAMERA)
-            == PackageManager.PERMISSION_GRANTED
-        ) {
-            startActivityCameraFragment()
-        } else {
-            requestPermission()
-        }
-    }
-
-    /**
-     * Call the fragment that has the component of CameraFragment on layout
-     */
-    private fun startActivityCameraFragment() {
-//        cameraFragment = CameraFragment.newInstance(VolumeShaper.Configuration.Builder().build())
-//        supportFragmentManager.beginTransaction().replace(R.id.content, cameraFragment, "Nothing")
-//            .commit()
-    }
-
-    /**
-     * Requesting permission to open the Camera and show Dialog on screen
-     */
-    private fun requestPermission() {
-        val permissions = arrayOf(
-            android.Manifest.permission.CAMERA,
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            android.Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-
-        ActivityCompat.requestPermissions(
-            this.requireActivity(),
-            permissions,
-            PackageManager.PERMISSION_GRANTED
-        )
-    }
-
-//    private fun takeNewPhoto() {
-//        cameraFragment.takePhotoOrCaptureVideo(callBackListener, "/storage/self/primary", "photo_test0")
-//    }
-//
-//    private var callBackListener: CameraFragmentResultListener = object: CameraFragmentResultListener {
-//
-//        override fun onVideoRecorded(filePath: String?) {
-//            println(filePath)
-//        }
-//
-//        override fun onPhotoTaken(bytes: ByteArray?, filePath: String?) {
-//            val intent = PreviewActivity.newIntentPhoto(this@CameraFragment, filePath)
-//            startActivityForResult(intent, 200)
 
 //    lateinit var cameraManager: CameraManager
 //    lateinit var textureView: TextureView

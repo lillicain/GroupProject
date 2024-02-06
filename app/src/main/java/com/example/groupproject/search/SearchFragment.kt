@@ -18,26 +18,16 @@ val viewModel: SearchViewModel by lazy { ViewModelProvider(this).get(SearchViewM
         savedInstanceState: Bundle?
     ): View? {
        val binding = FragmentSearchBinding.inflate(inflater)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+//        binding.lifecycleOwner = this
+//        binding.viewModel = viewModel
 
-        var editText = binding.searchText.text
 
         viewModel.navigateToSelectedProperty.observe(viewLifecycleOwner) {
             if (null != it) {
-
                 viewModel.displayAllDetails()
             }
         }
-
-//        binding.submitButton.setOnClickListener {
-//            viewModel.userInput = editTextField.text.toString()
-//
-//                   }
-//        val response = response
-//        println(response.toString())
-//        binding.responseText.text = response.toString()
-          return binding.root
+        return binding.root
 
     }
 

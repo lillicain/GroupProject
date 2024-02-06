@@ -19,12 +19,10 @@ class SearchTextFragment: Fragment() {
 
 //        val property
 //        val viewModelFactory
-
-
-
-
         return binding.root
     }
 
+    class FragmentSearchTextBinding {
 
+    }
 }

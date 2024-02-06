@@ -16,9 +16,9 @@
         android:layout_height="match_parent"
         tools:context="com.example.groupproject.search.SearchFragment">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <EditText
                 android:id="@+id/searchText"
@@ -29,17 +29,11 @@
                 android:padding="20dp"/>
 
             <Button
-                android:id="@+id/searchTextFragmentButton"
+                android:id="@+id/searchTextFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Search"
-                />
+                android:text="Search"/>
 
-            <TextView
-                android:id="@+id/responseText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="test"/>
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
