@@ -29,7 +29,6 @@ val searchResponse = client.newCall(request).execute()
 
 val searchKey = "6i8rh0iJ3C0Rc9fRcFhX2LarE4oVwa3N"
 
-private const val BASE_URL = "https://api.ai21.com/studio/v1/"
 
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
@@ -37,7 +36,7 @@ private val moshi = Moshi.Builder()
 
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
-    .baseUrl(BASE_URL)
+    .baseUrl("https://api.ai21.com/studio/v1/paraphrase")
     .build()
 
 interface SearchService {
