@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.groupproject.databinding.FragmentSearchTextBinding
 
 class SearchTextFragment: Fragment() {
 
@@ -15,11 +14,15 @@ class SearchTextFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val application = requireNotNull(activity).application
-        val binding = FragmentSearchTextBinding.inflate(inflater)
+        val binding = com.example.groupproject.databinding.FragmentSearchTextBinding.inflate(inflater)
 //        binding.lifecycleOwner = this
 
 //        val property
 //        val viewModelFactory
         return binding.root
+    }
+
+    class FragmentSearchTextBinding {
+
     }
 }

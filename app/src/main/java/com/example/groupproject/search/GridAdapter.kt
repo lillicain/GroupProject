@@ -3,16 +3,18 @@ package com.example.groupproject.search
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.groupproject.databinding.FragmentSearchBinding
+import com.example.groupproject.databinding.FragmentSearchTextBinding
 
 class GridAdapter(val onClickListener: OnClickListener) : ListAdapter<SearchText, GridAdapter.PropertyViewHolder>(DiffCallback) {
     class PropertyViewHolder(private var binding: FragmentSearchBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(searchText: SearchText) {
-            binding.text
-            binding.executePendingBindings()
+
+//            binding.executePendingBindings()
         }
     }
 

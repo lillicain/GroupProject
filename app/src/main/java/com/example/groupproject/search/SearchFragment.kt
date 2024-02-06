@@ -18,8 +18,8 @@ val viewModel: SearchViewModel by lazy { ViewModelProvider(this).get(SearchViewM
         savedInstanceState: Bundle?
     ): View? {
        val binding = FragmentSearchBinding.inflate(inflater)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+//        binding.lifecycleOwner = this
+//        binding.viewModel = viewModel
 
 
         viewModel.navigateToSelectedProperty.observe(viewLifecycleOwner) {
