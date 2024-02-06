@@ -11,7 +11,9 @@ class EightBallViewModel : ViewModel() {
 
     var greengusString = MutableLiveData<String>("GREENGUS")
     private val _eightBall = MutableLiveData<EightBall>()
-
+    var _buttonsVisible = MutableLiveData<Boolean>()
+    val buttonsVisible: LiveData<Boolean>
+        get() = _buttonsVisible
     val eightBall: LiveData<EightBall>
         get() = _eightBall
 
@@ -84,7 +86,13 @@ class EightBallViewModel : ViewModel() {
         }.start()
     }
 
-
+    fun changeButtonVisibility() {
+        if (_buttonsVisible.value == true) {
+            _buttonsVisible.value = false
+        } else {
+            _buttonsVisible.value = true
+        }
+    }
 
     fun changeGreengus() {
         if (greengusString.value == "GREENGUS") {

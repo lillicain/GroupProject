@@ -66,6 +66,13 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="#364958"
                     android:text="Ringtones"/>
+                <Button
+                    android:id="@+id/cameraTestButton"
+                    android:layout_width="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#364958"
+                    android:text="CAMTEST"/>
             </GridLayout>
         </LinearLayout>
     </ScrollView>

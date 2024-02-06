@@ -52,6 +52,10 @@ class HomeFragment : Fragment() {
             this.findNavController().navigate(HomeFragmentDirections.actionToRingtoneFragment())
         }
 
+        binding.cameraTestButton.setOnClickListener {
+            this.findNavController().navigate(HomeFragmentDirections.actionToRingtoneFragment())
+        }
+
         return binding.root
     }
 

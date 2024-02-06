@@ -20,6 +20,9 @@
         <action
             android:id="@+id/actionToRingtoneFragment"
             app:destination="@id/ringtoneFragment" />
+        <action
+            android:id="@+id/actionToCameraTestFragment"
+            app:destination="@id/cameraTestActivity" />
     </fragment>
 
     <fragment
@@ -41,6 +44,13 @@
         android:name="com.example.groupproject.ringtone.RingtoneFragment"
         android:label="fragment_ringtone"
         tools:layout="@layout/fragment_ringtone" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/cameraTestActivity"
+        android:name="com.example.groupproject.matthewcamera.CameraActivity"
+        android:label="activity_camera"
+        tools:layout="@layout/activity_camera" >
     </fragment>
 
 </navigation>
