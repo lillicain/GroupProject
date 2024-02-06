@@ -11,6 +11,10 @@ class RingtoneViewModel(ringtone: RingtoneProperty, app: Application): ViewModel
     val selectedRingtone: LiveData<RingtoneProperty>
         get() = _selectedRingtone
 
+    private val _ringtone_Properties = MutableLiveData<List<RingtoneProperty>>()
+    val ringtone_Properties: LiveData<List<RingtoneProperty>>
+        get() = _ringtone_Properties
+
     init {
         _selectedRingtone.value = ringtone
     }

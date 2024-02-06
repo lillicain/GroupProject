@@ -24,7 +24,7 @@ class RingtoneListAdapter(private val onClickListener: OnClickListener): ListAda
         }
 
         override fun areContentsTheSame(oldItem: RingtoneProperty, newItem: RingtoneProperty): Boolean {
-            return oldItem.name == newItem.name
+            return oldItem.id == newItem.id
         }
     }
 
