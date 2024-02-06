@@ -56,6 +56,10 @@ class HomeFragment : Fragment() {
             this.findNavController().navigate(HomeFragmentDirections.actionToRingtoneFragment())
         }
 
+        binding.searchButton.setOnClickListener {
+            this.findNavController().navigate(HomeFragmentDirections.actionToSearchFragment())
+        }
+
         return binding.root
     }
 
