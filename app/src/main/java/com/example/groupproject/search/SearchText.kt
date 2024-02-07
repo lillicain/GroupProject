@@ -13,4 +13,4 @@ data class SearchText(
     val style: String?,
     val startIndex: Int?,
     val endIndex: Int?
-) : Parcelable
+) : Parcelable { }
