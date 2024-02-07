@@ -53,7 +53,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.cameraTestButton.setOnClickListener {
-            this.findNavController().navigate(HomeFragmentDirections.actionToRingtoneFragment())
+            this.findNavController().navigate(HomeFragmentDirections.actionToCameraTestFragment())
         }
 
         return binding.root
