@@ -1,19 +1,17 @@
-<!-- activity_camera.xml -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-<!--        <variable-->
-<!--            name="viewModel"-->
-<!--            type="com.example.cameraapp.CameraViewModel" />-->
+        <variable
+            name="viewModel"
+            type="com.example.groupproject.camera.CameraViewModel" />
     </data>
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/holo_red_dark"
-        tools:context=".CameraActivity">
+        android:background="@android:color/holo_red_dark">
 
         <androidx.camera.view.PreviewView
             android:id="@+id/previewView"
@@ -31,5 +29,5 @@
             android:text="Capture"
             android:textColor="@android:color/white" />
 
-    </RelativeLayout>
+    </FrameLayout>
 </layout>

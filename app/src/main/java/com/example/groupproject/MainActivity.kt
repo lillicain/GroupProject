@@ -16,6 +16,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import com.example.groupproject.databinding.FragmentCameraBinding
 import com.google.common.util.concurrent.ListenableFuture
 import java.util.concurrent.ExecutionException
 
@@ -24,12 +25,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cameraProvider: ProcessCameraProvider
     private lateinit var cameraSelector: CameraSelector
     private lateinit var preview: Preview
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-        
+
         cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
         preview = Preview.Builder().build()
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)

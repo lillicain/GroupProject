@@ -8,10 +8,17 @@ import android.content.Context.*
 import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.graphics.RectF
+import android.graphics.SurfaceTexture
+import android.hardware.camera2.CameraCaptureSession
+import android.hardware.camera2.CameraDevice
+import android.hardware.camera2.CameraManager
+import android.hardware.camera2.CaptureRequest
+import android.media.ImageReader
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
+import android.os.HandlerThread
 import android.os.Looper
 import android.os.SystemClock
 import android.provider.MediaStore
@@ -20,6 +27,7 @@ import android.view.MotionEvent
 import android.view.OrientationEventListener
 import android.view.ScaleGestureDetector
 import android.view.Surface
+import android.view.SurfaceView
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -49,6 +57,7 @@ import androidx.databinding.DataBindingUtil.convertBrIdToString
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.databinding.DataBindingUtil.setDefaultComponent
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import com.example.groupproject.R
 import com.example.groupproject.R.*
 import com.example.groupproject.R.id.*
@@ -59,26 +68,112 @@ import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 class CameraFragment : Fragment() {
+    companion object {
+        private const val TAG = "YourCameraActivity"
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        private val REQUIRED_PERMISSIONS = arrayOf(android.Manifest.permission.CAMERA)
+    }
+    lateinit var cameraManager: CameraManager
+    lateinit var textureView: SurfaceView
+    lateinit var cameraCaptureSession: CameraCaptureSession
+    lateinit var cameraDevice: CameraDevice
+    lateinit var captureRequest: CaptureRequest
+    lateinit var handler: Handler
+    lateinit var handlerThread: HandlerThread
+    lateinit var capReq: CaptureRequest.Builder
+    lateinit var imageReader: ImageReader
+    lateinit var viewModel: CameraViewModel
 
-//    lateinit var cameraManager: CameraManager
-//    lateinit var textureView: TextureView
-//    lateinit var cameraCaptureSession: CameraCaptureSession
-//    lateinit var cameraDevice: CameraDevice
-//    lateinit var captureRequest: CaptureRequest
-//    lateinit var handler: Handler
-//    lateinit var handlerThread: HandlerThread
-//    lateinit var capReq: CaptureRequest.Builder
-//    lateinit var imageReader: ImageReader
-//    lateinit var viewModel: CameraViewModel
+    private lateinit var previewView: CameraFragment
+    private lateinit var cameraProvider: ProcessCameraProvider
+    private lateinit var cameraSelector: CameraSelector
+    private lateinit var preview: Preview
+val binding: FragmentCameraBinding by lazy {
+    FragmentCameraBinding.inflate(layoutInflater)
+}
 
-//    val contentResolver: ContentResolver
-//        get() {
-//            TODO()
-//        }
-//
-//    val binding: FragmentCameraBinding by lazy {
-//        FragmentCameraBinding.inflate(layoutInflater)
-//    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        //previewView = findViewById(id.preview)
+
+        // Initialize CameraX
+        if (allPermissionsGranted()) {
+            startCamera()
+        } else {
+            ActivityCompat.requestPermissions(
+                this.requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+            )
+        }
+    }
+
+    private fun allPermissionsGranted(): Boolean {
+        // Check for camera permissions
+        for (permission in REQUIRED_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(
+                    this.requireContext(), permission
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                return false
+            }
+        }
+        return true
+    }
+
+    private fun startCamera() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(this.requireContext())
+
+        cameraProviderFuture.addListener({
+            // CameraProvider is now guaranteed to be available
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+
+            // Set up the preview use case
+            val preview = Preview.Builder()
+                .build()
+                .also {
+                    it.setSurfaceProvider {
+                        preview
+                    }
+                }
+
+            // Select back camera
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            try {
+                // Unbind any existing use cases before rebinding
+                cameraProvider.unbindAll()
+
+                // Bind use cases to camera
+                cameraProvider.bindToLifecycle(
+                    this as LifecycleOwner, cameraSelector, preview
+                )
+
+            } catch (exc: Exception) {
+                Log.e(TAG, "Use case binding failed", exc)
+            }
+
+        }, ContextCompat.getMainExecutor(this.requireContext()))
+    }
+
+    // Handle permission request response
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String>, grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (allPermissionsGranted()) {
+                startCamera()
+            } else {
+//                Toast.makeText(
+//                    this,
+//                    "Permissions not granted by the user.",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//                finish()
+            }
+        }
+    }
+
 //    private val multiplePermissionId = 14
 //    private val multiplePermissionNameList = if (Build.VERSION.SDK_INT >= 33) {
 //        arrayListOf(
@@ -871,5 +966,4 @@ class CameraFragment : Fragment() {
 //        private const val REQUEST_CODE_PERMISSIONS = 10
 //        private val REQUIRED_PERMISSIONS = arrayOf(android.Manifest.permission.CAMERA)
 //    }
-//
 //}
