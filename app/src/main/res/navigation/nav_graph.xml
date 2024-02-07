@@ -5,7 +5,6 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
 
-
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.groupproject.home.HomeFragment"
@@ -21,8 +20,16 @@
             android:id="@+id/actionToRingtoneFragment"
             app:destination="@id/ringtoneFragment" />
         <action
+
             android:id="@+id/actionToCameraTestFragment"
             app:destination="@id/cameraTestActivity" />
+
+            android:id="@+id/actionToEvilGardenFragment"
+            app:destination="@id/evilGardenFragment" />
+        <action
+            android:id="@+id/actionToSearchFragment"
+            app:destination="@id/searchFragment" />
+
     </fragment>
 
     <fragment
@@ -42,6 +49,23 @@
     <fragment
         android:id="@+id/ringtoneFragment"
         android:name="com.example.groupproject.ringtone.RingtoneFragment"
+        android:label="fragment_ringtone"
+        tools:layout="@layout/fragment_ringtone" >
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.groupproject.search.SearchFragment"
+        android:label="fragment_searcht"
+        tools:layout="@layout/fragment_search"/>
+    <fragment
+        android:id="@+id/searchTextFragment"
+        android:name="com.example.groupproject.search.SearchTextFragment"
+        android:label="fragment_search_text"
+        tools:layout="@layout/fragment_search_text"/>
+
+    <fragment
+        android:id="@+id/evilGardenFragment"
+        android:name="com.example.groupproject.evilgarden.EvilGardenFragment"
         android:label="fragment_ringtone"
         tools:layout="@layout/fragment_ringtone" >
     </fragment>
