@@ -1,5 +1,6 @@
 package com.example.groupproject.search
 
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -25,7 +26,10 @@ class SearchUtil() {
 
 //    val test = Post("general", "This is a test text", 0, 15)
 
-    val userInputSearchData = SearchText("general", "This is a test text",0,15)
+    private val _userInputSearchData: MutableLiveData<SearchText> = MutableLiveData()
+    val userInputSearchData: MutableLiveData<SearchText>
+        get() = _userInputSearchData
+
 
     val gson = Gson()
 
@@ -35,7 +39,7 @@ class SearchUtil() {
 
 
     val mediaType = MediaType.parse("application/json")
-    val body = RequestBody.create(mediaType, "{\"text\":\"${userInputSearchData.text}\",\"style\":\"general\",\"startIndex\":0,\"endIndex\":${userInputSearchData.text.count()}}")
+    val body = RequestBody.create(mediaType, "{\"text\":\"${_userInputSearchData.value?.text}\",\"style\":\"general\",\"startIndex\":0,\"endIndex\":${userInputSearchData.value?.text?.count()}}")
     val request = Request.Builder()
         .url("https://api.ai21.com/studio/v1/paraphrase")
         .post(body)
@@ -56,7 +60,7 @@ class SearchUtil() {
 
                     // Use Gson to parse the JSON response body into your data class
                     val phraseResponse: PhraseResponse? = Gson().fromJson(responseBody, PhraseResponse::class.java)
-                    println("${userInputSearchData.text.count()}")
+                    println("${_userInputSearchData.value?.text?.count()}")
                     println(responseBody.toString())
                     println(responseBody.toString())
                     println(responseBody.toString())
