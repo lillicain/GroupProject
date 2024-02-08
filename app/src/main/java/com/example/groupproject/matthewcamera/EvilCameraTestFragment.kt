@@ -12,7 +12,6 @@ import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.example.groupproject.R
 
 import com.example.groupproject.databinding.FragmentEvilCameraBinding
 

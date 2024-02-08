@@ -5,6 +5,7 @@
 
     <data>
         <import type="com.example.groupproject.eightball.Answer"/>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.example.groupproject.eightball.EightBallViewModel" />
@@ -28,24 +29,40 @@
         tools:srcCompat="@drawable/eight_ball" />
     <!-- Your existing views... -->
 
-    <GridLayout
-        android:id="@+id/gridLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:columnCount="5"
-        android:rowCount="5"
-        android:visibility="invisible"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Your dynamically generated buttons -->
-    </GridLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        tools:layout_editor_absoluteX="-5dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <GridLayout
+            android:contentDescription="answers"
+            android:id="@+id/gridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="2dp"
+            android:textSize="2dp"
+            android:columnCount="3"
+            android:rowCount="7"
+            android:visibility="@{viewModel.buttonsVisible ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+            <!-- Your dynamically generated buttons -->
+        </GridLayout>
+        </LinearLayout>
+    </ScrollView>
 
     <TextView
         android:id="@+id/textView"
@@ -84,7 +101,20 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="MAGIC 8 BALL RULES" />
 
-<!--    <Button-->
+    <Button
+        android:id="@+id/hide_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginBottom="7dp"
+        android:text="Hide"
+        android:onClick="@{() -> viewModel.changeButtonVisibility()}"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/testButton"
+        />
+
+    <!--    <Button-->
 <!--        android:id="@+id/buttonDynamic"-->
 <!--        android:layout_width="0dp"-->
 <!--        android:layout_height="wrap_content"-->

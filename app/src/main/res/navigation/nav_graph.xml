@@ -22,8 +22,8 @@
         <action
 
             android:id="@+id/actionToCameraTestFragment"
-            app:destination="@id/cameraTestActivity" />
-
+            app:destination="@id/cameraTestFragment" />
+        <action
             android:id="@+id/actionToEvilGardenFragment"
             app:destination="@id/evilGardenFragment" />
         <action
@@ -71,10 +71,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/cameraTestActivity"
-        android:name="com.example.groupproject.matthewcamera.EvilCameraTestFragment"
+        android:id="@+id/cameraTestFragment"
+        android:name="com.example.groupproject.matthewcamera.TruthCameraFragment"
         android:label="activity_camera"
-        tools:layout="@layout/activity_camera" >
+        tools:layout="@layout/fragment_evil_camera" >
     </fragment>
 
 </navigation>

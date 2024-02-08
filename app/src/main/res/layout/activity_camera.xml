@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:name="androidx.navigation.fragment.NavHostFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:defaultNavHost="true"
-    app:navGraph="@navigation/nav_graph">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/nav_host_fragment"
+            android:id="@+id/cameraNavHost"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:defaultNavHost="true"
             app:navGraph="@navigation/nav_graph" />
+
 
         <FrameLayout
             android:id="@+id/pnl_permission"
@@ -34,11 +31,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="@android:color/holo_blue_dark"
-                android:text="@string/app_name"
+                android:text="@string/request_permission"
                 android:textSize="17sp" />
 
         </FrameLayout>
     </FrameLayout>
 
-</layout>
 
+</layout>
