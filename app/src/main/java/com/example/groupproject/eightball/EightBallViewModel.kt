@@ -35,9 +35,13 @@ class EightBallViewModel : ViewModel() {
 
         for (answer in answers) {
             val button = Button(gridLayout.context)
-            button.layoutParams = GridLayout.LayoutParams()
+            val layoutParams = GridLayout.LayoutParams()
+            layoutParams.width = GridLayout.LayoutParams.WRAP_CONTENT
+            layoutParams.height = GridLayout.LayoutParams.WRAP_CONTENT
+            button.layoutParams = layoutParams
+
             button.text = answer.value
-            button.setOnClickListener { addAnswer(answer) } // Adjust this based on your click logic
+            button.setOnClickListener { addAnswer(answer) }
 
             gridLayout.addView(button)
         }

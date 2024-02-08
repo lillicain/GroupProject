@@ -73,4 +73,7 @@ dependencies {
     implementation("androidx.camera:camera-view:1.3.1")
     implementation("androidx.camera:camera-extensions:1.3.1")
     implementation("androidx.camera:camera-video:1.3.1")
+
+    //vertical rinklee
+    implementation("com.h6ah4i.android.widget.verticalseekbar:verticalseekbar:1.0.0")
 }
