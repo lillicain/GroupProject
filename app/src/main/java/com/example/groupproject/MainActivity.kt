@@ -42,8 +42,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun bindPreview() {
-
-
         val camera = cameraProvider.bindToLifecycle(
             this, cameraSelector, preview
         )
