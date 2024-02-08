@@ -3,16 +3,19 @@ package com.example.groupproject
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
 import android.util.Rational
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
@@ -23,31 +26,57 @@ import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.NavController
 import com.example.groupproject.camera.CameraFragment
+import com.example.groupproject.camera.CameraViewModel
+import com.example.groupproject.databinding.ActivityMainBinding
 import com.example.groupproject.databinding.FragmentCameraBinding
 import com.google.common.util.concurrent.ListenableFuture
+import java.security.Permissions
 import java.util.concurrent.ExecutionException
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
+    private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
     private lateinit var cameraProvider: ProcessCameraProvider
     private lateinit var cameraSelector: CameraSelector
     private lateinit var preview: Preview
+    private lateinit var navController: NavController
+    private lateinit var binding: ActivityMainBinding
+    val viewModel = CameraViewModel()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
+        window.navigationBarColor = Color.parseColor("#80000000")
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
 
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-        preview = Preview.Builder().build()
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-        cameraProviderFuture.addListener({
-            cameraProvider = cameraProviderFuture.get()
-            bindPreview()
-            setContentView(R.layout.fragment_camera)
-        }, ContextCompat.getMainExecutor(this))
+//        initNavController()
+
+//        binding.btnRequestPermission.setOnClickListener { requestPermissions() }
+//
+//        if (!Permissions.isPermissionTaken(this)) {
+//            requestPermissions()
+//        }
     }
+//        cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+//
+//
+//        cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+//        preview = Preview.Builder().build()
+//        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+//        cameraProviderFuture.addListener({
+//            cameraProvider = cameraProviderFuture.get()
+//            bindPreview()
+//
+//        }, ContextCompat.getMainExecutor(this))
+//        setContentView(R.layout.fragment_camera)
+//    }
 
     private fun bindPreview() {
         val camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview)
