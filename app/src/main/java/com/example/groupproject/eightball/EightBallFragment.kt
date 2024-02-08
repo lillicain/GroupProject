@@ -78,7 +78,7 @@ class EightBallFragment: Fragment(), SensorEventListener {
     }
 
     private fun isShake(event: SensorEvent?): Boolean {
-        val threshold = 100.0f // You may need to adjust this threshold based on testing
+        val threshold = 97.0f // You may need to adjust this threshold based on testing
         // Calculate the acceleration magnitude
         val acceleration = event?.values?.let { values ->
             values.map { it * it }.sum()

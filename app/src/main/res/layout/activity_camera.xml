@@ -1,35 +1,41 @@
-<!-- activity_camera.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-<!--        <variable-->
-<!--            name="viewModel"-->
-<!--            type="com.example.cameraapp.CameraViewModel" />-->
-    </data>
-
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/holo_red_dark"
-        tools:context=".CameraActivity">
+        android:layout_height="match_parent">
 
-        <androidx.camera.view.PreviewView
-            android:id="@+id/previewView"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/cameraNavHost"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/captureButton" />
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/nav_graph" />
 
-        <Button
-            android:id="@+id/captureButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp"
-            android:text="Capture"
-            android:textColor="@android:color/white" />
 
-    </RelativeLayout>
+        <FrameLayout
+            android:id="@+id/pnl_permission"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:visibility="gone"
+            android:focusable="true">
+
+
+            <Button
+                android:id="@+id/btnRequestPermission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:text="@string/request_permission"
+                android:textSize="17sp" />
+
+        </FrameLayout>
+    </FrameLayout>
+
+
 </layout>
