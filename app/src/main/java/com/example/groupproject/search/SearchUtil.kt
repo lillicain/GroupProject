@@ -1,71 +1,125 @@
-import android.view.View
-import android.widget.TextView
-import androidx.databinding.BindingAdapter
-import com.example.groupproject.search.SearchText
+package com.example.groupproject.search
+
 import com.google.gson.Gson
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.encodeToJsonElement
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.http.GET
+import java.io.IOException
 
-val client = OkHttpClient()
+data class Post(
+    var style: String,
+    var text: String,
+    var startIndex: Int,
+    var endIndex: Int
+)
 
-val testData = SearchText("world war three has started", "general", 1, 10)
+class SearchUtil() {
 
-val jsonBody = Gson().toJson(testData)
+    val client = OkHttpClient()
 
-val searchKey = "6i8rh0iJ3C0Rc9fRcFhX2LarE4oVwa3N"
+//    val test = Post("general", "This is a test text", 0, 15)
+
+    val userInputSearchData = SearchText("general", "This is a test text",0,15)
+
+    val gson = Gson()
+
+//    val jsonBody = gson.toJson(testData)
+
+    val searchKey = "6i8rh0iJ3C0Rc9fRcFhX2LarE4oVwa3N"
 
 
-val mediaType = MediaType.parse("application/json")
-val body = RequestBody.create(mediaType, jsonBody)
-val request = Request.Builder()
-    .url("https://api.ai21.com/studio/v1/paraphrase")
-    .post(body)
-    .addHeader("accept", "application/json")
-    .addHeader("content-type", "application/json")
-    .addHeader("Authorization", "Bearer ${searchKey}")
-    .build()
+    val mediaType = MediaType.parse("application/json")
+    val body = RequestBody.create(mediaType, "{\"text\":\"${userInputSearchData.text}\",\"style\":\"general\",\"startIndex\":0,\"endIndex\":${userInputSearchData.text.count()}}")
+    val request = Request.Builder()
+        .url("https://api.ai21.com/studio/v1/paraphrase")
+        .post(body)
+        .addHeader("accept", "application/json")
+        .addHeader("content-type", "application/json")
+        .addHeader("Authorization", "Bearer ${searchKey}")
+        .build()
 
-val searchResponse = client.newCall(request).execute()
 
-val response = client.newCall(request).execute()
+    suspend fun convertDataToClass() {
+        withContext(Dispatchers.IO) {
+            try {
+                val searchResponse = client.newCall(request).execute()
 
-private val moshi = Moshi.Builder()
-    .add(KotlinJsonAdapterFactory())
-    .build()
+                if (searchResponse.isSuccessful) {
+                    // Get the response body as a string
+                    val responseBody = searchResponse.body()?.string()
 
-private val retrofit = Retrofit.Builder()
-    .addConverterFactory(MoshiConverterFactory.create(moshi))
-    .baseUrl("https://api.ai21.com/studio/v1/paraphrase")
-    .build()
+                    // Use Gson to parse the JSON response body into your data class
+                    val phraseResponse: PhraseResponse? = Gson().fromJson(responseBody, PhraseResponse::class.java)
+                    println("${userInputSearchData.text.count()}")
+                    println(responseBody.toString())
+                    println(responseBody.toString())
+                    println(responseBody.toString())
+                    println(responseBody.toString())
 
-interface SearchService {
-    @GET("paraphrase")
-    suspend fun search(): SearchText
-}
+                    // Now you have your data class object
+                    if (phraseResponse != null) {
+                        println(phraseResponse.suggestions.toString())
+                    }
+                } else {
+                    // Handle unsuccessful response
+                    println("Error: ${searchResponse.code()}")
+                }
 
-enum class MyAPIStatus { LOADING, ERROR, DONE }
-
-@BindingAdapter("apiStatus")
-fun bindStatus(statusTextView: TextView, status: MyAPIStatus?) {
-    when (status) {
-        MyAPIStatus.LOADING -> {
-            statusTextView.visibility = View.VISIBLE
-            statusTextView.text = "Loading"
+                // Close the response to release resources
+                searchResponse.close()
+            } catch (e: IOException) {
+                // Handle IO exceptions
+                println("IOException: ${e.message}")
+            }
         }
-        MyAPIStatus.ERROR -> {
-            statusTextView.visibility = View.VISIBLE
-            statusTextView.text = "Error"
-        }
-        MyAPIStatus.DONE -> {
-            statusTextView.visibility = View.GONE
-        }
-        else -> {}
     }
+
+//    private val moshi = Moshi.Builder()
+//        .add(KotlinJsonAdapterFactory())
+//        .build()
+//
+//    private val retrofit = Retrofit.Builder()
+//        .addConverterFactory(MoshiConverterFactory.create(moshi))
+//        .baseUrl("https://api.ai21.com/studio/v1/paraphrase")
+//        .build()
+//
+//    interface SearchService {
+//        @GET("paraphrase")
+//        suspend fun search(): PhraseResponse
+//    }
+//
+//    enum class MyAPIStatus { LOADING, ERROR, DONE }
+//
+//    @BindingAdapter("apiStatus")
+//    fun bindStatus(statusTextView: TextView, status: MyAPIStatus?) {
+//        when (status) {
+//            MyAPIStatus.LOADING -> {
+//                statusTextView.visibility = View.VISIBLE
+//                statusTextView.text = "Loading"
+//            }
+//
+//            MyAPIStatus.ERROR -> {
+//                statusTextView.visibility = View.VISIBLE
+//                statusTextView.text = "Error"
+//            }
+//
+//            MyAPIStatus.DONE -> {
+//                statusTextView.visibility = View.GONE
+//            }
+//
+//            else -> {}
+//        }
+//    }
+//
+//
+//// ... (your existing code)
+//
+//    private val searchService = retrofit.create(SearchService::class.java)
+
 }

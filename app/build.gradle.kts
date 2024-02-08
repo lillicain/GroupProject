@@ -4,6 +4,8 @@ plugins {
     id("kotlin-parcelize")
     id("kotlin-kapt")
     id("androidx.navigation.safeargs")
+    kotlin("plugin.serialization") version "1.9.22"
+
 }
 
 android {
@@ -70,4 +72,6 @@ dependencies {
     implementation("androidx.camera:camera-view:1.3.1")
     implementation("androidx.camera:camera-extensions:1.3.1")
     implementation("androidx.camera:camera-video:1.3.1")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 }
