@@ -2,11 +2,17 @@ package com.example.groupproject.camera
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ComponentActivity
@@ -15,6 +21,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.util.concurrent.ExecutionException
@@ -56,7 +63,31 @@ class CameraViewModel: ViewModel() {
 
     fun onCaptureClick(view: View) {
     }
+    fun appSettingOpen(context: Context) {
+        Toast.makeText(context, "Enable All Permissions", Toast.LENGTH_LONG).show()
 
+        val settingIntent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        settingIntent.data = Uri.parse("package:${context.packageName}")
+
+        context.startActivity(settingIntent)
+    }
+
+    fun warningPermissionDialog(context: Context, listener: DialogInterface.OnClickListener){
+        MaterialAlertDialogBuilder(context)
+            .setMessage("All Permission are Required for this app")
+            .setCancelable(false)
+            .setPositiveButton("Ok",listener)
+            .create()
+            .show()
+    }
+
+    fun View.visible(){
+        visibility = View.VISIBLE
+    }
+
+    fun View.gone(){
+        visibility = View.GONE
+    }
 
 }
 

@@ -4,11 +4,14 @@ import android.Manifest.*
 import android.Manifest.permission.*
 import android.content.ContentResolver
 import android.content.ContentValues
+import android.content.Context
 import android.content.Context.*
 import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.graphics.RectF
 import android.graphics.SurfaceTexture
+import android.hardware.Sensor
+import android.hardware.SensorManager
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
 import android.hardware.camera2.CameraManager
@@ -23,12 +26,16 @@ import android.os.Looper
 import android.os.SystemClock
 import android.provider.MediaStore
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.OrientationEventListener
 import android.view.ScaleGestureDetector
 import android.view.Surface
 import android.view.SurfaceView
+import android.view.TextureView
 import android.view.View
+import android.view.ViewGroup
+import android.widget.GridLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.AspectRatio
@@ -62,6 +69,7 @@ import com.example.groupproject.R
 import com.example.groupproject.R.*
 import com.example.groupproject.R.id.*
 import com.example.groupproject.databinding.FragmentCameraBinding
+import com.example.groupproject.databinding.FragmentEightBallBinding
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -73,8 +81,9 @@ class CameraFragment : Fragment() {
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(android.Manifest.permission.CAMERA)
     }
+
     lateinit var cameraManager: CameraManager
-    lateinit var textureView: SurfaceView
+    lateinit var textureView: TextureView
     lateinit var cameraCaptureSession: CameraCaptureSession
     lateinit var cameraDevice: CameraDevice
     lateinit var captureRequest: CaptureRequest
@@ -83,19 +92,36 @@ class CameraFragment : Fragment() {
     lateinit var capReq: CaptureRequest.Builder
     lateinit var imageReader: ImageReader
     lateinit var viewModel: CameraViewModel
+    lateinit var binding: FragmentCameraBinding
 
-    private lateinit var previewView: CameraFragment
-    private lateinit var cameraProvider: ProcessCameraProvider
-    private lateinit var cameraSelector: CameraSelector
-    private lateinit var preview: Preview
-val binding: FragmentCameraBinding by lazy {
-    FragmentCameraBinding.inflate(layoutInflater)
-}
+    //val binding: FragmentCameraBinding by lazy {
+//    FragmentCameraBinding.inflate(layoutInflater)
+//}
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentCameraBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //previewView = findViewById(id.preview)
+//    val binding: FragmentCameraBinding by lazy {
+//        FragmentCameraBinding.inflate(layoutInflater)
+//    }
+//binding = FragmentCameraBinding.inflate(layoutInflater)
+
+//binding = FragmentCameraBinding.inflate(layoutInflater)
+//        binding.viewModel = viewModel
 
         // Initialize CameraX
         if (allPermissionsGranted()) {
@@ -105,7 +131,25 @@ val binding: FragmentCameraBinding by lazy {
                 this.requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
             )
         }
+
+        val imageCapture = ImageCapture.Builder().build()
+
+        val orientationEventListener = object : OrientationEventListener(this as Context) {
+            override fun onOrientationChanged(orientation : Int) {
+                // Monitors orientation values to determine the target rotation value
+                val rotation : Int = when (orientation) {
+                    in 45..134 -> Surface.ROTATION_270
+                    in 135..224 -> Surface.ROTATION_180
+                    in 225..314 -> Surface.ROTATION_90
+                    else -> Surface.ROTATION_0
+                }
+
+                imageCapture.targetRotation = rotation
+            }
+        }
+        orientationEventListener.enable()
     }
+
 
     private fun allPermissionsGranted(): Boolean {
         // Check for camera permissions
@@ -118,7 +162,9 @@ val binding: FragmentCameraBinding by lazy {
             }
         }
         return true
+
     }
+
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this.requireContext())
@@ -140,10 +186,8 @@ val binding: FragmentCameraBinding by lazy {
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
             try {
-                // Unbind any existing use cases before rebinding
                 cameraProvider.unbindAll()
 
-                // Bind use cases to camera
                 cameraProvider.bindToLifecycle(
                     this as LifecycleOwner, cameraSelector, preview
                 )
@@ -164,12 +208,12 @@ val binding: FragmentCameraBinding by lazy {
             if (allPermissionsGranted()) {
                 startCamera()
             } else {
+
 //                Toast.makeText(
 //                    this,
 //                    "Permissions not granted by the user.",
 //                    Toast.LENGTH_SHORT
 //                ).show()
-//                finish()
             }
         }
     }

@@ -21,7 +21,7 @@ class FocusCircleView(context: Context, attributeSet: AttributeSet) : View(conte
     private var removeFocusRunnable = Runnable { }
 
     init {
-        paint.color = Color.WHITE
+        paint.color = Color.TRANSPARENT
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = 5f
     }

@@ -2,20 +2,28 @@ package com.example.groupproject
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import android.util.Rational
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
+import androidx.camera.core.UseCaseGroup
+import androidx.camera.core.ViewPort
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import com.example.groupproject.camera.CameraFragment
 import com.example.groupproject.databinding.FragmentCameraBinding
 import com.google.common.util.concurrent.ListenableFuture
 import java.util.concurrent.ExecutionException
@@ -28,9 +36,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
         cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+
 
         cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
         preview = Preview.Builder().build()
@@ -38,34 +45,176 @@ class MainActivity : AppCompatActivity() {
         cameraProviderFuture.addListener({
             cameraProvider = cameraProviderFuture.get()
             bindPreview()
+            setContentView(R.layout.fragment_camera)
         }, ContextCompat.getMainExecutor(this))
     }
 
     private fun bindPreview() {
-        val camera = cameraProvider.bindToLifecycle(
-            this, cameraSelector, preview
-        )
+        val camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview)
     }
 
 
-//    private val activityResultLauncher =
-//        registerForActivityResult(
-//            ActivityResultContracts.RequestMultiplePermissions())
-//        { permissions ->
-//            // Handle Permission granted/rejected
-//            var permissionGranted = true
-//            permissions.entries.forEach {
+
+    private val activityResultLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions())
+        { permissions ->
+            // Handle Permission granted/rejected
+            var permissionGranted = true
+            permissions.entries.forEach {
 //                if (it.key in REQUIRED_PERMISSIONS && it.value == false)
 //                    permissionGranted = false
-//            }
-//            if (!permissionGranted) {
+            }
+            if (!permissionGranted) {
 //                Toast.makeText(baseContext,
 //                    "Permission request denied",
 //                    Toast.LENGTH_SHORT).show()
-//            } else {
+            } else {
+                startCamera()
+            }
+        }
+
+//    private fun startCamera() {
+//        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+//
+//        cameraProviderFuture.addListener({
+//            // CameraProvider is now guaranteed to be available
+//            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+//
+//            // Set up the preview use case
+//            val preview = Preview.Builder()
+//                .build()
+//                .also {
+//                    it.setSurfaceProvider {
+//                        R.id.preview
+//                    }
+//                }
+//
+//            // Select back camera
+//            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+//
+//            try {
+//                cameraProvider.unbindAll()
+//
+//                cameraProvider.bindToLifecycle(
+//                    this as LifecycleOwner, cameraSelector, preview
+//                )
+//
+//            } catch (exc: Exception) {
+//                Log.e(CameraFragment.TAG, "Use case binding failed", exc)
+//            }
+//
+//        }, ContextCompat.getMainExecutor(this))
+//    }
+
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContentView(R.layout.fragment_camera)
+//
+//        //previewView = findViewById(id.preview)
+//
+//
+//        // Initialize CameraX
+//        if (allPermissionsGranted()) {
+//            startCamera()
+//        } else {
+//            ActivityCompat.requestPermissions(
+//                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+//            )
+//        }
+//    }
+
+    private fun allPermissionsGranted(): Boolean {
+        // Check for camera permissions
+        for (permission in REQUIRED_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(
+                    this, permission
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                return false
+            }
+        }
+        return true
+    }
+
+    private fun startCamera() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+
+        cameraProviderFuture.addListener({
+            // CameraProvider is now guaranteed to be available
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+
+            // Set up the preview use case
+            val preview = Preview.Builder()
+                .build()
+                .also {
+                    it.setSurfaceProvider {
+                        preview
+                    }
+                }
+
+            // Select back camera
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            try {
+                // Unbind any existing use cases before rebinding
+                cameraProvider.unbindAll()
+
+                // Bind use cases to camera
+                cameraProvider.bindToLifecycle(
+                    this as LifecycleOwner, cameraSelector, preview
+                )
+
+            } catch (exc: Exception) {
+                Log.e(TAG, "Use case binding failed", exc)
+            }
+
+        }, ContextCompat.getMainExecutor(this))
+    }
+
+    // Handle permission request response
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String>, grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (allPermissionsGranted()) {
+                startCamera()
+            } else {
+                Toast.makeText(
+                    this,
+                    "Permissions not granted by the user.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                finish()
+            }
+        }
+    }
+
+    companion object {
+        private const val TAG = "YourCameraActivity"
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        private val REQUIRED_PERMISSIONS = arrayOf(android.Manifest.permission.CAMERA)
+    }
+}
+    // Handle permission request response
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int, permissions: Array<String>, grantResults: IntArray
+//    ) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        if (requestCode == CameraFragment.REQUEST_CODE_PERMISSIONS) {
+//            if (allPermissionsGranted()) {
 //                startCamera()
+//            } else {
+//
+////                Toast.makeText(
+////                    this,
+////                    "Permissions not granted by the user.",
+////                    Toast.LENGTH_SHORT
+////                ).show()
 //            }
 //        }
+//    }
 //
 //    private fun requestPermissions() {
 //        activityResultLauncher.launch(REQUIRED_PERMISSIONS)
@@ -102,6 +251,5 @@ class MainActivity : AppCompatActivity() {
 //
 //        }, ContextCompat.getMainExecutor(this))
 //    }
-}
 
 

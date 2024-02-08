@@ -4,10 +4,7 @@
     android:id="@+id/container"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@android:color/transparent">
-
-
+    android:layout_height="wrap_content">
 
     <androidx.camera.view.PreviewView
         android:id="@+id/previewView"
@@ -17,14 +14,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-
-    <com.example.groupproject.camera.FocusCircleView
-        android:id="@+id/focusCircleView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/previewView"
-        app:layout_constraintEnd_toEndOf="@+id/previewView"
-        app:layout_constraintStart_toStartOf="@+id/previewView" />
 
     <ImageButton
         android:id="@+id/captureIB"
