@@ -13,6 +13,8 @@ import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.camera.core.AspectRatio
+import androidx.camera.core.CameraSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ComponentActivity
@@ -31,6 +33,16 @@ class CameraViewModel: ViewModel() {
 
     private val _bitmaps = MutableStateFlow<List<Bitmap>>(emptyList())
     val bitmaps = _bitmaps.asStateFlow()
+
+
+    val savedUri = MutableLiveData<Uri?>(null)
+
+    var lensFacing = CameraSelector.DEFAULT_BACK_CAMERA
+
+    var screenAspectRatio = AspectRatio.RATIO_16_9
+
+    var audioEnabled = MutableLiveData<Boolean>(true)
+
 //    val processCameraProvider: LiveData<ProcessCameraProvider>
 //        get() {
 //            if (cameraProviderLiveData == null) {
@@ -60,7 +72,14 @@ class CameraViewModel: ViewModel() {
     fun onTakePhoto(bitmap: Bitmap) {
         _bitmaps.value += bitmap
     }
+    override fun onCleared() {
+        super.onCleared()
+        savedUri.value = null
+    }
 
+    fun toggleSound() {
+        audioEnabled.value = !audioEnabled.value!!
+    }
     fun onCaptureClick(view: View) {
     }
     fun appSettingOpen(context: Context) {
@@ -84,11 +103,9 @@ class CameraViewModel: ViewModel() {
     fun View.visible(){
         visibility = View.VISIBLE
     }
-
     fun View.gone(){
         visibility = View.GONE
     }
-
 }
 
 //@SuppressLint("RestrictedApi")
