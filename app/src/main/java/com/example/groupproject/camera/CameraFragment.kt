@@ -110,6 +110,9 @@ class CameraFragment : Fragment() {
     var imageCapture: ImageCapture? = null
     var camera: Camera? = null
     val viewModel: CameraViewModel by viewModels()
+    val cameraResult: String = "Camera Result"
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCameraBinding.inflate(inflater, container, false)
@@ -126,11 +129,9 @@ class CameraFragment : Fragment() {
                 MotionEvent.ACTION_DOWN -> {
                     binding.pnlFlashOptions.visibility = View.GONE
                     binding.pnlRatioOptions.visibility = View.GONE
-//                    binding.zoomSeekWrapper.visibility = View.VISIBLE
                     startTouchTimer()
                     return@setOnTouchListener true
                 }
-
                 MotionEvent.ACTION_UP -> {
                     val factory = binding.viewFinder.meteringPointFactory
                     val point = factory.createPoint(motionEvent.x, motionEvent.y)
@@ -178,12 +179,12 @@ class CameraFragment : Fragment() {
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
                     Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
-                    viewModel.savedUri.value = null
+                    viewModel.savedUri.value
                 }
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     output.savedUri?.let { setPreview(it) }
                     viewModel.savedUri.value = output.savedUri
-                    binding.captureProgress.visibility = View.GONE
+                    binding.captureProgress.visibility = View.VISIBLE
                 }
             })
     }
@@ -367,7 +368,7 @@ class CameraFragment : Fragment() {
             val bundle = Bundle()
             bundle.putString(ARG_PREVIEW_TYPE, MediaType.IMAGE)
             bundle.putString(ARG_MEDIA_PATH, uri.toString())
-//            findNavController().navigate(R.id.previewFragment, bundle)
+            findNavController().navigate(R.id.previewFragment, bundle)
         }
     }
     private var timer: CountDownTimer? = null
@@ -377,9 +378,36 @@ class CameraFragment : Fragment() {
         timer = object : CountDownTimer(duration, 1000) {
             override fun onTick(millisUntilFinished: Long) {}
             override fun onFinish() {
-//                binding.zoomSeekWrapper.visibility = View.INVISIBLE
             }
         }.start()
+    }
+    private fun startCamera() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(this.requireContext())
+
+        cameraProviderFuture.addListener({
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+
+            val preview = Preview.Builder()
+                .build()
+                .also {
+                    it.setSurfaceProvider {
+                        preview
+                    }
+                }
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            try {
+                cameraProvider.unbindAll()
+
+                cameraProvider.bindToLifecycle(
+                    this as LifecycleOwner, cameraSelector, preview
+                )
+
+            } catch (exc: Exception) {
+                Log.e(TAG, "Use case binding failed", exc)
+            }
+
+        }, ContextCompat.getMainExecutor(this.requireContext()))
     }
     companion object {
         private const val TAG = "CameraX"

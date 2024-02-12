@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.MediaController
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.groupproject.databinding.FragmentCameraBinding
 import com.example.groupproject.databinding.FragmentPreviewBinding
 import com.example.groupproject.utils.MediaType
 
@@ -43,32 +45,32 @@ class PreviewFragment : Fragment() {
 
             when (mediaType) {
                 MediaType.IMAGE -> {
-//                    binding.videoViewer.visibility = View.GONE
-//                    binding.controllerView.visibility = View.GONE
-//                    binding.ivPreview.visibility = View.VISIBLE
-//                    binding.ivPreview.setImageURI(mediaUri)
+                    binding.videoViewer.visibility = View.GONE
+                    binding.controllerView.visibility = View.GONE
+                    binding.ivPreview.visibility = View.VISIBLE
+                    binding.ivPreview.setImageURI(mediaUri)
                 }
 
                 MediaType.VIDEO -> {
-//                    binding.videoViewer.visibility = View.VISIBLE
-//                    binding.controllerView.visibility = View.VISIBLE
-//                    binding.ivPreview.visibility = View.GONE
+                    binding.videoViewer.visibility = View.VISIBLE
+                    binding.controllerView.visibility = View.VISIBLE
+                    binding.ivPreview.visibility = View.GONE
                     val mc = MediaController(requireContext())
                     val params: FrameLayout.LayoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
                     params.bottomMargin = 200
                     mc.layoutParams = params
-//                    mc.setAnchorView(binding.controllerView)
-//
-//                    binding.videoViewer.apply {
-//                        setVideoURI(mediaUri)
-//                        setMediaController(mc)
-//                        requestFocus()
-//                    }.start()
+                    mc.setAnchorView(binding.controllerView)
+
+                    binding.videoViewer.apply {
+                        setVideoURI(mediaUri)
+                        setMediaController(mc)
+                        requestFocus()
+                    }.start()
                 }
             }
-//            binding.ivBack.setOnClickListener {
-//                findNavController().popBackStack()
-//            }
+            binding.ivBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
         }
         override fun onDestroyView() {
             super.onDestroyView()
@@ -76,119 +78,6 @@ class PreviewFragment : Fragment() {
         }
     }
 
-////    private lateinit var binding: FragmentPreviewBinding
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        arguments?.let {
-//
-//        }
-//
-//        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
-//    }
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-////        when (mediaType) {
-////            MediaType.IMAGE -> {
-////                binding.videoViewer.visibility = View.GONE
-////                binding.controllerView.visibility = View.GONE
-////                binding.ivPreview.visibility = View.VISIBLE
-////                binding.ivPreview.setImageURI(mediaUri)
-////            }
-//
-////            MediaType.VIDEO -> {
-////                binding.videoViewer.visibility = View.VISIBLE
-////                binding.controllerView.visibility = View.VISIBLE
-////                binding.ivPreview.visibility = View.GONE
-////                val mc = MediaController(requireContext())
-////                val params: FrameLayout.LayoutParams = FrameLayout.LayoutParams(
-////                    FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT
-////                )
-////                params.bottomMargin = 200
-////                mc.layoutParams = params
-////
-////
-////                mc.setAnchorView(binding.controllerView)
-////
-////
-////
-////                binding.videoViewer.apply {
-////                    setVideoURI(mediaUri)
-////                    setMediaController(mc)
-////                    requestFocus()
-////                }.start()
-////        }
-//        }
-//
-////        binding.ivBack.setOnClickListener {
-////            findNavController().popBackStack()
-////        }
-////    }
-//
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-//    }
-//
-//    private fun startCamera() {
-////        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-////
-////        cameraProviderFuture.addListener({
-////            // CameraProvider is now guaranteed to be available
-////            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-////
-////            // Set up the preview use case
-////            val preview = Preview.Builder()
-////                .build()
-////                .also {
-////                    it.setSurfaceProvider {
-////                        preview
-////                    }
-////                }
-////
-////            // Select back camera
-////            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-////
-////            try {
-////                // Unbind any existing use cases before rebinding
-////                cameraProvider.unbindAll()
-////
-////                // Bind use cases to camera
-////                cameraProvider.bindToLifecycle(
-////                    this as LifecycleOwner, cameraSelector, preview
-////                )
-////
-////            } catch (exc: Exception) {
-////                Log.e(TAG, "Use case binding failed", exc)
-////            }
-////
-////        }, ContextCompat.getMainExecutor(this))
-////    }
-////
-////    // Handle permission request response
-////    override fun onRequestPermissionsResult(
-////        requestCode: Int, permissions: Array<String>, grantResults: IntArray
-////    ) {
-////        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-////        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-////            if (allPermissionsGranted()) {
-////                startCamera()
-////            } else {
-////                Toast.makeText(
-////                    this,
-////                    "Permissions not granted by the user.",
-////                    Toast.LENGTH_SHORT
-////                ).show()
-////                finish()
-////            }
-////        }
-////    }
-//}
-//
-//
-//
-//
 ////typealias CornersListener = () -> Unit
 ////
 ////class CameraXFragment : Fragment() {

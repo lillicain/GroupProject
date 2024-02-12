@@ -57,7 +57,7 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-class VideoFragment : Fragment() {
+    class VideoFragment : Fragment() {
 
     private val viewModel: CameraViewModel by viewModels()
     private lateinit var binding: FragmentVideoBinding
