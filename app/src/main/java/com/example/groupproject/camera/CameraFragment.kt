@@ -75,6 +75,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.groupproject.R
 import com.example.groupproject.R.*
 import com.example.groupproject.R.id.*
@@ -112,10 +113,7 @@ class CameraFragment : Fragment() {
     var camera: Camera? = null
     val viewModel: CameraViewModel by viewModels()
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCameraBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -130,7 +128,7 @@ class CameraFragment : Fragment() {
                 MotionEvent.ACTION_DOWN -> {
                     binding.pnlFlashOptions.visibility = View.GONE
                     binding.pnlRatioOptions.visibility = View.GONE
-                    binding.zoomSeekWrapper.visibility = View.VISIBLE
+//                    binding.zoomSeekWrapper.visibility = View.VISIBLE
                     startTouchTimer()
                     return@setOnTouchListener true
                 }
@@ -147,7 +145,6 @@ class CameraFragment : Fragment() {
         }
 
         updateRatioView()
-
         binding.photoButton.setOnClickListener { takePhoto() }
         binding.pnlFLash.setOnClickListener(flashClickListener)
         binding.ivFlashOff.setOnClickListener(flashChangeListener)
@@ -157,10 +154,11 @@ class CameraFragment : Fragment() {
         binding.pnlRatio.setOnClickListener(ratioClickListener)
         binding.tvRatio169.setOnClickListener(ratioChangeListener)
         binding.tvRatio43.setOnClickListener(ratioChangeListener)
-        binding.zoomSeekBar.setOnSeekBarChangeListener(zoomSeekListener)
+//        binding.zoomSeekBar.setOnSeekBarChangeListener(zoomSeekListener)
         scaleGestureDetector = ScaleGestureDetector(requireContext(), zoomListener)
         binding.swCameraOption.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
+                findNavController().navigate(androidx.core.R.id.action_text)
 //                findNavController().navigate(R.id.action_cameraFragment_to_videoFragment)
             }
         }
@@ -310,12 +308,12 @@ class CameraFragment : Fragment() {
             scale?.let { value ->
                 camera?.cameraControl?.setZoomRatio(value)
                 val result = if (value < 1.5) 0.0f else value
-                binding.zoomSeekBar.setOnSeekBarChangeListener(null)
-                binding.zoomSeekBar.progress = (result * 10).toInt()
-                binding.zoomSeekBar.setOnSeekBarChangeListener(zoomSeekListener)
+//                binding.zoomSeekBar.setOnSeekBarChangeListener(null)
+//                binding.zoomSeekBar.progress = (result * 10).toInt()
+//                binding.zoomSeekBar.setOnSeekBarChangeListener(zoomSeekListener)
             }
 
-            binding.zoomSeekWrapper.visibility = View.VISIBLE
+//            binding.zoomSeekWrapper.visibility = View.VISIBLE
             startTouchTimer()
 
             return true
@@ -335,7 +333,6 @@ class CameraFragment : Fragment() {
         override fun onStopTrackingTouch(p0: SeekBar?) {
 
         }
-
     }
 
     private val ratioChangeListener = View.OnClickListener {
@@ -344,12 +341,10 @@ class CameraFragment : Fragment() {
             binding.tvRatio169.id -> {
                 ratio = AspectRatio.RATIO_16_9
             }
-
             binding.tvRatio43.id -> {
                 ratio = AspectRatio.RATIO_4_3
             }
         }
-
         if (viewModel.screenAspectRatio != ratio) {
             viewModel.screenAspectRatio = ratio
             updateRatioView()
@@ -357,30 +352,19 @@ class CameraFragment : Fragment() {
                 delay(500L)
                 bindCameraUseCases()
             }
-
         }
-
         binding.pnlRatioOptions.visibility = View.GONE
-
     }
-
     private fun updateRatioView() {
         val orientation = resources.configuration.orientation
-        binding.tvRatio.text =
-            viewModel.screenAspectRatio.getAspectRationString(orientation == Configuration.ORIENTATION_PORTRAIT)
-
-        binding.tvRatio169.text =
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) "9:16" else "16:9"
-        binding.tvRatio43.text =
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) "3:4" else "4:3"
+        binding.tvRatio.text = viewModel.screenAspectRatio.getAspectRationString(orientation == Configuration.ORIENTATION_PORTRAIT)
+        binding.tvRatio169.text = if (orientation == Configuration.ORIENTATION_PORTRAIT) "9:16" else "16:9"
+        binding.tvRatio43.text = if (orientation == Configuration.ORIENTATION_PORTRAIT) "3:4" else "4:3"
     }
-
 
     private fun setPreview(uri: Uri) {
         binding.previewImage.setImageURI(uri)
         binding.pnlPreview.visibility = View.VISIBLE
-
-
         binding.pnlPreview.setOnClickListener {
             val bundle = Bundle()
             bundle.putString(ARG_PREVIEW_TYPE, MediaType.IMAGE)
@@ -388,22 +372,17 @@ class CameraFragment : Fragment() {
 //            findNavController().navigate(R.id.previewFragment, bundle)
         }
     }
-
-
     private var timer: CountDownTimer? = null
     private fun startTouchTimer(duration: Long = 1000) {
         timer?.cancel()
         timer = null
         timer = object : CountDownTimer(duration, 1000) {
             override fun onTick(millisUntilFinished: Long) {}
-
             override fun onFinish() {
-                binding.zoomSeekWrapper.visibility = View.INVISIBLE
+//                binding.zoomSeekWrapper.visibility = View.INVISIBLE
             }
         }.start()
     }
-
-
     companion object {
         private const val TAG = "CameraX"
     }
