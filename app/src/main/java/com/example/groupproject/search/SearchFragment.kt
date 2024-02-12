@@ -24,21 +24,25 @@ val searchUtil = SearchUtil()
        val binding = FragmentSearchBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        CoroutineScope(Dispatchers.Main).launch {
-            try {
-                // Call the suspend function
-                searchUtil.convertDataToClass()
-            } catch (e: Exception) {
-                // Handle exceptions
-                println("Error: ${e.message}")
+
+
+        binding.searchButtonFragment.setOnClickListener {
+            searchUtil.userInputSearchData = binding.searchEditText.text.toString()
+//            println(searchUtil.userInputSearchData.value?.text)
+//            println(searchUtil.userInputSearchData.value?.text)
+//            println(searchUtil.userInputSearchData.value?.text)
+            CoroutineScope(Dispatchers.Main).launch {
+                try {
+                    // Call the suspend function
+                    searchUtil.convertDataToClass()
+                } catch (e: Exception) {
+                    // Handle exceptions
+                    println("Error: ${e.message}")
+                }
             }
         }
-//        var response =
-//        viewModel.navigateToSelectedProperty.observe(viewLifecycleOwner) {
-//            if (null != it) {
-//                viewModel.displayAllDetails()
-//            }
-//        }
+
+
 
 //        var response = response
         return binding.root

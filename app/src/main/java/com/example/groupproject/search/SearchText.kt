@@ -11,7 +11,7 @@ import okhttp3.RequestBody
 
 data class SearchText(
     @SerializedName("a") val style: String,
-    @SerializedName("b") val text: String,
+    @SerializedName("b") var text: String,
     @SerializedName("c") val startIndex: Int,
     @SerializedName("d") val endIndex: Int
 )

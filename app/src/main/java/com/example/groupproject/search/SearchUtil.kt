@@ -26,10 +26,11 @@ class SearchUtil() {
 
 //    val test = Post("general", "This is a test text", 0, 15)
 
-    private val _userInputSearchData: MutableLiveData<SearchText> = MutableLiveData()
-    val userInputSearchData: MutableLiveData<SearchText>
-        get() = _userInputSearchData
+//    private var _userInputSearchData: MutableLiveData<SearchText> = MutableLiveData()
+//    val userInputSearchData: MutableLiveData<SearchText>
+//        get() = _userInputSearchData
 
+    var userInputSearchData = "No phrase was submitted"
 
     val gson = Gson()
 
@@ -38,21 +39,26 @@ class SearchUtil() {
     val searchKey = "6i8rh0iJ3C0Rc9fRcFhX2LarE4oVwa3N"
 
 
-    val mediaType = MediaType.parse("application/json")
-    val body = RequestBody.create(mediaType, "{\"text\":\"${_userInputSearchData.value?.text}\",\"style\":\"general\",\"startIndex\":0,\"endIndex\":${userInputSearchData.value?.text?.count()}}")
-    val request = Request.Builder()
-        .url("https://api.ai21.com/studio/v1/paraphrase")
-        .post(body)
-        .addHeader("accept", "application/json")
-        .addHeader("content-type", "application/json")
-        .addHeader("Authorization", "Bearer ${searchKey}")
-        .build()
+
 
 
     suspend fun convertDataToClass() {
+
+        val mediaType = MediaType.parse("application/json")
+//        val body = RequestBody.create(mediaType, "{\"text\":\"${_userInputSearchData.value?.text}\",\"style\":\"general\",\"startIndex\":0,\"endIndex\":${userInputSearchData.value?.text?.count()}}")
+        val body = RequestBody.create(mediaType, "{\"text\":\"${userInputSearchData}\",\"style\":\"general\",\"startIndex\":0,\"endIndex\":${userInputSearchData.count()}}")
+        val request = Request.Builder()
+            .url("https://api.ai21.com/studio/v1/paraphrase")
+            .post(body)
+            .addHeader("accept", "application/json")
+            .addHeader("content-type", "application/json")
+            .addHeader("Authorization", "Bearer ${searchKey}")
+            .build()
+
         withContext(Dispatchers.IO) {
             try {
                 val searchResponse = client.newCall(request).execute()
+                println(userInputSearchData.toString())
 
                 if (searchResponse.isSuccessful) {
                     // Get the response body as a string
@@ -60,10 +66,7 @@ class SearchUtil() {
 
                     // Use Gson to parse the JSON response body into your data class
                     val phraseResponse: PhraseResponse? = Gson().fromJson(responseBody, PhraseResponse::class.java)
-                    println("${_userInputSearchData.value?.text?.count()}")
-                    println(responseBody.toString())
-                    println(responseBody.toString())
-                    println(responseBody.toString())
+                    println("${userInputSearchData.count()}")
                     println(responseBody.toString())
 
                     // Now you have your data class object
