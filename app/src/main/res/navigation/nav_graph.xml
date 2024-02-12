@@ -3,17 +3,78 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/searchFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/searchFragment"
-
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
+        android:id="@+id/homeFragment"
+        android:name="com.example.groupproject.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/searchFragment"
+            android:id="@+id/actionToEightBall"
+            app:destination="@id/eightBallFragment" />
+        <action
+            android:id="@+id/actionToCameraFragment"
+            app:destination="@id/cameraFragment" />
+        <action
+            android:id="@+id/actionToRingtoneFragment"
+            app:destination="@id/ringtoneFragment" />
+        <action
+
+            android:id="@+id/actionToCameraTestFragment"
+            app:destination="@id/cameraTestFragment" />
+        <action
+            android:id="@+id/actionToEvilGardenFragment"
+            app:destination="@id/evilGardenFragment" />
+        <action
+            android:id="@+id/actionToSearchFragment"
             app:destination="@id/searchFragment" />
+
     </fragment>
 
+    <fragment
+        android:id="@+id/eightBallFragment"
+        android:name="com.example.groupproject.eightball.EightBallFragment"
+        android:label="fragment_eight_ball"
+        tools:layout="@layout/fragment_eight_ball" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.example.groupproject.camera.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/ringtoneFragment"
+        android:name="com.example.groupproject.ringtone.RingtoneFragment"
+        android:label="fragment_ringtone"
+        tools:layout="@layout/fragment_ringtone" >
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.groupproject.search.SearchFragment"
+        android:label="fragment_searcht"
+        tools:layout="@layout/fragment_search"/>
+    <fragment
+        android:id="@+id/searchTextFragment"
+        android:name="com.example.groupproject.search.SearchTextFragment"
+        android:label="fragment_search_text"
+        tools:layout="@layout/fragment_search_text"/>
+
+    <fragment
+        android:id="@+id/evilGardenFragment"
+        android:name="com.example.groupproject.evilgarden.EvilGardenFragment"
+        android:label="fragment_ringtone"
+        tools:layout="@layout/fragment_ringtone" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/cameraTestFragment"
+        android:name="com.example.groupproject.matthewcamera.TruthCameraFragment"
+        android:label="activity_camera"
+        tools:layout="@layout/fragment_evil_camera" >
+    </fragment>
 
 </navigation>

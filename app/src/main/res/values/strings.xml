@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">GroupProject</string>
+    <string name="ringtone_name">TextView</string>
+    <string name="ringtone_year">year</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="video">VIDEO</string>
+    <string name="photo">PHOTO</string>
+    <string name="request_permission">Request Permission</string>
 </resources>
