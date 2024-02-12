@@ -27,20 +27,20 @@ import com.example.groupproject.R
 import com.example.groupproject.databinding.ActivityMainBinding
 
 
-class MainApplication : Application(), CameraXConfig.Provider {
-    override fun getCameraXConfig(): CameraXConfig {
-        return CameraXConfig.Builder.fromConfig(Camera2Config.defaultConfig())
-            .setAvailableCamerasLimiter(CameraSelector.DEFAULT_BACK_CAMERA)
-            .build()
-    }
-}
-
-class CameraApplication : Application(), CameraXConfig.Provider {
-    override fun getCameraXConfig(): CameraXConfig {
-        return CameraXConfig.Builder.fromConfig(Camera2Config.defaultConfig())
-            .setMinimumLoggingLevel(Log.ERROR).build()
-    }
-}
+//class MainApplication : Application(), CameraXConfig.Provider {
+//    override fun getCameraXConfig(): CameraXConfig {
+//        return CameraXConfig.Builder.fromConfig(Camera2Config.defaultConfig())
+//            .setAvailableCamerasLimiter(CameraSelector.DEFAULT_BACK_CAMERA)
+//            .build()
+//    }
+//}
+//
+//class CameraApplication : Application(), CameraXConfig.Provider {
+//    override fun getCameraXConfig(): CameraXConfig {
+//        return CameraXConfig.Builder.fromConfig(Camera2Config.defaultConfig())
+//            .setMinimumLoggingLevel(Log.ERROR).build()
+//    }
+//}
 //class CameraActivity {
 //    lateinit var cameraManager: CameraManager
 //    lateinit var textureView: TextureView

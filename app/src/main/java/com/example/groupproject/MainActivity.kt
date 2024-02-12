@@ -2,7 +2,9 @@ package com.example.groupproject
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.hardware.camera2.CameraManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -11,6 +13,7 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.camera.core.Camera
@@ -18,6 +21,7 @@ import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
@@ -33,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private val viewModel: CameraViewModel by viewModels()
     private lateinit var binding: ActivityCameraBinding
-
+    private lateinit var cameraManager: CameraManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -60,6 +64,7 @@ class MainActivity : AppCompatActivity() {
             val hasPermission = permissions.entries.all { it.value }
             binding.pnlPermission.visibility = if (!hasPermission) View.VISIBLE else View.GONE
         }
+
 }
 
 

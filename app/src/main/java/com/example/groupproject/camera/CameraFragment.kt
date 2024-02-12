@@ -80,8 +80,6 @@ import com.example.groupproject.R
 import com.example.groupproject.R.*
 import com.example.groupproject.R.id.*
 import com.example.groupproject.databinding.FragmentCameraBinding
-import com.example.groupproject.databinding.FragmentEightBallBinding
-import com.example.groupproject.databinding.FragmentTruthCameraBinding
 import com.example.groupproject.matthewcamera.CameraVM
 import com.example.groupproject.utils.MediaType
 import com.example.groupproject.utils.OutputFileOptionsFactory
