@@ -8,10 +8,12 @@
             name="viewModel"
             type="com.example.groupproject.search.SearchViewModel"/>
         <variable
-            name="searchText"
-            type="com.example.groupproject.search.SearchText"/>
+            name="Suggestion"
+            type="com.example.groupproject.search.Suggestion"/>
     </data>
 
+
+    
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,23 +32,36 @@
                 android:hint="Find a word"
                 android:inputType="text"
                 android:padding="10dp"
-                android:textColor="#364958"
+                android:textColor="#3B6064"
                 android:textColorHint="#55828b"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/searchButtonFragment"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/searchButtonFragment"/>
+                app:layout_constraintBottom_toTopOf="@+id/searchButtonFragment"
+                android:paddingVertical="10dp"/>
 
             <Button
                 android:id="@+id/searchButtonFragment"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Search"
                 android:textColor="#c9e4ca"
-                android:background="#3b6064"
-                app:layout_constraintStart_toEndOf="@+id/searchEditText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                android:backgroundTint="#55828B"
+                app:layout_constraintTop_toBottomOf="@id/searchEditText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/searchButtonFragment"
+                app:layout_constraintBottom_toBottomOf="parent"
+                listData="">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
