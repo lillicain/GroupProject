@@ -4,6 +4,8 @@ plugins {
     id("kotlin-parcelize")
     id("kotlin-kapt")
     id("androidx.navigation.safeargs")
+    kotlin("plugin.serialization") version "1.9.22"
+
 }
 
 android {
@@ -76,4 +78,6 @@ dependencies {
 
     //vertical rinklee
     implementation("com.h6ah4i.android.widget.verticalseekbar:verticalseekbar:1.0.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+
 }
