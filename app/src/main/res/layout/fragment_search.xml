@@ -14,29 +14,39 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#87bba2"
         tools:context="com.example.groupproject.search.SearchFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:padding="8dp">
 
             <EditText
                 android:id="@+id/searchEditText"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="Find a word"
                 android:inputType="text"
-                android:padding="20dp"/>
+                android:padding="10dp"
+                android:textColor="#364958"
+                android:textColorHint="#55828b"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/searchButtonFragment"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/searchButtonFragment"/>
 
             <Button
                 android:id="@+id/searchButtonFragment"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Search"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/searchEditText"
-                />
+                android:textColor="#c9e4ca"
+                android:background="#3b6064"
+                app:layout_constraintStart_toEndOf="@+id/searchEditText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
