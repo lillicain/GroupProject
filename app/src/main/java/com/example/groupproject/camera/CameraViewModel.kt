@@ -72,8 +72,7 @@ class CameraViewModel: ViewModel() {
     fun toggleSound() {
         audioEnabled.value = !audioEnabled.value!!
     }
-    fun onCaptureClick(view: View) {
-    }
+
     fun appSettingOpen(context: Context) {
         Toast.makeText(context, "Enable All Permissions", Toast.LENGTH_LONG).show()
 

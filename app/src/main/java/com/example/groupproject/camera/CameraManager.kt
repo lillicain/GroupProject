@@ -21,7 +21,7 @@ import java.util.concurrent.Executors
 
 class CameraManager(
     private val context: Context,
-    private val finderView: PreviewView,
+    private val viewFinder: PreviewView,
     private val lifecycleOwner: LifecycleOwner,
     private val graphicOverlay: GraphicOverlay
 ) {
@@ -33,6 +33,8 @@ class CameraManager(
     private var cameraSelectorOption = CameraSelector.LENS_FACING_FRONT
     private var cameraProvider: ProcessCameraProvider? = null
 
+    var cameraResult: String = "Evil"
+
     private var imageAnalyzer: ImageAnalysis? = null
 
 
@@ -43,7 +45,6 @@ class CameraManager(
     private fun createNewExecutor() {
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
-
     fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
         cameraProviderFuture.addListener(
@@ -64,7 +65,6 @@ class CameraManager(
                     .build()
 
                 setCameraConfig(cameraProvider, cameraSelector)
-
             }, ContextCompat.getMainExecutor(context)
         )
     }
@@ -85,9 +85,10 @@ class CameraManager(
                 preview,
                 imageAnalyzer
             )
-//            preview?.setSurfaceProvider(
-//                finderView.createSurfaceProvider()
-//            )
+            preview?.setSurfaceProvider {
+               viewFinder.surfaceProvider
+            }
+
         } catch (e: Exception) {
             Log.e(TAG, "Use case binding failed", e)
         }
@@ -103,7 +104,6 @@ class CameraManager(
     }
 
     companion object {
-        private const val TAG = "CameraXBasic"
+        private const val TAG = "CameraX"
     }
-
 }

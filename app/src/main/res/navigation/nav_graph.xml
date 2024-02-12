@@ -29,7 +29,9 @@
         <action
             android:id="@+id/actionToSearchFragment"
             app:destination="@id/searchFragment" />
-
+        <action
+            android:id="@+id/actionToVideoFragment"
+            app:destination="@id/videoFragment"/>
 
     </fragment>
 
@@ -84,6 +86,7 @@
         android:label="fragment_preview"
         tools:layout="@layout/fragment_preview" >
     </fragment>
+
     <fragment
         android:id="@+id/videoFragment"
         android:name="com.example.groupproject.camera.VideoFragment"

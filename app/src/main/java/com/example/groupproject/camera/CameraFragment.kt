@@ -145,22 +145,20 @@ class CameraFragment : Fragment() {
 
         updateRatioView()
         binding.photoButton.setOnClickListener { takePhoto() }
-        binding.pnlFLash.setOnClickListener(flashClickListener)
+//        binding.pnlFLash.setOnClickListener(flashClickListener)
         binding.ivFlashOff.setOnClickListener(flashChangeListener)
         binding.ivFlashOn.setOnClickListener(flashChangeListener)
         binding.ivFlashAuto.setOnClickListener(flashChangeListener)
         binding.pnlFacing.setOnClickListener(facingChangeListener)
-        binding.pnlRatio.setOnClickListener(ratioClickListener)
+//        binding.pnlRatio.setOnClickListener(ratioClickListener)
         binding.tvRatio169.setOnClickListener(ratioChangeListener)
         binding.tvRatio43.setOnClickListener(ratioChangeListener)
-//        binding.zoomSeekBar.setOnSeekBarChangeListener(zoomSeekListener)
         scaleGestureDetector = ScaleGestureDetector(requireContext(), zoomListener)
-        binding.swCameraOption.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                findNavController().navigate(androidx.core.R.id.action_text)
-//                findNavController().navigate(R.id.action_cameraFragment_to_videoFragment)
-            }
-        }
+//        binding.swCameraOption.setOnCheckedChangeListener { _, isChecked ->
+//            if (isChecked) {
+//                findNavController().navigate(R.id.actionToVideoFragment)
+//            }
+//        }
         cameraExecutor = Executors.newSingleThreadExecutor()
         bindCameraUseCases()
     }
@@ -207,7 +205,7 @@ class CameraFragment : Fragment() {
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
                 .setTargetAspectRatio(viewModel.screenAspectRatio).build()
 
-            updateFlashView()
+//            updateFlashView()
             try {
                 cameraProvider.unbindAll()
                 camera = cameraProvider.bindToLifecycle(this, viewModel.lensFacing, preview, imageCapture)
@@ -249,42 +247,42 @@ class CameraFragment : Fragment() {
             binding.ivFlashOff.id -> {
                 imageCapture?.flashMode = ImageCapture.FLASH_MODE_OFF
                 binding.pnlFlashOptions.visibility = View.GONE
-                updateFlashView()
+//                updateFlashView()
             }
 
             binding.ivFlashOn.id -> {
                 imageCapture?.flashMode = ImageCapture.FLASH_MODE_ON
                 binding.pnlFlashOptions.visibility = View.GONE
-                updateFlashView()
+//                updateFlashView()
             }
 
             binding.ivFlashAuto.id -> {
                 imageCapture?.flashMode = ImageCapture.FLASH_MODE_AUTO
                 binding.pnlFlashOptions.visibility = View.GONE
-                updateFlashView()
+//                updateFlashView()
             }
         }
     }
 
-    private fun updateFlashView() {
-        binding.ivFlash.setImageResource(
-            when (imageCapture?.flashMode) {
-                ImageCapture.FLASH_MODE_OFF -> {
-                    R.drawable.ic_flash_off
-                }
-
-                ImageCapture.FLASH_MODE_ON -> {
-                    R.drawable.ic_flash_on
-                }
-
-                ImageCapture.FLASH_MODE_AUTO -> {
-                    R.drawable.ic_flash_auto
-                }
-
-                else -> R.drawable.ic_flash_off
-            }
-        )
-    }
+//    private fun updateFlashView() {
+//        binding.ivFlash.setImageResource(
+//            when (imageCapture?.flashMode) {
+//                ImageCapture.FLASH_MODE_OFF -> {
+//                    R.drawable.ic_flash_off
+//                }
+//
+//                ImageCapture.FLASH_MODE_ON -> {
+//                    R.drawable.ic_flash_on
+//                }
+//
+//                ImageCapture.FLASH_MODE_AUTO -> {
+//                    R.drawable.ic_flash_auto
+//                }
+//
+//                else -> R.drawable.ic_flash_off
+//            }
+//        )
+//    }
 
 
     private val ratioClickListener = View.OnClickListener {
@@ -356,7 +354,7 @@ class CameraFragment : Fragment() {
     }
     private fun updateRatioView() {
         val orientation = resources.configuration.orientation
-        binding.tvRatio.text = viewModel.screenAspectRatio.getAspectRationString(orientation == Configuration.ORIENTATION_PORTRAIT)
+//        binding.cameraResult.text = viewModel.screenAspectRatio.getAspectRationString(orientation == Configuration.ORIENTATION_PORTRAIT)
         binding.tvRatio169.text = if (orientation == Configuration.ORIENTATION_PORTRAIT) "9:16" else "16:9"
         binding.tvRatio43.text = if (orientation == Configuration.ORIENTATION_PORTRAIT) "3:4" else "4:3"
     }
