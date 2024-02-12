@@ -74,7 +74,7 @@ class TruthCameraFragment : Fragment() {
                 MotionEvent.ACTION_DOWN -> {
                     binding.pnlFlashOptions.visibility = View.GONE
                     binding.pnlRatioOptions.visibility = View.GONE
-                    binding.zoomSeekWrapper.visibility = View.VISIBLE
+//                    binding.zoomSeekWrapper.visibility = View.VISIBLE
                     startTouchTimer()
                     return@setOnTouchListener true
                 }
@@ -106,7 +106,7 @@ class TruthCameraFragment : Fragment() {
         binding.tvRatio169.setOnClickListener(ratioChangeListener)
         binding.tvRatio43.setOnClickListener(ratioChangeListener)
 
-        binding.zoomSeekBar.setOnSeekBarChangeListener(zoomSeekListener)
+//        binding.zoomSeekBar.setOnSeekBarChangeListener(zoomSeekListener)
         scaleGestureDetector = ScaleGestureDetector(requireContext(), zoomListener)
 
 
@@ -277,12 +277,12 @@ class TruthCameraFragment : Fragment() {
             scale?.let { value ->
                 camera?.cameraControl?.setZoomRatio(value)
                 val result = if (value < 1.5) 0.0f else value
-                binding.zoomSeekBar.setOnSeekBarChangeListener(null)
-                binding.zoomSeekBar.progress = (result * 10).toInt()
-                binding.zoomSeekBar.setOnSeekBarChangeListener(zoomSeekListener)
+//                binding.zoomSeekBar.setOnSeekBarChangeListener(null)
+//                binding.zoomSeekBar.progress = (result * 10).toInt()
+//                binding.zoomSeekBar.setOnSeekBarChangeListener(zoomSeekListener)
             }
 
-            binding.zoomSeekWrapper.visibility = View.VISIBLE
+//            binding.zoomSeekWrapper.visibility = View.VISIBLE
             startTouchTimer()
 
             return true
@@ -365,7 +365,7 @@ class TruthCameraFragment : Fragment() {
             override fun onTick(millisUntilFinished: Long) {}
 
             override fun onFinish() {
-                binding.zoomSeekWrapper.visibility = View.INVISIBLE
+//                binding.zoomSeekWrapper.visibility = View.INVISIBLE
             }
         }.start()
     }
