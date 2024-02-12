@@ -9,20 +9,14 @@ import com.google.mlkit.vision.common.InputImage
 
 
 abstract class BaseImageAnalyzer<T> : ImageAnalysis.Analyzer {
-
     abstract val graphicOverlay: GraphicOverlay
-
     @SuppressLint("UnsafeExperimentalUsageError")
     override fun analyze(imageProxy: ImageProxy) {
         val mediaImage = imageProxy.image
         mediaImage?.let {
             detectInImage(InputImage.fromMediaImage(it, imageProxy.imageInfo.rotationDegrees))
                 .addOnSuccessListener { results ->
-                    onSuccess(
-                        results,
-                        graphicOverlay,
-                        it.cropRect
-                    )
+                    onSuccess(results, graphicOverlay, it.cropRect)
                     imageProxy.close()
                 }
                 .addOnFailureListener {
@@ -33,7 +27,6 @@ abstract class BaseImageAnalyzer<T> : ImageAnalysis.Analyzer {
     }
 
     protected abstract fun detectInImage(image: InputImage): Task<T>
-
     abstract fun stop()
 
     protected abstract fun onSuccess(
@@ -41,16 +34,12 @@ abstract class BaseImageAnalyzer<T> : ImageAnalysis.Analyzer {
         graphicOverlay: GraphicOverlay,
         rect: Rect
     )
-
     protected abstract fun onFailure(e: Exception)
-
 }
+
 //class FocusCircleView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
-//
 //    private val paint = Paint()
-//
 //    var focusCircle: RectF? = null
-//
 //    private var handler = Handler(Looper.getMainLooper())
 //    private var removeFocusRunnable = Runnable { }
 //
