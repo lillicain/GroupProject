@@ -144,7 +144,6 @@ import kotlin.math.min
 
         binding.swCameraOption.setOnCheckedChangeListener { _, isChecked ->
             if (!isChecked) {
-                findNavController().navigate(R.id.actionToCameraFragment)
 //                findNavController().navigate(R.id.action_videoFragment_to_cameraFragment)
             }
         }
