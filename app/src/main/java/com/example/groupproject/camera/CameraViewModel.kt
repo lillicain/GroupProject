@@ -30,25 +30,18 @@ import java.util.concurrent.ExecutionException
 
 class CameraViewModel: ViewModel() {
     private var cameraProviderLiveData: MutableLiveData<ProcessCameraProvider>? = null
-
     private val _bitmaps = MutableStateFlow<List<Bitmap>>(emptyList())
     val bitmaps = _bitmaps.asStateFlow()
-
-
     val savedUri = MutableLiveData<Uri?>(null)
-
     var lensFacing = CameraSelector.DEFAULT_BACK_CAMERA
-
     var screenAspectRatio = AspectRatio.RATIO_16_9
-
     var audioEnabled = MutableLiveData<Boolean>(true)
 
 //    val processCameraProvider: LiveData<ProcessCameraProvider>
 //        get() {
 //            if (cameraProviderLiveData == null) {
 //                cameraProviderLiveData = MutableLiveData()
-//                val cameraProviderFuture =
-//                    ProcessCameraProvider.getInstance(getApplication())
+//                val cameraProviderFuture = ProcessCameraProvider.getInstance(getApplication())
 //                cameraProviderFuture.addListener(
 //                    Runnable {
 //                        try {
@@ -65,7 +58,6 @@ class CameraViewModel: ViewModel() {
 //            }
 //            return cameraProviderLiveData!!
 //        }
-
     companion object {
         private const val TAG = "CameraViewModel"
     }
@@ -107,15 +99,4 @@ class CameraViewModel: ViewModel() {
         visibility = View.GONE
     }
 }
-
-//@SuppressLint("RestrictedApi")
-//class CameraActivity: ComponentActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-//        super.onCreate(savedInstanceState, persistentState)
-//
-//    }
-//    companion object {
-//        private val CAMERAX_PERMISSIONS = arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.RECORD_AUDIO)
-//    }
-//}
 
