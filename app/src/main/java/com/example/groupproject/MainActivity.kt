@@ -52,19 +52,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun initNavController() {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
     }
     private fun requestPermissions() {
         permissionLauncher.launch(Permissions.requestList)
     }
-    private val permissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+    private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             val hasPermission = permissions.entries.all { it.value }
             binding.pnlPermission.visibility = if (!hasPermission) View.VISIBLE else View.GONE
         }
-
 }
 
 
