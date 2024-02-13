@@ -6,13 +6,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.groupproject.databinding.FragmentSearchBinding
+import com.example.groupproject.databinding.GridViewItemBinding
 
 class GridAdapter(val onClickListener: OnClickListener) : ListAdapter<Suggestion, GridAdapter.PropertyViewHolder>(DiffCallback) {
-    class PropertyViewHolder(private var binding: FragmentSearchBinding) :
+    class PropertyViewHolder(private var binding: GridViewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(suggestion: Suggestion) {
-
-//            binding.executePendingBindings()
+            binding.suggestion = suggestion
+            binding.executePendingBindings()
         }
     }
 
@@ -27,7 +28,7 @@ class GridAdapter(val onClickListener: OnClickListener) : ListAdapter<Suggestion
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PropertyViewHolder {
-        return PropertyViewHolder(FragmentSearchBinding.inflate(LayoutInflater.from(parent.context)))
+        return PropertyViewHolder(GridViewItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
     override fun onBindViewHolder(holder: PropertyViewHolder, position: Int) {

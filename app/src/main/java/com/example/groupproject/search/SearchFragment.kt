@@ -13,34 +13,31 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SearchFragment: Fragment() {
-val viewModel: SearchViewModel by lazy { ViewModelProvider(this).get(SearchViewModel::class.java) }
-val searchUtil = SearchUtil()
+    val viewModel: SearchUtil by lazy { ViewModelProvider(this)[SearchUtil::class.java] }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-       val binding = FragmentSearchBinding.inflate(inflater)
+        val binding = FragmentSearchBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
 
-        binding.searchButtonFragment.setOnClickListener {
-            searchUtil.userInputSearchData = binding.searchEditText.text.toString()
-//            println(searchUtil.userInputSearchData.value?.text)
-//            println(searchUtil.userInputSearchData.value?.text)
-//            println(searchUtil.userInputSearchData.value?.text)
-            CoroutineScope(Dispatchers.Main).launch {
-                try {
-                    // Call the suspend function
-                    searchUtil.convertDataToClass()
-                } catch (e: Exception) {
-                    // Handle exceptions
-                    println("Error: ${e.message}")
-                }
-            }
-        }
+//        binding.searchButtonFragment.setOnClickListener {
+//            viewModel.userInputSearchData = binding.searchEditText.text.toString()
+//            viewModel.convertDataToClass()
+//            CoroutineScope(Dispatchers.Main).launch {
+//                try {
+//                    // Call the suspend function
+//                    viewModel.convertDataToClass()
+//                } catch (e: Exception) {
+//                    // Handle exceptions
+//                    println("Error: ${e.message}")
+//                }
+//            }
+//        }
 
 
 

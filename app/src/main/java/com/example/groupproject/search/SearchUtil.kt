@@ -1,8 +1,12 @@
 package com.example.groupproject.search
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -13,18 +17,12 @@ import okhttp3.Request
 import okhttp3.RequestBody
 import java.io.IOException
 
-data class Post(
-    var style: String,
-    var text: String,
-    var startIndex: Int,
-    var endIndex: Int
-)
 
-class SearchUtil() {
+
+class SearchUtil : ViewModel() {
 
     val client = OkHttpClient()
 
-//    val test = Post("general", "This is a test text", 0, 15)
 
 //    private var _userInputSearchData: MutableLiveData<SearchText> = MutableLiveData()
 //    val userInputSearchData: MutableLiveData<SearchText>
@@ -32,30 +30,36 @@ class SearchUtil() {
 
     var userInputSearchData = "No phrase was submitted"
 
-    val gson = Gson()
-
-//    val jsonBody = gson.toJson(testData)
-
     val searchKey = "6i8rh0iJ3C0Rc9fRcFhX2LarE4oVwa3N"
 
+    private val _suggestions = MutableLiveData<List<Suggestion>?>()
+    val suggestions: LiveData<List<Suggestion>?>
+        get() = _suggestions
 
+//    var suggestions = listOf<Suggestion>(Suggestion("testestte"))
 
+//    var phraseResponse = PhraseResponse("test", listOf(Suggestion("hello")))
 
+init {
+    _suggestions.value = listOf()
+    convertDataToClass()
+}
 
-    suspend fun convertDataToClass() {
-
-        val mediaType = MediaType.parse("application/json")
+    fun convertDataToClass() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val mediaType = MediaType.parse("application/json")
 //        val body = RequestBody.create(mediaType, "{\"text\":\"${_userInputSearchData.value?.text}\",\"style\":\"general\",\"startIndex\":0,\"endIndex\":${userInputSearchData.value?.text?.count()}}")
-        val body = RequestBody.create(mediaType, "{\"text\":\"${userInputSearchData}\",\"style\":\"general\",\"startIndex\":0,\"endIndex\":${userInputSearchData.count()}}")
-        val request = Request.Builder()
-            .url("https://api.ai21.com/studio/v1/paraphrase")
-            .post(body)
-            .addHeader("accept", "application/json")
-            .addHeader("content-type", "application/json")
-            .addHeader("Authorization", "Bearer ${searchKey}")
-            .build()
-
-        withContext(Dispatchers.IO) {
+            val body = RequestBody.create(
+                mediaType,
+                "{\"text\":\"${userInputSearchData}\",\"style\":\"general\",\"startIndex\":0,\"endIndex\":${userInputSearchData.count()}}"
+            )
+            val request = Request.Builder()
+                .url("https://api.ai21.com/studio/v1/paraphrase")
+                .post(body)
+                .addHeader("accept", "application/json")
+                .addHeader("content-type", "application/json")
+                .addHeader("Authorization", "Bearer ${searchKey}")
+                .build()
             try {
                 val searchResponse = client.newCall(request).execute()
                 println(userInputSearchData.toString())
@@ -65,7 +69,12 @@ class SearchUtil() {
                     val responseBody = searchResponse.body()?.string()
 
                     // Use Gson to parse the JSON response body into your data class
-                    val phraseResponse: PhraseResponse? = Gson().fromJson(responseBody, PhraseResponse::class.java)
+                    val phraseResponse: PhraseResponse? =
+                        Gson().fromJson(responseBody, PhraseResponse::class.java)
+                    if (phraseResponse != null) {
+                        _suggestions.value = phraseResponse.suggestions
+//                        suggestions = phraseResponse.suggestions
+                    }
                     println("${userInputSearchData.count()}")
                     println(responseBody.toString())
 
