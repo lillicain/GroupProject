@@ -3,10 +3,8 @@ package com.example.groupproject.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -40,26 +38,27 @@ class SearchUtil : ViewModel() {
 
 //    var phraseResponse = PhraseResponse("test", listOf(Suggestion("hello")))
 
-init {
-    _suggestions.value = listOf()
-    convertDataToClass()
-}
 
-    fun convertDataToClass() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val mediaType = MediaType.parse("application/json")
+    suspend fun convertDataToClass() {
+        println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
+        println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
+        println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
+        println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
+        println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
+        println("${_suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
+        println("${_suggestions.value?.get(0)?.text.toString()} 9999999999999999999888999")
+        val mediaType = MediaType.parse("application/json")
 //        val body = RequestBody.create(mediaType, "{\"text\":\"${_userInputSearchData.value?.text}\",\"style\":\"general\",\"startIndex\":0,\"endIndex\":${userInputSearchData.value?.text?.count()}}")
-            val body = RequestBody.create(
-                mediaType,
-                "{\"text\":\"${userInputSearchData}\",\"style\":\"general\",\"startIndex\":0,\"endIndex\":${userInputSearchData.count()}}"
-            )
-            val request = Request.Builder()
-                .url("https://api.ai21.com/studio/v1/paraphrase")
-                .post(body)
-                .addHeader("accept", "application/json")
-                .addHeader("content-type", "application/json")
-                .addHeader("Authorization", "Bearer ${searchKey}")
-                .build()
+        val body = RequestBody.create(mediaType, "{\"text\":\"${userInputSearchData}\",\"style\":\"general\",\"startIndex\":0,\"endIndex\":${userInputSearchData.count()}}")
+        val request = Request.Builder()
+            .url("https://api.ai21.com/studio/v1/paraphrase")
+            .post(body)
+            .addHeader("accept", "application/json")
+            .addHeader("content-type", "application/json")
+            .addHeader("Authorization", "Bearer ${searchKey}")
+            .build()
+
+        withContext(Dispatchers.IO) {
             try {
                 val searchResponse = client.newCall(request).execute()
                 println(userInputSearchData.toString())
@@ -69,12 +68,13 @@ init {
                     val responseBody = searchResponse.body()?.string()
 
                     // Use Gson to parse the JSON response body into your data class
-                    val phraseResponse: PhraseResponse? =
-                        Gson().fromJson(responseBody, PhraseResponse::class.java)
+                    val phraseResponse: PhraseResponse? = Gson().fromJson(responseBody, PhraseResponse::class.java)
                     if (phraseResponse != null) {
-                        _suggestions.value = phraseResponse.suggestions
-//                        suggestions = phraseResponse.suggestions
+                        println(phraseResponse.suggestions.toString())
+//
+                        _suggestions.postValue(phraseResponse.suggestions)
                     }
+                    println(_suggestions.value?.get(0)?.text.toString())
                     println("${userInputSearchData.count()}")
                     println(responseBody.toString())
 

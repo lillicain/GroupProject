@@ -25,19 +25,18 @@ class SearchFragment: Fragment() {
         binding.viewModel = viewModel
 
 
-//        binding.searchButtonFragment.setOnClickListener {
-//            viewModel.userInputSearchData = binding.searchEditText.text.toString()
-//            viewModel.convertDataToClass()
-//            CoroutineScope(Dispatchers.Main).launch {
-//                try {
-//                    // Call the suspend function
-//                    viewModel.convertDataToClass()
-//                } catch (e: Exception) {
-//                    // Handle exceptions
-//                    println("Error: ${e.message}")
-//                }
-//            }
-//        }
+        binding.searchButtonFragment.setOnClickListener {
+            viewModel.userInputSearchData = binding.searchEditText.text.toString()
+            CoroutineScope(Dispatchers.Main).launch {
+                try {
+                    // Call the suspend function
+                    viewModel.convertDataToClass()
+                } catch (e: Exception) {
+                    // Handle exceptions
+                    println("Error: ${e.message}")
+                }
+            }
+        }
 
 
 
