@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.HorizontalScrollView
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -38,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: CameraViewModel by viewModels()
     private lateinit var binding: ActivityCameraBinding
     private lateinit var cameraManager: CameraManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -50,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         if (!Permissions.isPermissionTaken(this)) {
             requestPermissions()
         }
+
     }
     private fun initNavController() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment

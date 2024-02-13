@@ -10,6 +10,7 @@ import android.view.View
 import androidx.camera.core.CameraSelector
 import kotlin.math.ceil
 
+
 open class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
     private val lock = Any()
     private val graphics: MutableList<Graphic> = ArrayList()
@@ -19,6 +20,7 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(contex
     var cameraSelector: Int = CameraSelector.LENS_FACING_FRONT
     abstract class Graphic(private val overlay: GraphicOverlay) {
         abstract fun draw(canvas: Canvas?)
+
         fun calculateRect(height: Float, width: Float, boundingBoxT: Rect): RectF {
 
             // for land scape
@@ -38,6 +40,7 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(contex
                     false -> width
                 }
             }
+
 
             val scaleX = overlay.width.toFloat() / whenLandScapeModeWidth()
             val scaleY = overlay.height.toFloat() / whenLandScapeModeHeight()
@@ -90,10 +93,10 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(contex
     }
 //    fun onDraw(canvas: Canvas?) {
 //        canvas?.let { super.onDraw(it) }
-////        synchronized(lock) {
+//        synchronized(lock) {
 //            for (graphic in graphics) {
 //                graphic.draw(canvas)
-////            }
+//            }
 //        }
 //    }
 }

@@ -42,6 +42,7 @@ import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
+import android.widget.HorizontalScrollView
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -95,23 +96,18 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 class CameraFragment : Fragment() {
-    lateinit var cameraManager: CameraManager
-    lateinit var textureView: TextureView
-    lateinit var cameraCaptureSession: CameraCaptureSession
-    lateinit var cameraDevice: CameraDevice
-    lateinit var captureRequest: CaptureRequest
-    lateinit var handler: Handler
-    lateinit var handlerThread: HandlerThread
-    lateinit var capReq: CaptureRequest.Builder
-    lateinit var imageReader: ImageReader
     lateinit var cameraExecutor: ExecutorService
     lateinit var scaleGestureDetector: ScaleGestureDetector
     lateinit var binding: FragmentCameraBinding
     var imageCapture: ImageCapture? = null
     var camera: Camera? = null
     val viewModel: CameraViewModel by viewModels()
-    val cameraResult: String = "Camera Result"
+    lateinit var result: String
 
+
+    private val filterListener = View.OnClickListener {
+        changeFilter()
+    }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -144,23 +140,34 @@ class CameraFragment : Fragment() {
         }
 
         updateRatioView()
+//        binding.scrollView.setOnClickListener {
+//
+//        }
+//        binding.filterOne.setOnClickListener {
+//
+//        }
+//        binding.filterTwo.setOnClickListener {
+//            binding.filterTwo.text = "Filter2"
+//        }
+//        binding.filterThree.setOnClickListener {
+//            binding.filterThree.setText("Filter3")
+//        }
+//        binding.filterThree.setOnClickListener { changeFilter() }
         binding.photoButton.setOnClickListener { takePhoto() }
         binding.pnlFLash.setOnClickListener(flashClickListener)
-        binding.ivFlashOff.setOnClickListener(flashChangeListener)
-        binding.ivFlashOn.setOnClickListener(flashChangeListener)
-        binding.ivFlashAuto.setOnClickListener(flashChangeListener)
+//        binding.ivFlashOff.setOnClickListener(flashChangeListener)
+//        binding.ivFlashOn.setOnClickListener(flashChangeListener)
+//        binding.ivFlashAuto.setOnClickListener(flashChangeListener)
         binding.pnlFacing.setOnClickListener(facingChangeListener)
         binding.pnlRatio.setOnClickListener(ratioClickListener)
         binding.tvRatio169.setOnClickListener(ratioChangeListener)
         binding.tvRatio43.setOnClickListener(ratioChangeListener)
-//        binding.zoomSeekBar.setOnSeekBarChangeListener(zoomSeekListener)
         scaleGestureDetector = ScaleGestureDetector(requireContext(), zoomListener)
-        binding.swCameraOption.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                findNavController().navigate(androidx.core.R.id.action_text)
-//                findNavController().navigate(R.id.action_cameraFragment_to_videoFragment)
-            }
-        }
+//        binding.swCameraOption.setOnCheckedChangeListener { _, isChecked ->
+//            if (isChecked) {
+//                findNavController().navigate(R.id.previewFragment)
+//            }
+//        }
         cameraExecutor = Executors.newSingleThreadExecutor()
         bindCameraUseCases()
     }
@@ -168,6 +175,16 @@ class CameraFragment : Fragment() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         updateRatioView()
+    }
+
+    fun changeFilter() {
+//        binding.filterOne.text = "Filter one"
+        binding.filter.text = result
+//        binding.cameraResult
+        if (result.isEmpty()) {
+            val result = "Evil"
+        }
+
     }
 
     fun takePhoto() {
@@ -245,45 +262,45 @@ class CameraFragment : Fragment() {
     }
 
     val flashChangeListener = View.OnClickListener {
-        when (it.id) {
-            binding.ivFlashOff.id -> {
-                imageCapture?.flashMode = ImageCapture.FLASH_MODE_OFF
-                binding.pnlFlashOptions.visibility = View.GONE
-                updateFlashView()
-            }
-
-            binding.ivFlashOn.id -> {
-                imageCapture?.flashMode = ImageCapture.FLASH_MODE_ON
-                binding.pnlFlashOptions.visibility = View.GONE
-                updateFlashView()
-            }
-
-            binding.ivFlashAuto.id -> {
-                imageCapture?.flashMode = ImageCapture.FLASH_MODE_AUTO
-                binding.pnlFlashOptions.visibility = View.GONE
-                updateFlashView()
-            }
-        }
+//        when (it.id) {
+//            binding.ivFlashOff.id -> {
+//                imageCapture?.flashMode = ImageCapture.FLASH_MODE_OFF
+//                binding.pnlFlashOptions.visibility = View.GONE
+//                updateFlashView()
+//            }
+//
+//            binding.ivFlashOn.id -> {
+//                imageCapture?.flashMode = ImageCapture.FLASH_MODE_ON
+//                binding.pnlFlashOptions.visibility = View.GONE
+//                updateFlashView()
+//            }
+//
+//            binding.ivFlashAuto.id -> {
+//                imageCapture?.flashMode = ImageCapture.FLASH_MODE_AUTO
+//                binding.pnlFlashOptions.visibility = View.GONE
+//                updateFlashView()
+//            }
+//        }
     }
 
     private fun updateFlashView() {
-        binding.ivFlash.setImageResource(
-            when (imageCapture?.flashMode) {
-                ImageCapture.FLASH_MODE_OFF -> {
-                    R.drawable.ic_flash_off
-                }
-
-                ImageCapture.FLASH_MODE_ON -> {
-                    R.drawable.ic_flash_on
-                }
-
-                ImageCapture.FLASH_MODE_AUTO -> {
-                    R.drawable.ic_flash_auto
-                }
-
-                else -> R.drawable.ic_flash_off
-            }
-        )
+//        binding.ivFlash.setImageResource(
+//            when (imageCapture?.flashMode) {
+//                ImageCapture.FLASH_MODE_OFF -> {
+//                    R.drawable.ic_flash_off
+//                }
+//
+//                ImageCapture.FLASH_MODE_ON -> {
+//                    R.drawable.ic_flash_on
+//                }
+//
+//                ImageCapture.FLASH_MODE_AUTO -> {
+//                    R.drawable.ic_flash_auto
+//                }
+//
+//                else -> R.drawable.ic_flash_off
+//            }
+//        )
     }
 
 
@@ -356,9 +373,9 @@ class CameraFragment : Fragment() {
     }
     private fun updateRatioView() {
         val orientation = resources.configuration.orientation
-        binding.tvRatio.text = viewModel.screenAspectRatio.getAspectRationString(orientation == Configuration.ORIENTATION_PORTRAIT)
-        binding.tvRatio169.text = if (orientation == Configuration.ORIENTATION_PORTRAIT) "9:16" else "16:9"
-        binding.tvRatio43.text = if (orientation == Configuration.ORIENTATION_PORTRAIT) "3:4" else "4:3"
+//        binding.tvRatio.text = viewModel.screenAspectRatio.getAspectRationString(orientation == Configuration.ORIENTATION_PORTRAIT)
+//        binding.tvRatio169.text = if (orientation == Configuration.ORIENTATION_PORTRAIT) "9:16" else "16:9"
+//        binding.tvRatio43.text = if (orientation == Configuration.ORIENTATION_PORTRAIT) "3:4" else "4:3"
     }
 
     private fun setPreview(uri: Uri) {
