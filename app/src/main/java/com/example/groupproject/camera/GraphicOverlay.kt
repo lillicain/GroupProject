@@ -20,7 +20,7 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(contex
     var mOffsetY: Float? = null
     var cameraSelector: Int = CameraSelector.LENS_FACING_FRONT
     abstract class Graphic(val overlay: GraphicOverlay) {
-        abstract fun draw(canvas: Canvas?)
+        abstract fun draw(canvas: Canvas)
 
         fun calculateRect(height: Float, width: Float, boundingBoxT: Rect): RectF {
 
@@ -92,13 +92,13 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(contex
         postInvalidate()
     }
 
-//   fun onDraw(canvas: Canvas?) {
-//        canvas?.let { super.onDraw(it) }
-//        synchronized(lock) {
-//            for (graphic in graphics) {
-//                graphic.draw(canvas)
-//            }
-//        }
-//    }
+   override fun onDraw(canvas: Canvas) {
+        canvas.let { super.onDraw(it) }
+        synchronized(lock) {
+            for (graphic in graphics) {
+                graphic.draw(canvas)
+            }
+        }
+    }
 }
 

@@ -23,11 +23,12 @@ class CameraManager(
     private val context: Context,
     private val viewFinder: PreviewView,
     private val lifecycleOwner: LifecycleOwner,
-    private val graphicOverlay: GraphicOverlay
-) {
+    private val graphicOverlay: GraphicOverlay,
+    private val onSuccessCallback: ((FaceStatus) -> Unit)) {
+
     private lateinit var cameraManager: CameraManager
     private var preview: Preview? = null
-
+    private var cameraFragment = CameraFragment()
     private var camera: Camera? = null
     private lateinit var cameraExecutor: ExecutorService
     private var cameraSelectorOption = CameraSelector.LENS_FACING_FRONT
@@ -68,7 +69,7 @@ class CameraManager(
     }
 
     private fun selectAnalyzer(): ImageAnalysis.Analyzer {
-        return FaceContourDetectionProcessor(graphicOverlay)
+        return FaceContourDetectionProcessor(graphicOverlay, onSuccessCallback)
     }
 
     private fun setCameraConfig(

@@ -61,7 +61,7 @@ class CameraViewModel: ViewModel() {
     var screenAspectRatio = AspectRatio.RATIO_16_9
     var audioEnabled = MutableLiveData<Boolean>(true)
 
-    //    val processCameraProvider: LiveData<ProcessCameraProvider>
+//        val processCameraProvider: LiveData<ProcessCameraProvider>
 //        get() {
 //            if (cameraProviderLiveData == null) {
 //                cameraProviderLiveData = MutableLiveData()

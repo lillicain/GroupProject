@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".camera.GraphicOverlay">
+    tools:context=".camera.CameraFragment">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -14,7 +15,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.camera.view.PreviewView
-            android:id="@+id/previewView_finder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:scaleType="fillCenter" />

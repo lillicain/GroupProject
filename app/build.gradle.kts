@@ -66,6 +66,7 @@ dependencies {
     implementation("com.google.mlkit:vision-common:17.3.0")
     implementation("com.google.android.gms:play-services-mlkit-face-detection:17.1.0")
     implementation("com.google.mlkit:object-detection:17.0.0")
+    implementation("com.google.mlkit:face-detection:16.1.5")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -83,8 +84,6 @@ dependencies {
     implementation("com.h6ah4i.android.widget.verticalseekbar:verticalseekbar:1.0.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
-    implementation("com.google.mlkit:face-detection:16.1.5")
-    implementation("com.google.android.gms:play-services-code-scanner:16.1.0")
 
 
 }

@@ -85,9 +85,28 @@ class CameraFragment : Fragment() {
     private lateinit var imgSampleThree: ImageView
     private lateinit var tvPlaceholder: TextView
     private lateinit var currentPhotoPath: String
+    private lateinit var cameraManager: CameraManager
 
     private val filterListener = View.OnClickListener {
         changeFilter()
+    }
+    private fun onClicks() {
+//        btnSwitch.setOnClickListener {
+//            cameraManager.changeCameraSelector()
+//        }
+    }
+    private fun createCameraManager() {
+//        cameraManager = CameraManager(
+////            this.requireContext()
+////            preview,
+////            this,
+////            graphicOverlay_finder,
+////            ::processPicture
+//        )
+    }
+    private fun processPicture(faceStatus: FaceStatus) {
+        Log.e("facestatus","This is it ${faceStatus.name}")
+//       when(faceStatus){}
     }
 
 
@@ -95,7 +114,10 @@ class CameraFragment : Fragment() {
         binding = FragmentCameraBinding.inflate(inflater, container, false)
 //        btn = (Button) view.findViewById(R.id.cameraButton)
 //        String text = getA
+        createCameraManager()
+
         return binding.root
+
 
     }
 
