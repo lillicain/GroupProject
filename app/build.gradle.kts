@@ -5,7 +5,6 @@ plugins {
     id("kotlin-kapt")
     id("androidx.navigation.safeargs")
     kotlin("plugin.serialization") version "1.9.22"
-
 }
 
 android {
@@ -66,6 +65,7 @@ dependencies {
     implementation("com.google.androidbrowserhelper:androidbrowserhelper:2.5.0")
     implementation("com.google.mlkit:vision-common:17.3.0")
     implementation("com.google.android.gms:play-services-mlkit-face-detection:17.1.0")
+    implementation("com.google.mlkit:object-detection:17.0.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -84,4 +84,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
     implementation("com.google.mlkit:face-detection:16.1.5")
+    implementation("com.google.android.material:material:1.11.0")
+
+    implementation("com.google.android.gms:play-services-code-scanner:16.1.0")
+
+
 }

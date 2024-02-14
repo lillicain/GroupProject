@@ -5,47 +5,29 @@ import ARG_PREVIEW_TYPE
 import android.Manifest.*
 import android.Manifest.permission.*
 import android.annotation.SuppressLint
-import android.content.ContentResolver
-import android.content.ContentValues
-import android.content.Context
 import android.content.Context.*
-import android.content.DialogInterface
-import android.content.pm.PackageManager
+import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.RectF
-import android.graphics.SurfaceTexture
-import android.hardware.Sensor
-import android.hardware.SensorManager
-import android.hardware.camera2.CameraCaptureSession
-import android.hardware.camera2.CameraDevice
-import android.hardware.camera2.CameraManager
-import android.hardware.camera2.CaptureRequest
-import android.media.ImageReader
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.Rect
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.Environment
-import android.os.Handler
-import android.os.HandlerThread
-import android.os.Looper
-import android.os.SystemClock
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
-import android.view.OrientationEventListener
 import android.view.ScaleGestureDetector
-import android.view.Surface
-import android.view.SurfaceView
-import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
-import android.widget.HorizontalScrollView
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.SeekBar
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.TextView
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
@@ -53,27 +35,12 @@ import androidx.camera.core.FocusMeteringAction
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
-import androidx.camera.core.resolutionselector.AspectRatioStrategy
-import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.video.FallbackStrategy
-import androidx.camera.video.MediaStoreOutputOptions
-import androidx.camera.video.Quality
-import androidx.camera.video.QualitySelector
-import androidx.camera.video.Recorder
-import androidx.camera.video.Recording
-import androidx.camera.video.VideoCapture
-import androidx.camera.video.VideoRecordEvent
-import androidx.compose.foundation.Canvas
-import androidx.compose.material3.Button
-import androidx.compose.material3.Surface
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.view.updateLayoutParams
-import androidx.databinding.DataBindingUtil.convertBrIdToString
-import androidx.databinding.DataBindingUtil.setContentView
-import androidx.databinding.DataBindingUtil.setDefaultComponent
+import androidx.exifinterface.media.ExifInterface
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
@@ -82,20 +49,25 @@ import androidx.navigation.fragment.findNavController
 import com.example.groupproject.R
 import com.example.groupproject.R.*
 import com.example.groupproject.R.id.*
+import com.example.groupproject.camera.VideoFragment.Companion.TAG
 import com.example.groupproject.databinding.FragmentCameraBinding
-import com.example.groupproject.matthewcamera.CameraVM
 import com.example.groupproject.utils.MediaType
 import com.example.groupproject.utils.OutputFileOptionsFactory
-import com.example.groupproject.utils.getAspectRationString
 import com.example.groupproject.utils.getDimensionRatioString
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.objects.DetectedObject
+import com.google.mlkit.vision.objects.ObjectDetection
+import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
+import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.Locale
+import java.util.Date
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
+import kotlin.math.max
+import kotlin.math.min
 
 class CameraFragment : Fragment() {
     lateinit var cameraExecutor: ExecutorService
@@ -106,6 +78,13 @@ class CameraFragment : Fragment() {
     val viewModel: CameraViewModel by viewModels()
     lateinit var result: String
 
+    private lateinit var captureImageFab: Button
+    private lateinit var inputImageView: ImageView
+    private lateinit var imgSampleOne: ImageView
+    private lateinit var imgSampleTwo: ImageView
+    private lateinit var imgSampleThree: ImageView
+    private lateinit var tvPlaceholder: TextView
+    private lateinit var currentPhotoPath: String
 
     private val filterListener = View.OnClickListener {
         changeFilter()
@@ -143,6 +122,18 @@ class CameraFragment : Fragment() {
                 else -> return@setOnTouchListener false
             }
         }
+
+//        captureImageFab = findViewById(R.id.captureImageFab)
+//        inputImageView = findViewById(R.id.imageView)
+//        imgSampleOne = findViewById(R.id.imgSampleOne)
+//        imgSampleTwo = findViewById(R.id.imgSampleTwo)
+//        imgSampleThree = findViewById(R.id.imgSampleThree)
+//        tvPlaceholder = findViewById(R.id.tvPlaceholder)
+//
+//        captureImageFab.setOnClickListener(this)
+//        imgSampleOne.setOnClickListener(this)
+//        imgSampleTwo.setOnClickListener(this)
+//        imgSampleThree.setOnClickListener(this)
 
         updateRatioView()
 //        binding.scrollView.setOnClickListener {
@@ -431,9 +422,233 @@ class CameraFragment : Fragment() {
 
         }, ContextCompat.getMainExecutor(this.requireContext()))
     }
-    companion object {
-        private const val TAG = "CameraX"
+
+    private fun runObjectDetection(bitmap: Bitmap) {
+        val image = InputImage.fromBitmap(bitmap, 0)
+
+        val options = ObjectDetectorOptions.Builder()
+            .setDetectorMode(ObjectDetectorOptions.SINGLE_IMAGE_MODE)
+            .enableMultipleObjects()
+            .enableClassification()
+            .build()
+        val objectDetector = ObjectDetection.getClient(options)
+
+        objectDetector.process(image).addOnSuccessListener { results ->
+            debugPrint(results)
+
+            // Parse ML Kit's DetectedObject and create corresponding visualization data
+            val detectedObjects = results.map {
+                var text = "Unknown"
+
+                // We will show the top confident detection result if it exist
+                if (it.labels.isNotEmpty()) {
+                    val firstLabel = it.labels.first()
+                    text = "${firstLabel.text}, ${firstLabel.confidence.times(100).toInt()}%"
+                }
+//                BoxWithText(it.boundingBox, text)
+            }
+
+            // Draw the detection result on the input bitmap
+//            val visualizedResult = drawDetectionResult(bitmap, detectionResults)
+
+            // Show the detection result on the app screen
+//            inputImageView.setImageBitmap(visualizedResult)
+        }.addOnFailureListener {
+            Log.e(CameraViewModel.TAG, it.message.toString())
+        }
     }
+    private fun setViewAndDetect(bitmap: Bitmap) {
+        // Display the captured image
+        inputImageView.setImageBitmap(bitmap)
+        tvPlaceholder.visibility = View.INVISIBLE
+
+        // Run object detection and display the result
+        runObjectDetection(bitmap)
+    }
+
+    /**
+     * getCapturedImage():
+     *     Decodes and crops the captured image from camera.
+     */
+    private fun getCapturedImage(): Bitmap {
+        // Get the dimensions of the View
+        val targetW: Int = inputImageView.width
+        val targetH: Int = inputImageView.height
+
+        val bmOptions = BitmapFactory.Options().apply {
+            // Get the dimensions of the bitmap
+            inJustDecodeBounds = true
+
+            BitmapFactory.decodeFile(currentPhotoPath, this)
+
+            val photoW: Int = outWidth
+            val photoH: Int = outHeight
+
+            // Determine how much to scale down the image
+            val scaleFactor: Int = max(1, min(photoW / targetW, photoH / targetH))
+
+            // Decode the image file into a Bitmap sized to fill the View
+            inJustDecodeBounds = false
+            inSampleSize = scaleFactor
+            inMutable = true
+        }
+        val exifInterface = ExifInterface(currentPhotoPath)
+        val orientation = exifInterface.getAttributeInt(
+            ExifInterface.TAG_ORIENTATION,
+            ExifInterface.ORIENTATION_UNDEFINED
+        )
+
+        val bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions)
+        return when (orientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> {
+                rotateImage(bitmap, 90f)
+            }
+            ExifInterface.ORIENTATION_ROTATE_180 -> {
+                rotateImage(bitmap, 180f)
+            }
+            ExifInterface.ORIENTATION_ROTATE_270 -> {
+                rotateImage(bitmap, 270f)
+            }
+            else -> {
+                bitmap
+            }
+        }
+    }
+
+    /**
+     * Get image form drawable and convert to bitmap.
+     */
+    private fun getSampleImage(drawable: Int): Bitmap {
+        return BitmapFactory.decodeResource(resources, drawable, BitmapFactory.Options().apply {
+            inMutable = true
+        })
+
+}
+
+/**
+ * Rotate the given bitmap.
+ */
+private fun rotateImage(source: Bitmap, angle: Float): Bitmap {
+    val matrix = Matrix()
+    matrix.postRotate(angle)
+    return Bitmap.createBitmap(
+        source, 0, 0, source.width, source.height,
+        matrix, true
+    )
+}
+
+/**
+ * Create a file to pass to a camera app for storing captured image.
+ */
+@Throws(IOException::class)
+private fun createImageFile(): File {
+    // Create an image file name
+    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+//        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    return File.createTempFile(
+        "JPEG_${timeStamp}_", /* prefix */
+        ".jpg", /* suffix */
+//            storageDir /* directory */
+    ).apply {
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = absolutePath
+    }
+}
+private fun dispatchTakePictureIntent() {
+    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+        // Ensure that there's a camera activity to handle the intent
+//            takePictureIntent.resolveActivity(packageManager)?.also {
+        // Create the File where the photo should go
+        val photoFile: File? = try {
+            createImageFile()
+        } catch (e: IOException) {
+            Log.e(VideoFragment.TAG, e.message.toString())
+            null
+        }
+        // Continue only if the File was successfully created
+        photoFile?.also {
+            val photoURI: Uri = FileProvider.getUriForFile(
+                this.requireContext(),
+                "com.google.mlkit.codelab.objectdetection.fileprovider",
+                it
+            )
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+//                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+        }
+    }
+}
+
+
+/**
+ * Draw bounding boxes around objects together with the object's name.
+ */
+private fun drawDetectionResult(
+    bitmap: Bitmap,
+    detectionResults: List<BoxWithText>
+): Bitmap {
+    val outputBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
+    val canvas = android.graphics.Canvas(outputBitmap)
+    val pen = Paint()
+    pen.textAlign = Paint.Align.LEFT
+
+    detectionResults.forEach {
+        // draw bounding box
+        pen.color = Color.RED
+        pen.strokeWidth = 8F
+        pen.style = Paint.Style.STROKE
+        val box = it.box
+        canvas.drawRect(box, pen)
+
+        val tagSize = Rect(0, 0, 0, 0)
+
+        // calculate the right font size
+        pen.style = Paint.Style.FILL_AND_STROKE
+        pen.color = Color.YELLOW
+        pen.strokeWidth = 2F
+
+//            pen.textSize =
+        pen.getTextBounds(it.text, 0, it.text.length, tagSize)
+        val fontSize: Float = pen.textSize * box.width() / tagSize.width()
+
+        // adjust the font size so texts are inside the bounding box
+        if (fontSize < pen.textSize) pen.textSize = fontSize
+
+        var margin = (box.width() - tagSize.width()) / 2.0F
+        if (margin < 0F) margin = 0F
+        canvas.drawText(
+            it.text, box.left + margin,
+            box.top + tagSize.height().times(1F), pen
+        )
+    }
+    return outputBitmap
+}
+
+/**
+ * Print out the object detection result to Logcat.
+ */
+private fun debugPrint(detectedObjects: List<DetectedObject>) {
+    detectedObjects.forEachIndexed { index, detectedObject ->
+        val box = detectedObject.boundingBox
+
+        Log.d(VideoFragment.TAG, "Detected object: $index")
+        Log.d(VideoFragment.TAG, " trackingId: ${detectedObject.trackingId}")
+        Log.d(VideoFragment.TAG, " boundingBox: (${box.left}, ${box.top}) - (${box.right},${box.bottom})")
+        detectedObject.labels.forEach {
+            Log.d(VideoFragment.TAG, " categories: ${it.text}")
+            Log.d(VideoFragment.TAG, " confidence: ${it.confidence}")
+        }
+    }
+}
+/**
+ * A general-purpose data class to store detection result for visualization
+ */
+
+data class BoxWithText(val box: Rect, val text: String)
+
+
+//companion object {
+//    private const val TAG = "CameraX"
+//}
 //    companion object {
 //        private const val TAG = "YourCameraActivity"
 //        private const val REQUEST_CODE_PERMISSIONS = 10
