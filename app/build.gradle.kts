@@ -84,8 +84,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
     implementation("com.google.mlkit:face-detection:16.1.5")
-    implementation("com.google.android.material:material:1.11.0")
-
     implementation("com.google.android.gms:play-services-code-scanner:16.1.0")
 
 

@@ -2,6 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+<data>
+    <variable
+        name="viewModel"
+        type="com.example.groupproject.camera.CameraViewModel" />
+    <variable
+        name="graphicOverlay"
+        type="com.example.groupproject.camera.FaceContourGraphic" />
+</data>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -21,12 +29,19 @@
                 <com.example.groupproject.camera.GraphicOverlay
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/graphicOverlay_finder"
+                    android:id="@+id/graphicOverlay"
                     android:clickable="true"
                     android:visibility="visible"/>
+
             </androidx.camera.view.PreviewView>
 
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:textSize="50sp"
+                android:text="Scanning..."
+                android:paddingTop="50dp"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -34,7 +49,7 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="0dp"
-                        android:layout_height="150dp"
+                        android:layout_height="100dp"
                         android:layout_gravity="bottom"
                         android:animateLayoutChanges="true"
                         android:background="@color/black80"
@@ -94,12 +109,10 @@
                             android:layout_height="90dp"
                             android:layout_gravity="center_horizontal|bottom"
                             android:background="@drawable/border_circle"
-                            android:contentDescription="photoButton"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/cameraOption">
-
 
                             <ProgressBar
                                 android:id="@+id/captureProgress"
@@ -124,7 +137,6 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
-
                             <androidx.appcompat.widget.SwitchCompat
                                 android:id="@+id/swCameraOption"
                                 android:layout_width="wrap_content"
@@ -133,8 +145,8 @@
                                 android:layout_marginEnd="10dp"
                                 android:checked="false"
                                 android:visibility="invisible" />
-
                         </LinearLayout>
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -146,10 +158,9 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-
                         <LinearLayout
                             android:id="@+id/pnlFLash"
-                            android:layout_width="50dp"
+                            android:layout_width="0dp"
                             android:layout_height="50dp"
                             android:layout_gravity="center"
                             android:gravity="center"
@@ -168,11 +179,10 @@
 
                         </LinearLayout>
 
-
                         <LinearLayout
                             android:id="@+id/pnlRatio"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:orientation="vertical"
@@ -206,7 +216,6 @@
                             app:layout_constraintTop_toTopOf="parent"
                             tools:visibility="gone">
 
-
                         </LinearLayout>
 
 
@@ -222,45 +231,31 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:visibility="gone">
+                            app:layout_constraintTop_toTopOf="parent">
 
                             <TextView
                                 android:id="@+id/tvRatio_16_9"
-                                android:layout_width="45dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="45dp"
                                 android:background="@drawable/ic_circle"
                                 android:backgroundTint="@color/black"
                                 android:paddingTop="13dp"
                                 android:paddingBottom="10dp"
                                 android:src="@drawable/ic_flash_off"
-                                android:text="TextView"
+                                android:text="Add New Filter"
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
                                 android:textSize="15sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"/>
 
                             <TextView
                                 android:id="@+id/tvRatio_4_3"
-                                android:layout_width="45dp"
-                                android:layout_height="45dp"
-                                android:layout_marginStart="50dp"
-                                android:background="@drawable/ic_circle"
-                                android:backgroundTint="@color/black"
-                                android:paddingTop="13dp"
-                                android:paddingBottom="10dp"
-                                android:src="@drawable/ic_flash_auto"
-                                android:text="4:3"
-                                android:textAlignment="center"
-                                android:textColor="@color/white"
-                                android:textSize="15sp"
-                                android:textStyle="bold"
-                                android:visibility="invisible" />
-
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:visibility="invisible"/>
                         </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
-
 </layout>
