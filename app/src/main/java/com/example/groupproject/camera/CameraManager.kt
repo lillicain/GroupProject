@@ -97,7 +97,7 @@ class CameraManager(
         cameraSelectorOption =
             if (cameraSelectorOption == CameraSelector.LENS_FACING_BACK) CameraSelector.LENS_FACING_FRONT
             else CameraSelector.LENS_FACING_BACK
-        graphicOverlay.toggleSelector()
+        graphicOverlay
         startCamera()
     }
 }

@@ -9,24 +9,34 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.processing.SurfaceProcessorNode.In
+import com.google.android.gms.vision.CameraSource
+import com.google.androidbrowserhelper.trusted.Utils
 import kotlin.math.ceil
 
-typealias myUnit = (Canvas, Canvas) -> Unit
-open class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
+open class GraphicOverlay(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val lock = Any()
     private val graphics: MutableList<Graphic> = ArrayList()
     var mScale: Float? = null
     var mOffsetX: Float? = null
     var mOffsetY: Float? = null
     var cameraSelector: Int = CameraSelector.LENS_FACING_FRONT
-    abstract class Graphic(val overlay: GraphicOverlay) {
+    private var previewWidth: Int = 0
+    private var widthScaleFactor = 1.0f
+    private var previewHeight: Int = 0
+    private var heightScaleFactor = 1.0f
+    private val graphic = ArrayList<Graphic>()
+
+    abstract class Graphic protected constructor(val overlay: GraphicOverlay) {
+        protected val context: Context = overlay.context
         abstract fun draw(canvas: Canvas)
+
 
         fun calculateRect(height: Float, width: Float, boundingBoxT: Rect): RectF {
 
             fun isLandScapeMode(): Boolean {
                 return overlay.context.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
             }
+
             fun whenLandScapeModeWidth(): Float {
                 return when (isLandScapeMode()) {
                     true -> width
@@ -48,7 +58,8 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(contex
             overlay.mScale = scale
             // Calculate offset (we need to center the overlay on the target)
             val offsetX = (overlay.width.toFloat() - ceil(whenLandScapeModeWidth() * scale)) / 2.0f
-            val offsetY = (overlay.height.toFloat() - ceil(whenLandScapeModeHeight() * scale)) / 2.0f
+            val offsetY =
+                (overlay.height.toFloat() - ceil(whenLandScapeModeHeight() * scale)) / 2.0f
             overlay.mOffsetX = offsetX
             overlay.mOffsetY = offsetY
             val mappedBox = RectF().apply {
@@ -69,6 +80,8 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(contex
             return mappedBox
         }
     }
+
+
 
     fun isFrontMode() = cameraSelector == CameraSelector.LENS_FACING_FRONT
 
@@ -92,8 +105,25 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(contex
         postInvalidate()
     }
 
+    fun setCameraInfo(cameraSource: CameraSource) {
+        val previewSize = cameraSource.previewSize ?: return
+
+            // Swap width and height when in portrait, since camera's natural orientation is landscape.
+            previewWidth = previewSize.height
+            previewHeight = previewSize.width
+
+    }
+
+    fun translateX(x: Float): Float = x * widthScaleFactor
+    fun translateY(y: Float): Float = y * heightScaleFactor
+
    override fun onDraw(canvas: Canvas) {
-        canvas.let { super.onDraw(it) }
+//        canvas.let { super.onDraw(it) }
+       super.onDraw(canvas)
+       if (previewWidth > 0 && previewHeight > 0) {
+           widthScaleFactor = width.toFloat() / previewWidth
+           heightScaleFactor = height.toFloat() / previewHeight
+       }
         synchronized(lock) {
             for (graphic in graphics) {
                 graphic.draw(canvas)

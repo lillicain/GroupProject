@@ -6,15 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".camera.CameraFragment">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnSwitch"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.camera.view.PreviewView
+    <androidx.camera.view.PreviewView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:scaleType="fillCenter" />
@@ -23,7 +15,7 @@
             android:id="@+id/graphicOverlay_finder"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </FrameLayout>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSwitch"
         android:layout_width="wrap_content"

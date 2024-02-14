@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="viewModel"
-            type="com.example.groupproject.camera.CameraViewModel" />
-
+            name="manager"
+            type="com.example.groupproject.camera.CameraManager" />
     </data>
 
     <FrameLayout

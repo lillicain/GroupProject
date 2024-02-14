@@ -63,10 +63,25 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
     implementation("androidx.compose.material3:material3:1.1.2")
     implementation("com.google.androidbrowserhelper:androidbrowserhelper:2.5.0")
+
     implementation("com.google.mlkit:vision-common:17.3.0")
     implementation("com.google.android.gms:play-services-mlkit-face-detection:17.1.0")
     implementation("com.google.mlkit:object-detection:17.0.0")
     implementation("com.google.mlkit:face-detection:16.1.5")
+    implementation("com.google.android.gms:play-services-vision-common:19.1.3")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.0")
+    implementation("androidx.multidex:multidex:2.0.1")
+    implementation("com.google.mlkit:object-detection-custom:17.0.1")
+    implementation("com.google.mlkit:barcode-scanning:17.2.0")
+    implementation("com.google.mlkit:text-recognition:16.0.0")
+    implementation("com.google.mlkit:pose-detection-accurate:18.0.0-beta3")
+    implementation("com.google.mlkit:image-labeling-custom:17.0.2")
+    implementation("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
+    implementation("com.google.mlkit:camera:16.0.0-beta3")
+    implementation("com.google.mlkit:face-mesh-detection:16.0.0-beta1")
+    implementation("com.google.android.gms:play-services-mlkit-subject-segmentation:16.0.0-beta1")
+    implementation("com.google.mlkit:image-labeling:17.0.7")
+
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -79,6 +94,9 @@ dependencies {
     implementation("androidx.camera:camera-view:1.3.1")
     implementation("androidx.camera:camera-extensions:1.3.1")
     implementation("androidx.camera:camera-video:1.3.1")
+    implementation("androidx.camera:camera-camera2:1.0.0-SNAPSHOT")
+    implementation("androidx.camera:camera-lifecycle:1.0.0-SNAPSHOT")
+    implementation("androidx.camera:camera-view:1.0.0-SNAPSHOT")
 
     //vertical rinklee
     implementation("com.h6ah4i.android.widget.verticalseekbar:verticalseekbar:1.0.0")
