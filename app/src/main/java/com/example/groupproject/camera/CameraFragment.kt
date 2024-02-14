@@ -64,6 +64,7 @@ import androidx.camera.video.Recorder
 import androidx.camera.video.Recording
 import androidx.camera.video.VideoCapture
 import androidx.camera.video.VideoRecordEvent
+import androidx.compose.foundation.Canvas
 import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -116,6 +117,7 @@ class CameraFragment : Fragment() {
 //        btn = (Button) view.findViewById(R.id.cameraButton)
 //        String text = getA
         return binding.root
+
     }
 
     @SuppressLint("ClickableViewAccessibility")

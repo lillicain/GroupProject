@@ -91,7 +91,8 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(contex
         synchronized(lock) { graphics.remove(graphic) }
         postInvalidate()
     }
-//    fun onDraw(canvas: Canvas?) {
+
+//   fun onDraw(canvas: Canvas?) {
 //        canvas?.let { super.onDraw(it) }
 //        synchronized(lock) {
 //            for (graphic in graphics) {
@@ -100,3 +101,4 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(contex
 //        }
 //    }
 }
+
