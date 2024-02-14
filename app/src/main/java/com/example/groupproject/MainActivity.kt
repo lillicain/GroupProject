@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
             cameraProvider = cameraProviderFuture.get()
             bindPreview()
         }, ContextCompat.getMainExecutor(this))
+
     }
 
     private fun bindPreview() {

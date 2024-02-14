@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">GroupProject</string>
     <string name="ringtone_name">TextView</string>
-    <string name="ringtone_year">year</string>
+    <string name="ringtone_year">TextView</string>
 </resources>

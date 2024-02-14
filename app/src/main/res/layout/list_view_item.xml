@@ -24,25 +24,23 @@
             tools:text="Name" />
 
         <TextView
-            android:id="@+id/ringtone_year"
+            android:id="@+id/ringtone_year_text"
             android:layout_width="wrap_content"
             android:layout_height="43dp"
-            android:layout_marginStart="80dp"
+            android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/ringtone_name"
             android:text="@{property.year}"
             tools:text="Year" />
 
+
         <Button
-            android:id="@+id/ringtone_playButton"
+            android:id="@+id/ringtoneButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="80dp"
             android:layout_marginEnd="74dp"
-            android:layout_toEndOf="@+id/ringtone_year"
-            android:text="@{property.url}"
+            android:text="play"
             tools:text="Play"/>
     </RelativeLayout>
-
-
 </layout>
