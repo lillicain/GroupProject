@@ -64,6 +64,7 @@ import androidx.camera.video.Recorder
 import androidx.camera.video.Recording
 import androidx.camera.video.VideoCapture
 import androidx.camera.video.VideoRecordEvent
+import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -112,6 +113,8 @@ class CameraFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCameraBinding.inflate(inflater, container, false)
+//        btn = (Button) view.findViewById(R.id.cameraButton)
+//        String text = getA
         return binding.root
     }
 

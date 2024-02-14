@@ -8,9 +8,10 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.processing.SurfaceProcessorNode.In
 import kotlin.math.ceil
 
-
+typealias myUnit = (Canvas, Canvas) -> Unit
 open class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
     private val lock = Any()
     private val graphics: MutableList<Graphic> = ArrayList()
@@ -18,12 +19,11 @@ open class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(contex
     var mOffsetX: Float? = null
     var mOffsetY: Float? = null
     var cameraSelector: Int = CameraSelector.LENS_FACING_FRONT
-    abstract class Graphic(private val overlay: GraphicOverlay) {
+    abstract class Graphic(val overlay: GraphicOverlay) {
         abstract fun draw(canvas: Canvas?)
 
         fun calculateRect(height: Float, width: Float, boundingBoxT: Rect): RectF {
 
-            // for land scape
             fun isLandScapeMode(): Boolean {
                 return overlay.context.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
             }
