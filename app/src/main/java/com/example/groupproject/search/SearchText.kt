@@ -1,6 +1,7 @@
 package com.example.groupproject.search
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
@@ -13,4 +14,5 @@ data class SearchText(
     val style: String?,
     val startIndex: Int?,
     val endIndex: Int?
-) : Parcelable { }
+) : Parcelable
+

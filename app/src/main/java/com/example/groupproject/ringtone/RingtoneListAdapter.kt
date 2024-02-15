@@ -10,11 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.groupproject.databinding.ListViewItemBinding
 
 class RingtoneListAdapter(private val onClickListener: OnClickListener): ListAdapter<RingtoneProperty, RingtoneListAdapter.RingtoneViewHolder>(DiffCallback) {
-    class RingtoneViewHolder(private var binding: ListViewItemBinding):
+    class RingtoneViewHolder(private var binding: ListViewItemBinding, private val onClickListener: OnClickListener):
             RecyclerView.ViewHolder(binding.root) {
                 fun bind(ringtoneProperty: RingtoneProperty) {
                     binding.property = ringtoneProperty
                     binding.executePendingBindings()
+                    binding.ringtoneButton.setOnClickListener {
+                        onClickListener.onClick(ringtoneProperty)
+                    }
+
                 }
             }
 
@@ -24,19 +28,19 @@ class RingtoneListAdapter(private val onClickListener: OnClickListener): ListAda
         }
 
         override fun areContentsTheSame(oldItem: RingtoneProperty, newItem: RingtoneProperty): Boolean {
-            return oldItem.name == newItem.name
+            return oldItem.id == newItem.id
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RingtoneViewHolder {
-       return RingtoneViewHolder(ListViewItemBinding.inflate(LayoutInflater.from(parent.context)))
+       return RingtoneViewHolder(ListViewItemBinding.inflate(LayoutInflater.from(parent.context)), onClickListener)
     }
 
     override fun onBindViewHolder(holder: RingtoneViewHolder, position: Int) {
         val ringtoneProperty = getItem(position)
-        holder.itemView.setOnClickListener {
-            onClickListener.onClick(ringtoneProperty)
-        }
+//        holder.itemView.setOnClickListener {
+//            onClickListener.onClick(ringtoneProperty)
+//        }
         holder.bind(ringtoneProperty)
     }
 
