@@ -27,28 +27,26 @@
 <!--            app:layout_constraintEnd_toEndOf="parent"-->
 <!--            app:layout_constraintStart_toStartOf="parent"-->
 <!--            app:layout_constraintTop_toTopOf="parent" />-->
-
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="#87bba2"
+            app:layout_constraintTop_toTopOf="parent"
             app:title="Live Search"
-            app:titleTextColor="@color/white"/>
+            app:titleTextColor="@color/white" />
 
         <LinearLayout
+            android:id="@+id/buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:padding="8dp"
             android:orientation="horizontal"
+            android:padding="8dp"
             app:layout_constraintBottom_toTopOf="@id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_constraintVertical_bias="0.005">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <EditText
                 android:id="@+id/searchEditText"
@@ -61,7 +59,7 @@
                 android:padding="10dp"
                 android:textColor="#3B6064"
                 android:textColorHint="#55828b"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/linearLayout"
                 app:layout_constraintEnd_toStartOf="@id/searchButtonFragment"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -80,17 +78,17 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="408dp"
             android:orientation="vertical"
             android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttons">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="8dp"
                 android:text="@{viewModel.suggestions[0].text}"
                 android:textColor="#4285F4"
                 android:textSize="25sp"
@@ -99,6 +97,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="8dp"
                 android:text="@{viewModel.suggestions[1].text}"
                 android:textColor="#4285F4"
                 android:textSize="25sp"
@@ -107,6 +106,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="8dp"
                 android:text="@{viewModel.suggestions[2].text}"
                 android:textColor="#4285F4"
                 android:textSize="25sp"
@@ -115,6 +115,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="8dp"
                 android:text="@{viewModel.suggestions[3].text}"
                 android:textColor="#4285F4"
                 android:textSize="25sp"
@@ -123,6 +124,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="8dp"
                 android:text="@{viewModel.suggestions[4].text}"
                 android:textColor="#4285F4"
                 android:textSize="25sp"
