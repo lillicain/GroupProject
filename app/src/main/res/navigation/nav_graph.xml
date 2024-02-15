@@ -66,8 +66,8 @@
     <fragment
         android:id="@+id/evilGardenFragment"
         android:name="com.example.groupproject.evilgarden.EvilGardenFragment"
-        android:label="fragment_ringtone"
-        tools:layout="@layout/fragment_ringtone" >
+        android:label="fragment_evil_garden"
+        tools:layout="@layout/fragment_evil_garden" >
     </fragment>
 
     <fragment

@@ -15,6 +15,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.findNavController
 import com.example.groupproject.databinding.FragmentEightBallBinding
 
 class EightBallFragment: Fragment(), SensorEventListener {
@@ -33,6 +35,15 @@ class EightBallFragment: Fragment(), SensorEventListener {
         binding = FragmentEightBallBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel  // Set up data binding
         binding.lifecycleOwner = viewLifecycleOwner // Set the lifecycle owner for LiveData
+        binding.toolbar.title = "Eight Ball"
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+
         return binding.root
     }
 

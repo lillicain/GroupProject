@@ -7,7 +7,8 @@ import androidx.room.PrimaryKey
 data class User(
     val id: Int = 1,
     val username: String,
-    var xp: Int
+    var xp: Int,
+    var currentPlantIndex: Int
 ) {
 }
 enum class PlantEnum(val stringValue: String) {
