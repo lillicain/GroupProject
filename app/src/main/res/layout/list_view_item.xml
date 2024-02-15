@@ -21,7 +21,12 @@
             android:paddingStart="9dp"
             android:paddingEnd="9dp"
             android:text="@{property.name}"
+            android:textSize="20sp"
             tools:text="Name" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"/>
 
         <TextView
             android:id="@+id/ringtone_year_text"
@@ -31,6 +36,7 @@
             android:layout_toEndOf="@+id/ringtone_name"
             android:layout_toStartOf="@+id/ringtoneButton"
             android:text="@{property.year}"
+            android:textSize="20sp"
             tools:text="Year" />
 
         <Button
@@ -40,6 +46,8 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="16dp"
             android:text="@string/play"
+            android:textColor="@color/charcoal"
+            android:backgroundTint="@color/blue_munsell"
             tools:text="Play"/>
     </RelativeLayout>
 </layout>

@@ -15,9 +15,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        android:id="@+id/toolbar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="75dp"-->
+<!--        android:background="@color/cambridge_blue"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:title="Ringtones"-->
+<!--        app:titleTextColor="@color/white"/>-->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ringtone_list"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:padding="6dp"
