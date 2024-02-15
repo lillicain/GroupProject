@@ -15,19 +15,20 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.example.groupproject.R
-import com.example.groupproject.camera.VideoFragment.Companion.TAG
+import com.example.groupproject.camera.CameraViewModel.Companion.TAG
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class CameraManager(
     private val context: Context,
-    private val finderView: PreviewView,
+    private val viewFinder: PreviewView,
     private val lifecycleOwner: LifecycleOwner,
-    private val graphicOverlay: GraphicOverlay
-) {
+    private val graphicOverlay: GraphicOverlay,
+    private val onSuccessCallback: ((FaceStatus) -> Unit)) {
+
     private lateinit var cameraManager: CameraManager
     private var preview: Preview? = null
-
+    private var cameraFragment = CameraFragment()
     private var camera: Camera? = null
     private lateinit var cameraExecutor: ExecutorService
     private var cameraSelectorOption = CameraSelector.LENS_FACING_FRONT
@@ -62,15 +63,13 @@ class CameraManager(
                 val cameraSelector = CameraSelector.Builder()
                     .requireLensFacing(cameraSelectorOption)
                     .build()
-
                 setCameraConfig(cameraProvider, cameraSelector)
-
             }, ContextCompat.getMainExecutor(context)
         )
     }
 
     private fun selectAnalyzer(): ImageAnalysis.Analyzer {
-        return FaceContourDetectionProcessor(graphicOverlay)
+        return FaceContourDetectionProcessor(graphicOverlay, onSuccessCallback)
     }
 
     private fun setCameraConfig(
@@ -85,9 +84,9 @@ class CameraManager(
                 preview,
                 imageAnalyzer
             )
-//            preview?.setSurfaceProvider(
-//                finderView.createSurfaceProvider()
-//            )
+            preview?.setSurfaceProvider(
+                viewFinder.surfaceProvider
+            )
         } catch (e: Exception) {
             Log.e(TAG, "Use case binding failed", e)
         }
@@ -98,12 +97,7 @@ class CameraManager(
         cameraSelectorOption =
             if (cameraSelectorOption == CameraSelector.LENS_FACING_BACK) CameraSelector.LENS_FACING_FRONT
             else CameraSelector.LENS_FACING_BACK
-        graphicOverlay.toggleSelector()
+        graphicOverlay
         startCamera()
     }
-
-    companion object {
-        private const val TAG = "CameraXBasic"
-    }
-
 }

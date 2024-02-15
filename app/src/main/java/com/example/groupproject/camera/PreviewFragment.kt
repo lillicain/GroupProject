@@ -38,6 +38,7 @@ class PreviewFragment : Fragment() {
                 mediaUri = Uri.parse(it.getString(ARG_MEDIA_PATH))
             }
             requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+
         }
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.HorizontalScrollView
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -27,6 +28,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.groupproject.camera.CameraViewModel
+import com.example.groupproject.camera.FaceStatus
 import com.example.groupproject.databinding.ActivityCameraBinding
 import com.example.groupproject.matthewcamera.CameraVM
 import com.example.groupproject.utils.Permissions
@@ -38,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: CameraViewModel by viewModels()
     private lateinit var binding: ActivityCameraBinding
     private lateinit var cameraManager: CameraManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -50,20 +53,42 @@ class MainActivity : AppCompatActivity() {
         if (!Permissions.isPermissionTaken(this)) {
             requestPermissions()
         }
+//        onClicks()
+        createCameraManager()
+
+
     }
     private fun initNavController() {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
     }
     private fun requestPermissions() {
         permissionLauncher.launch(Permissions.requestList)
     }
-    private val permissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+    private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             val hasPermission = permissions.entries.all { it.value }
             binding.pnlPermission.visibility = if (!hasPermission) View.VISIBLE else View.GONE
         }
+//    private fun onClicks() {
+//        btnSwitch.setOnClickListener {
+//            cameraManager.changeCameraSelector()
+//        }
+//    }
+    private fun createCameraManager() {
+//        cameraManager = CameraManager(
+//            this,
+//            previewView_finder,
+//            this,
+//            graphicOverlay_finder,
+//            ::processPicture
+//        )
+    }
+
+
+    private fun processPicture(faceStatus: FaceStatus) {
+        Log.e("facestatus","This is it ${faceStatus.name}")
+//       when(faceStatus){}
+    }
 
 }
 
