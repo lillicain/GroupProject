@@ -29,18 +29,17 @@
             android:layout_height="43dp"
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/ringtone_name"
+            android:layout_toStartOf="@+id/ringtoneButton"
             android:text="@{property.year}"
             tools:text="Year" />
-
 
         <Button
             android:id="@+id/ringtoneButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="80dp"
-            android:layout_marginEnd="74dp"
-            android:text="play"
+            android:layout_marginEnd="16dp"
+            android:text="@string/play"
             tools:text="Play"/>
     </RelativeLayout>
 </layout>
