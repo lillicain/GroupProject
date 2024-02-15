@@ -7,4 +7,8 @@
     <color name="blue_munsell">#55828B</color>
     <color name="dark_state_gray">#3B6064</color>
     <color name="charcoal">#364958</color>
+    <color name="dropDownBackground">#E5F3FF</color>
+    <color name="textFieldBackground">#F6F6F7</color>
+    <color name="black80">#66000000</color>
+    <color name="red">#EB4141</color>
 </resources>

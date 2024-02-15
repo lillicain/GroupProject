@@ -1,6 +1,8 @@
 package com.example.groupproject.eightball
 
 import android.os.CountDownTimer
+import android.widget.Button
+import android.widget.GridLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +11,9 @@ class EightBallViewModel : ViewModel() {
 
     var greengusString = MutableLiveData<String>("GREENGUS")
     private val _eightBall = MutableLiveData<EightBall>()
-
+    var _buttonsVisible = MutableLiveData<Boolean>()
+    val buttonsVisible: LiveData<Boolean>
+        get() = _buttonsVisible
     val eightBall: LiveData<EightBall>
         get() = _eightBall
 
@@ -26,7 +30,22 @@ class EightBallViewModel : ViewModel() {
     init {
         _eightBall.value = EightBall(Answer.entries.random())
     }
+    fun createButtons(gridLayout: GridLayout) {
+        val answers = Answer.values()
 
+        for (answer in answers) {
+            val button = Button(gridLayout.context)
+            val layoutParams = GridLayout.LayoutParams()
+            layoutParams.width = GridLayout.LayoutParams.WRAP_CONTENT
+            layoutParams.height = GridLayout.LayoutParams.WRAP_CONTENT
+            button.layoutParams = layoutParams
+
+            button.text = answer.value
+            button.setOnClickListener { addAnswer(answer) }
+
+            gridLayout.addView(button)
+        }
+    }
     fun showAnswer() {
         if (canShake) {
             _eightBall.value?.setAnswer()
@@ -71,7 +90,13 @@ class EightBallViewModel : ViewModel() {
         }.start()
     }
 
-
+    fun changeButtonVisibility() {
+        if (_buttonsVisible.value == true) {
+            _buttonsVisible.value = false
+        } else {
+            _buttonsVisible.value = true
+        }
+    }
 
     fun changeGreengus() {
         if (greengusString.value == "GREENGUS") {
