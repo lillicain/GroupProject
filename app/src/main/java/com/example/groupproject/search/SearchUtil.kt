@@ -1,6 +1,8 @@
 package com.example.groupproject.search
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -13,18 +15,12 @@ import okhttp3.Request
 import okhttp3.RequestBody
 import java.io.IOException
 
-data class Post(
-    var style: String,
-    var text: String,
-    var startIndex: Int,
-    var endIndex: Int
-)
 
-class SearchUtil() {
+
+class SearchUtil : ViewModel() {
 
     val client = OkHttpClient()
 
-//    val test = Post("general", "This is a test text", 0, 15)
 
 //    private var _userInputSearchData: MutableLiveData<SearchText> = MutableLiveData()
 //    val userInputSearchData: MutableLiveData<SearchText>
@@ -32,18 +28,25 @@ class SearchUtil() {
 
     var userInputSearchData = "No phrase was submitted"
 
-    val gson = Gson()
-
-//    val jsonBody = gson.toJson(testData)
-
     val searchKey = "6i8rh0iJ3C0Rc9fRcFhX2LarE4oVwa3N"
 
+    private val _suggestions = MutableLiveData<List<Suggestion>?>()
+    val suggestions: LiveData<List<Suggestion>?>
+        get() = _suggestions
 
+//    var suggestions = listOf<Suggestion>(Suggestion("testestte"))
 
+//    var phraseResponse = PhraseResponse("test", listOf(Suggestion("hello")))
 
 
     suspend fun convertDataToClass() {
-
+        println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
+        println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
+        println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
+        println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
+        println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
+        println("${_suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
+        println("${_suggestions.value?.get(0)?.text.toString()} 9999999999999999999888999")
         val mediaType = MediaType.parse("application/json")
 //        val body = RequestBody.create(mediaType, "{\"text\":\"${_userInputSearchData.value?.text}\",\"style\":\"general\",\"startIndex\":0,\"endIndex\":${userInputSearchData.value?.text?.count()}}")
         val body = RequestBody.create(mediaType, "{\"text\":\"${userInputSearchData}\",\"style\":\"general\",\"startIndex\":0,\"endIndex\":${userInputSearchData.count()}}")
@@ -66,6 +69,12 @@ class SearchUtil() {
 
                     // Use Gson to parse the JSON response body into your data class
                     val phraseResponse: PhraseResponse? = Gson().fromJson(responseBody, PhraseResponse::class.java)
+                    if (phraseResponse != null) {
+                        println(phraseResponse.suggestions.toString())
+//
+                        _suggestions.postValue(phraseResponse.suggestions)
+                    }
+                    println(_suggestions.value?.get(0)?.text.toString())
                     println("${userInputSearchData.count()}")
                     println(responseBody.toString())
 

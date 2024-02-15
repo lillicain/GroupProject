@@ -3,33 +3,32 @@ package com.example.groupproject.search
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.groupproject.databinding.FragmentSearchBinding
-import com.example.groupproject.databinding.FragmentSearchTextBinding
+import com.example.groupproject.databinding.GridViewItemBinding
 
-class GridAdapter(val onClickListener: OnClickListener) : ListAdapter<SearchText, GridAdapter.PropertyViewHolder>(DiffCallback) {
-    class PropertyViewHolder(private var binding: FragmentSearchBinding) :
+class GridAdapter(val onClickListener: OnClickListener) : ListAdapter<Suggestion, GridAdapter.PropertyViewHolder>(DiffCallback) {
+    class PropertyViewHolder(private var binding: GridViewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(searchText: SearchText) {
-
-//            binding.executePendingBindings()
+        fun bind(suggestion: Suggestion) {
+            binding.suggestion = suggestion
+            binding.executePendingBindings()
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<SearchText>() {
-        override fun areItemsTheSame(oldItem: SearchText, newItem: SearchText): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<Suggestion>() {
+        override fun areItemsTheSame(oldItem: Suggestion, newItem: Suggestion): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: SearchText, newItem: SearchText): Boolean {
+        override fun areContentsTheSame(oldItem: Suggestion, newItem: Suggestion): Boolean {
             return oldItem == newItem
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PropertyViewHolder {
-        return PropertyViewHolder(FragmentSearchBinding.inflate(LayoutInflater.from(parent.context)))
+        return PropertyViewHolder(GridViewItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
     override fun onBindViewHolder(holder: PropertyViewHolder, position: Int) {
@@ -41,7 +40,7 @@ class GridAdapter(val onClickListener: OnClickListener) : ListAdapter<SearchText
     }
 
 
-    class OnClickListener(val clickListener: (property: SearchText) -> Unit) {
-        fun onClick(property: SearchText) = clickListener(property)
+    class OnClickListener(val clickListener: (property: Suggestion) -> Unit) {
+        fun onClick(property: Suggestion) = clickListener(property)
     }
 }
