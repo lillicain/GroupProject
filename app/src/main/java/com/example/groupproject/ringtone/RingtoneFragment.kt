@@ -30,6 +30,7 @@ class RingtoneFragment: Fragment() {
         binding.viewModel = viewModel
         binding.ringtoneList.adapter = RingtoneListAdapter(RingtoneListAdapter.OnClickListener {
             initializeMediaPlayer(it.muisicFile)
+            // up to date
         })
 
         setHasOptionsMenu(true)
