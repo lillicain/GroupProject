@@ -11,21 +11,33 @@
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:background="@color/tea_green"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.groupproject.MainActivity">
+    android:layout_height="match_parent">
+
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        android:id="@+id/toolbar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="75dp"-->
+<!--        android:background="@color/cambridge_blue"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:title="Ringtones"-->
+<!--        app:titleTextColor="@color/white"/>-->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ringtone_list"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="6dp"
         android:clipToPadding="false"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:padding="6dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:ringtone_listData="@{viewModel.ringtone_Properties}"
         app:spanCount="1"
-        tools:itemCount="5" />
+        tools:itemCount="2"
+        tools:listitem="@layout/list_view_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

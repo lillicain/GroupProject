@@ -1,55 +1,56 @@
 package com.example.groupproject.ringtone
 
+import android.content.Context
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
+import android.view.ViewGroup
+import androidx.annotation.RawRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.groupproject.R
+import com.example.groupproject.databinding.FragmentRingtoneBinding
 import java.io.IOException
+import java.util.zip.Inflater
 
 class RingtoneFragment: Fragment() {
-
     private val viewModel: RingtoneViewModel by lazy {
-        ViewModelProvider(this).get(RingtoneViewModel::class.java)
+        ViewModelProvider(this)[RingtoneViewModel::class.java]
     }
 
     private var mediaPlayer: MediaPlayer? = null
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?
+    ): View? {
+        val binding = FragmentRingtoneBinding.inflate(inflater)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        // initialize MediaPlayer and set up the button on click listener
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+        binding.ringtoneList.adapter = RingtoneListAdapter(RingtoneListAdapter.OnClickListener {
+            initializeMediaPlayer(it.muisicFile)
+            // up to date
+        })
 
-        initializeMediaPlayer()
+        setHasOptionsMenu(true)
+        return binding.root
+    }
 
-        val playButton: Button = view.findViewById(R.id.ringtone_playButton)
-        playButton.setOnClickListener {
-            if (mediaPlayer != null && !mediaPlayer!!.isPlaying) {
-                mediaPlayer?.start()
-            }
-        }
+    private fun initializeMediaPlayer(@RawRes musicFile :Int) {
+
+        var mediaPlayer = MediaPlayer.create(requireContext(), musicFile) // required context is used on anything post androidx while context is used before androidx.
+        mediaPlayer.start()
+    }
+
+    private fun stopAudio() {
+        mediaPlayer?.stop()
+        mediaPlayer?.release()
+        mediaPlayer = null
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayer?.release()
-    }
-
-    private fun initializeMediaPlayer() {
-        mediaPlayer = MediaPlayer()
-        mediaPlayer?.setAudioStreamType(AudioManager.STREAM_MUSIC)
-        println(viewModel.selectedRingtone.value?.name.toString()) // selected ringtone is my property
-
-        try {
-            mediaPlayer?.setDataSource("")
-            mediaPlayer?.prepareAsync()
-            mediaPlayer?.setOnPreparedListener {
-                // Media player is prepared, but don't start playback here
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+        stopAudio()
     }
 }

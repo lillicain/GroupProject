@@ -1,5 +1,6 @@
 package com.example.groupproject.camera
 
+import android.app.Application
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
 import android.hardware.camera2.CameraManager
@@ -9,11 +10,14 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
+import android.util.Log
 import android.view.OrientationEventListener
 import android.view.TextureView
+import androidx.camera.camera2.Camera2Config
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.CameraXConfig
 import androidx.camera.core.ImageCapture
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.video.Recorder
@@ -22,6 +26,21 @@ import androidx.camera.video.VideoCapture
 import com.example.groupproject.R
 import com.example.groupproject.databinding.ActivityMainBinding
 
+
+//class MainApplication : Application(), CameraXConfig.Provider {
+//    override fun getCameraXConfig(): CameraXConfig {
+//        return CameraXConfig.Builder.fromConfig(Camera2Config.defaultConfig())
+//            .setAvailableCamerasLimiter(CameraSelector.DEFAULT_BACK_CAMERA)
+//            .build()
+//    }
+//}
+//
+//class CameraApplication : Application(), CameraXConfig.Provider {
+//    override fun getCameraXConfig(): CameraXConfig {
+//        return CameraXConfig.Builder.fromConfig(Camera2Config.defaultConfig())
+//            .setMinimumLoggingLevel(Log.ERROR).build()
+//    }
+//}
 //class CameraActivity {
 //    lateinit var cameraManager: CameraManager
 //    lateinit var textureView: TextureView
