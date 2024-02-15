@@ -15,7 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.example.groupproject.R
-import com.example.groupproject.camera.VideoFragment.Companion.TAG
+import com.example.groupproject.camera.CameraViewModel.Companion.TAG
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
