@@ -1,6 +1,5 @@
 package com.example.groupproject.preference;
 
-/** Describing a frame info. */
 public class FrameMetadata {
 
   private final int width;
