@@ -1,20 +1,4 @@
-/*
- * Copyright 2020 Google LLC. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.google.mlkit.vision.demo.kotlin
+package com.example.groupproject.cameraAwesome
 
 import android.app.Activity
 import android.content.ContentValues
@@ -39,24 +23,22 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.Spinner
 import android.widget.Toast
+import com.example.groupproject.R
+import com.example.groupproject.cameraAwesome.barcodescanner.BarcodeScannerProcessor
+import com.example.groupproject.cameraAwesome.facedetector.FaceDetectorProcessor
+import com.example.groupproject.cameraAwesome.facemeshdetector.FaceMeshDetectorProcessor
+import com.example.groupproject.cameraAwesome.labeldetector.LabelDetectorProcessor
+import com.example.groupproject.cameraAwesome.objectdetector.ObjectDetectorProcessor
+import com.example.groupproject.cameraAwesome.posedetector.PoseDetectorProcessor
+import com.example.groupproject.cameraAwesome.segmenter.SegmenterProcessor
+import com.example.groupproject.cameraAwesome.subjectsegmenter.SubjectSegmenterProcessor
+import com.example.groupproject.cameraAwesome.textdetector.TextRecognitionProcessor
+import com.example.groupproject.preference.GraphicOverlay
+import com.example.groupproject.preference.PreferenceUtils
+import com.example.groupproject.preference.SettingsActivity
+import com.example.groupproject.preference.VisionImageProcessor
 import com.google.android.gms.common.annotation.KeepName
 import com.google.mlkit.common.model.LocalModel
-import com.google.mlkit.vision.demo.BitmapUtils
-import com.google.mlkit.vision.demo.GraphicOverlay
-import com.google.mlkit.vision.demo.R
-import com.google.mlkit.vision.demo.VisionImageProcessor
-import com.google.mlkit.vision.demo.kotlin.barcodescanner.BarcodeScannerProcessor
-import com.google.mlkit.vision.demo.kotlin.facedetector.FaceDetectorProcessor
-import com.google.mlkit.vision.demo.kotlin.facemeshdetector.FaceMeshDetectorProcessor
-import com.google.mlkit.vision.demo.kotlin.labeldetector.LabelDetectorProcessor
-import com.google.mlkit.vision.demo.kotlin.objectdetector.ObjectDetectorProcessor
-import com.google.mlkit.vision.demo.kotlin.posedetector.PoseDetectorProcessor
-import com.google.mlkit.vision.demo.kotlin.segmenter.SegmenterProcessor
-import com.google.mlkit.vision.demo.kotlin.subjectsegmenter.SubjectSegmenterProcessor
-import com.google.mlkit.vision.demo.kotlin.textdetector.TextRecognitionProcessor
-import com.google.mlkit.vision.demo.preference.PreferenceUtils
-import com.google.mlkit.vision.demo.preference.SettingsActivity
-import com.google.mlkit.vision.demo.preference.SettingsActivity.LaunchSource
 import com.google.mlkit.vision.label.custom.CustomImageLabelerOptions
 import com.google.mlkit.vision.label.defaults.ImageLabelerOptions
 import com.google.mlkit.vision.text.chinese.ChineseTextRecognizerOptions
@@ -133,7 +115,7 @@ class StillImageActivity : AppCompatActivity() {
     val settingsButton = findViewById<ImageView>(R.id.settings_button)
     settingsButton.setOnClickListener {
       val intent = Intent(applicationContext, SettingsActivity::class.java)
-      intent.putExtra(SettingsActivity.EXTRA_LAUNCH_SOURCE, LaunchSource.STILL_IMAGE)
+      intent.putExtra(SettingsActivity.EXTRA_LAUNCH_SOURCE, SettingsActivity.LaunchSource.STILL_IMAGE)
       startActivity(intent)
     }
   }

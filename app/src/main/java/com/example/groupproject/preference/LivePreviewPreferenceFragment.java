@@ -1,19 +1,3 @@
-/*
- * Copyright 2020 Google LLC. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.example.groupproject.preference;
 
 import android.hardware.Camera;
@@ -24,9 +8,9 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.widget.Toast;
 import androidx.annotation.StringRes;
-import com.google.mlkit.vision.demo.CameraSource;
-import com.google.mlkit.vision.demo.CameraSource.SizePair;
-import com.google.mlkit.vision.demo.R;
+
+import com.example.groupproject.R;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,11 +53,11 @@ public class LivePreviewPreferenceFragment extends PreferenceFragment {
     try {
       camera = Camera.open(cameraId);
 
-      List<SizePair> previewSizeList = CameraSource.generateValidPreviewSizeList(camera);
+      List<CameraSource.SizePair> previewSizeList = CameraSource.generateValidPreviewSizeList(camera);
       String[] previewSizeStringValues = new String[previewSizeList.size()];
       Map<String, String> previewToPictureSizeStringMap = new HashMap<>();
       for (int i = 0; i < previewSizeList.size(); i++) {
-        SizePair sizePair = previewSizeList.get(i);
+        CameraSource.SizePair sizePair = previewSizeList.get(i);
         previewSizeStringValues[i] = sizePair.preview.toString();
         if (sizePair.picture != null) {
           previewToPictureSizeStringMap.put(
@@ -85,7 +69,7 @@ public class LivePreviewPreferenceFragment extends PreferenceFragment {
 
       if (previewSizePreference.getEntry() == null) {
         // First time of opening the Settings page.
-        SizePair sizePair =
+        CameraSource.SizePair sizePair =
             CameraSource.selectSizePair(
                 camera,
                 CameraSource.DEFAULT_REQUESTED_CAMERA_PREVIEW_WIDTH,

@@ -1,22 +1,8 @@
-/*
- * Copyright 2021 Google LLC. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+package com.example.groupproject.cameraAwesome
 
-package com.google.mlkit.vision.demo.kotlin
-
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
@@ -29,18 +15,18 @@ import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.annotation.RequiresApi
 import androidx.camera.view.PreviewView
+import androidx.core.app.ActivityCompat
+import com.example.groupproject.R
+import com.example.groupproject.cameraAwesome.objectdetector.ObjectGraphic
+import com.example.groupproject.preference.GraphicOverlay
+import com.example.groupproject.preference.InferenceInfoGraphic
+import com.example.groupproject.preference.PreferenceUtils
+import com.example.groupproject.preference.SettingsActivity
 import com.google.android.gms.common.annotation.KeepName
 import com.google.mlkit.common.model.LocalModel
 import com.google.mlkit.vision.camera.CameraSourceConfig
 import com.google.mlkit.vision.camera.CameraXSource
 import com.google.mlkit.vision.camera.DetectionTaskCallback
-import com.google.mlkit.vision.demo.GraphicOverlay
-import com.google.mlkit.vision.demo.InferenceInfoGraphic
-import com.google.mlkit.vision.demo.R
-import com.google.mlkit.vision.demo.kotlin.objectdetector.ObjectGraphic
-import com.google.mlkit.vision.demo.preference.PreferenceUtils
-import com.google.mlkit.vision.demo.preference.SettingsActivity
-import com.google.mlkit.vision.demo.preference.SettingsActivity.LaunchSource
 import com.google.mlkit.vision.objects.DetectedObject
 import com.google.mlkit.vision.objects.ObjectDetection
 import com.google.mlkit.vision.objects.ObjectDetector
@@ -77,7 +63,7 @@ class CameraXSourceDemoActivity : AppCompatActivity(), CompoundButton.OnCheckedC
     val settingsButton = findViewById<ImageView>(R.id.settings_button)
     settingsButton.setOnClickListener {
       val intent = Intent(applicationContext, SettingsActivity::class.java)
-      intent.putExtra(SettingsActivity.EXTRA_LAUNCH_SOURCE, LaunchSource.CAMERAXSOURCE_DEMO)
+      intent.putExtra(SettingsActivity.EXTRA_LAUNCH_SOURCE, SettingsActivity.LaunchSource.CAMERAXSOURCE_DEMO)
       startActivity(intent)
     }
   }
@@ -101,6 +87,20 @@ class CameraXSourceDemoActivity : AppCompatActivity(), CompoundButton.OnCheckedC
           PreferenceUtils.getCameraXTargetResolution(getApplicationContext(), lensFacing)
         ) == targetResolution)
     ) {
+      if (ActivityCompat.checkSelfPermission(
+          this,
+          Manifest.permission.CAMERA
+        ) != PackageManager.PERMISSION_GRANTED
+      ) {
+        // TODO: Consider calling
+        //    ActivityCompat#requestPermissions
+        // here to request the missing permissions, and then overriding
+        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+        //                                          int[] grantResults)
+        // to handle the case where the user grants the permission. See the documentation
+        // for ActivityCompat#requestPermissions for more details.
+        return
+      }
       cameraXSource!!.start()
     } else {
       createThenStartCameraXSource()
@@ -147,6 +147,20 @@ class CameraXSourceDemoActivity : AppCompatActivity(), CompoundButton.OnCheckedC
     }
     cameraXSource = CameraXSource(builder.build(), previewView!!)
     needUpdateGraphicOverlayImageSourceInfo = true
+    if (ActivityCompat.checkSelfPermission(
+        this,
+        Manifest.permission.CAMERA
+      ) != PackageManager.PERMISSION_GRANTED
+    ) {
+      // TODO: Consider calling
+      //    ActivityCompat#requestPermissions
+      // here to request the missing permissions, and then overriding
+      //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+      //                                          int[] grantResults)
+      // to handle the case where the user grants the permission. See the documentation
+      // for ActivityCompat#requestPermissions for more details.
+      return
+    }
     cameraXSource!!.start()
   }
 

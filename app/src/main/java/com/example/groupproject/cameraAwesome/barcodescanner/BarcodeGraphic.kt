@@ -1,34 +1,17 @@
-/*
- * Copyright 2020 Google LLC. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.google.mlkit.vision.demo.kotlin.barcodescanner
+package com.example.groupproject.cameraAwesome.barcodescanner
 
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import com.example.groupproject.preference.GraphicOverlay
 import com.google.mlkit.vision.barcode.common.Barcode
-import com.google.mlkit.vision.demo.GraphicOverlay
-import com.google.mlkit.vision.demo.GraphicOverlay.Graphic
 import kotlin.math.max
 import kotlin.math.min
 
 /** Graphic instance for rendering Barcode position and content information in an overlay view. */
 class BarcodeGraphic constructor(overlay: GraphicOverlay?, private val barcode: Barcode?) :
-  Graphic(overlay) {
+  GraphicOverlay.Graphic(overlay) {
   private val rectPaint: Paint = Paint()
   private val barcodePaint: Paint
   private val labelPaint: Paint

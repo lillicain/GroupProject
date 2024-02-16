@@ -81,14 +81,19 @@ dependencies {
     implementation("androidx.multidex:multidex:2.0.1")
     implementation("com.google.mlkit:object-detection-custom:17.0.1")
     implementation("com.google.mlkit:barcode-scanning:17.2.0")
-    implementation("com.google.mlkit:text-recognition:16.0.0")
     implementation("com.google.mlkit:pose-detection-accurate:18.0.0-beta3")
+    implementation("com.google.mlkit:pose-detection:18.0.0-beta3")
     implementation("com.google.mlkit:image-labeling-custom:17.0.2")
     implementation("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
     implementation("com.google.mlkit:camera:16.0.0-beta3")
     implementation("com.google.mlkit:face-mesh-detection:16.0.0-beta1")
     implementation("com.google.android.gms:play-services-mlkit-subject-segmentation:16.0.0-beta1")
     implementation("com.google.mlkit:image-labeling:17.0.7")
+    implementation("com.google.mlkit:text-recognition:16.0.0")
+    implementation("com.google.mlkit:text-recognition-chinese:16.0.0")
+    implementation("com.google.mlkit:text-recognition-devanagari:16.0.0")
+    implementation("com.google.mlkit:text-recognition-japanese:16.0.0")
+    implementation("com.google.mlkit:text-recognition-korean:16.0.0")
 
 
     //vertical rinklee

@@ -1,26 +1,9 @@
-/*
- * Copyright 2020 Google LLC. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.google.mlkit.vision.demo.kotlin.facedetector
+package com.example.groupproject.cameraAwesome.facedetector
 
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import com.google.mlkit.vision.demo.GraphicOverlay
-import com.google.mlkit.vision.demo.GraphicOverlay.Graphic
+import com.example.groupproject.preference.GraphicOverlay
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceLandmark
 import com.google.mlkit.vision.face.FaceLandmark.LandmarkType
@@ -32,7 +15,7 @@ import kotlin.math.max
  * Graphic instance for rendering face position, contour, and landmarks within the associated
  * graphic overlay view.
  */
-class FaceGraphic constructor(overlay: GraphicOverlay?, private val face: Face) : Graphic(overlay) {
+class FaceGraphic constructor(overlay: GraphicOverlay?, private val face: Face) : GraphicOverlay.Graphic(overlay) {
   private val facePositionPaint: Paint
   private val numColors = COLORS.size
   private val idPaints = Array(numColors) { Paint() }

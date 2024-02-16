@@ -1,4 +1,4 @@
-package com.google.mlkit.vision.demo;
+package com.example.groupproject.preference;
 
 import android.content.Context;
 import android.hardware.Sensor;
