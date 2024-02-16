@@ -31,6 +31,11 @@ android {
                 "proguard-rules.pro"
             )
         }
+        debug {
+            isDefault = true
+            isMinifyEnabled = false
+            proguardFiles("proguard-rules.pro")
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -39,7 +44,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-
+aaptOptions {
+    noCompress += "tflite"
+}
     buildFeatures {
         dataBinding = true
         viewBinding = true
