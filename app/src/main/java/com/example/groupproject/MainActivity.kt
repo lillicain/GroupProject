@@ -28,7 +28,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.groupproject.camera.CameraViewModel
-import com.example.groupproject.camera.FaceStatus
 import com.example.groupproject.databinding.ActivityCameraBinding
 import com.example.groupproject.matthewcamera.CameraVM
 import com.example.groupproject.utils.Permissions
@@ -53,8 +52,7 @@ class MainActivity : AppCompatActivity() {
         if (!Permissions.isPermissionTaken(this)) {
             requestPermissions()
         }
-//        onClicks()
-        createCameraManager()
+
 
 
     }
@@ -69,26 +67,7 @@ class MainActivity : AppCompatActivity() {
             val hasPermission = permissions.entries.all { it.value }
             binding.pnlPermission.visibility = if (!hasPermission) View.VISIBLE else View.GONE
         }
-//    private fun onClicks() {
-//        btnSwitch.setOnClickListener {
-//            cameraManager.changeCameraSelector()
-//        }
-//    }
-    private fun createCameraManager() {
-//        cameraManager = CameraManager(
-//            this,
-//            previewView_finder,
-//            this,
-//            graphicOverlay_finder,
-//            ::processPicture
-//        )
-    }
 
-
-    private fun processPicture(faceStatus: FaceStatus) {
-        Log.e("facestatus","This is it ${faceStatus.name}")
-//       when(faceStatus){}
-    }
 
 }
 

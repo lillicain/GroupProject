@@ -5,6 +5,7 @@ import ARG_PREVIEW_TYPE
 import android.Manifest.*
 import android.Manifest.permission.*
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Context.*
 import android.content.Intent
 import android.content.res.Configuration
@@ -32,6 +33,7 @@ import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.FocusMeteringAction
+import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
@@ -46,6 +48,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.groupproject.MainActivity
 import com.example.groupproject.R
 import com.example.groupproject.R.*
 import com.example.groupproject.R.id.*
@@ -54,12 +57,17 @@ import com.example.groupproject.databinding.FragmentCameraBinding
 import com.example.groupproject.utils.MediaType
 import com.example.groupproject.utils.OutputFileOptionsFactory
 import com.example.groupproject.utils.getDimensionRatioString
+import com.google.common.util.concurrent.ListenableFuture
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.objects.DetectedObject
 import com.google.mlkit.vision.objects.ObjectDetection
 import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import net.yanzm.cameraxobjectdetection.BoxData
+import net.yanzm.cameraxobjectdetection.DetectedObjects
+import net.yanzm.cameraxobjectdetection.ObjectDetectionAnalyzer
+import net.yanzm.cameraxobjectdetection.PermissionsFragment
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -72,7 +80,97 @@ import kotlin.math.min
 class CameraFragment : Fragment() {
 
 
+    private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        cameraProviderFuture = ProcessCameraProvider.getInstance(context)
+        cameraProviderFuture.addListener(Runnable {
+            val cameraProvider = cameraProviderFuture.get()
+            bindPreview(cameraProvider)
+        }, ContextCompat.getMainExecutor(context))
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_camera, container, false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!PermissionsFragment.hasPermissions(requireContext())) {
+            activity as? MainActivity?
+        }
+    }
+
+    private fun bindPreview(cameraProvider: ProcessCameraProvider) {
+        val preview = Preview.Builder()
+            .setTargetName("Preview")
+            .build()
+
+        val cameraSelector = CameraSelector.Builder()
+            .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+            .build()
+
+        val imageAnalysis = ImageAnalysis.Builder()
+            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+            .build()
+
+        val analyzer = ObjectDetectionAnalyzer {
+            overlay?.post {
+                updateOverlay(it)
+            }
+        }
+
+        imageAnalysis.setAnalyzer(
+            Executors.newSingleThreadExecutor(),
+            analyzer
+        )
+
+        try {
+            cameraProvider.unbindAll()
+
+            cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis)
+
+            preview.setSurfaceProvider(previewView.surfaceProvider)
+        } catch (e: Exception) {
+        }
+    }
+
+    private fun updateOverlay(detectedObjects: DetectedObjects) {
+
+        if (overlay == null) {
+            return
+        }
+
+        if (detectedObjects.objects.isEmpty()) {
+            overlay.set(emptyList())
+            return
+        }
+
+        overlay.setSize(detectedObjects.imageWidth, detectedObjects.imageHeight)
+
+        val list = mutableListOf<BoxData>()
+
+        for (obj in detectedObjects.objects) {
+
+            val box = obj.boundingBox
+
+            val label = obj.labels.joinToString { label ->
+                val confidence: Int = label.confidence.times(100).toInt()
+                "${label.text} $confidence%"
+            }
+
+            val text = if (label.isNotEmpty()) label else "unknown"
+
+            list.add(BoxData(text, box))
+        }
+
+        overlay.set(list)
+    }
 
 
 
