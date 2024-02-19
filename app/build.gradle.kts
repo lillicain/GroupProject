@@ -92,12 +92,11 @@ dependencies {
     implementation("com.google.mlkit:face-mesh-detection:16.0.0-beta1")
     implementation("com.google.android.gms:play-services-mlkit-subject-segmentation:16.0.0-beta1")
     implementation("com.google.mlkit:image-labeling:17.0.7")
+    implementation("com.google.mlkit:entity-extraction:16.0.0-beta4")
 
 
     //vertical rinklee
     implementation("com.h6ah4i.android.widget.verticalseekbar:verticalseekbar:1.0.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-
-
 
 }

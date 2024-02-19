@@ -17,10 +17,13 @@
             android:id="@+id/actionToCameraFragment"
             app:destination="@id/cameraFragment" />
         <action
+            android:id="@+id/actionToDetectionFragment"
+            app:destination="@+id/detectionFragment"/>
+
+        <action
             android:id="@+id/actionToRingtoneFragment"
             app:destination="@id/ringtoneFragment" />
         <action
-
             android:id="@+id/actionToCameraTestFragment"
             app:destination="@id/cameraTestFragment" />
         <action
@@ -29,6 +32,7 @@
         <action
             android:id="@+id/actionToSearchFragment"
             app:destination="@id/searchFragment" />
+
 
 
     </fragment>
@@ -73,9 +77,9 @@
 
     <fragment
         android:id="@+id/cameraTestFragment"
-        android:name="com.example.groupproject.cameraAwesome.CameraXFragment"
-        android:label="fragment_camerax"
-        tools:layout="@layout/fragment_camerax" >
+        android:name="com.example.groupproject.matthewcamera.TruthCameraFragment"
+        android:label="fragment_truth_camera"
+        tools:layout="@layout/fragment_truth_camera" >
     </fragment>
 
     <fragment
@@ -91,5 +95,10 @@
         tools:layout="@layout/fragment_video" >
     </fragment>
 
+<fragment
+    android:id="@+id/detectionFragment"
+    android:name="com.example.groupproject.cameraAwesome.DetectionFragment"
+    android:label="fragment_detection"
+    tools:layout="@layout/fragment_detection"/>
 
 </navigation>

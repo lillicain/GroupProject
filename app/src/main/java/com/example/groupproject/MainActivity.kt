@@ -24,10 +24,12 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.PermissionChecker
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.groupproject.camera.CameraViewModel
+import com.example.groupproject.cameraAwesome.DetectionFragment
 import com.example.groupproject.databinding.ActivityCameraBinding
 import com.example.groupproject.matthewcamera.CameraVM
 import com.example.groupproject.utils.Permissions
@@ -36,7 +38,7 @@ import java.util.concurrent.ExecutionException
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
-    private val viewModel: CameraViewModel by viewModels()
+//    private val viewModel: CameraViewModel by viewModels()
     private lateinit var binding: ActivityCameraBinding
     private lateinit var cameraManager: CameraManager
 
@@ -56,6 +58,18 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+    fun moveToCamera() {
+        supportFragmentManager.beginTransaction()
+            .replace(android.R.id.content, DetectionFragment())
+            .commit()
+    }
+
+    fun moveToPermission() {
+        supportFragmentManager.beginTransaction()
+//            .replace(android.R.id.content, PermissionsFragment())
+            .commit()
+    }
+
     private fun initNavController() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
@@ -67,8 +81,6 @@ class MainActivity : AppCompatActivity() {
             val hasPermission = permissions.entries.all { it.value }
             binding.pnlPermission.visibility = if (!hasPermission) View.VISIBLE else View.GONE
         }
-
-
 }
 
 
