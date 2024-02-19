@@ -95,9 +95,15 @@ dependencies {
     implementation("com.h6ah4i.android.widget.verticalseekbar:verticalseekbar:1.0.0")
 
     // ROOM
+//    implementation("androidx.room:room-ktx:2.6.1")
+//    kapt("androidx.room:room-compiler:2.6.1")
+//    implementation("androidx.room:room-runtime:2.6.1")
+//    annotationProcessor("androidx.room:room-compiler:2.6.1")
+//    annotationProcessor("android.arch.persistence.room:common:1.1.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+    annotationProcessor("android.arch.persistence.room:compiler:1.1.1")
     implementation("androidx.room:room-runtime:2.6.1")
-    annotationProcessor("androidx.room:room-compiler:2.6.1")
-
     // EVIL SLIDER
 //    implementation("com.sothree.slidinguppanel:library:3.4.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")

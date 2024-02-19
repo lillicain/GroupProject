@@ -22,5 +22,5 @@ interface PlantDao {
     suspend fun getPlant(plantId: Long): Plant?
 
     @Query("SELECT * FROM plant_table")
-    fun getAllItems(): List<Plant>
+    suspend fun getAllItems(): List<Plant>
 }

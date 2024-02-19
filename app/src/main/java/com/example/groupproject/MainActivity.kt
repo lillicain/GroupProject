@@ -29,6 +29,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.groupproject.camera.CameraViewModel
 import com.example.groupproject.camera.FaceStatus
+import com.example.groupproject.database.EvilDatabase
 import com.example.groupproject.databinding.ActivityCameraBinding
 import com.example.groupproject.matthewcamera.CameraVM
 import com.example.groupproject.utils.Permissions
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         window.navigationBarColor = Color.parseColor("#80000000")
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -56,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 //        onClicks()
         createCameraManager()
 
-
+//        EvilDatabase.getInstance(this)
     }
     private fun initNavController() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
