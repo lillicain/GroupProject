@@ -53,6 +53,7 @@ import com.example.groupproject.R
 import com.example.groupproject.R.*
 import com.example.groupproject.R.id.*
 import com.example.groupproject.camera.VideoFragment.Companion.TAG
+import com.example.groupproject.cameraAwesome.BoxData
 import com.example.groupproject.cameraAwesome.DetectedObjects
 import com.example.groupproject.cameraAwesome.ObjectDetectionAnalyzer
 import com.example.groupproject.databinding.FragmentCameraBinding
