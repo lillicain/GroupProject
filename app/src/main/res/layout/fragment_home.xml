@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -8,29 +7,95 @@
             type="com.example.groupproject.home.HomeViewModel"/>
     </data>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".MainActivity">
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
 
-<ListView
-    android:id="@+id/listView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/magic8BallButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Magic 8 Ball"/>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp">
 
-    <Button
-        android:id="@+id/cameraButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Camera"
-        />
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tools"
+                    android:background="#c9e4ca"
+                    android:textAlignment="center"
+                    android:padding="6dp"
+                    /> </com.google.android.material.card.MaterialCardView>
 
-</RelativeLayout>
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="3"
+                android:useDefaultMargins="true">
+
+                <ImageButton
+                    android:id="@+id/magic8BallButton"
+                    android:layout_width="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_height="90dp"
+                    android:backgroundTint="#87BBA2"
+                    android:drawablePadding="8dp"
+                    android:text="Magic 8 Ball"
+                    android:padding="16dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/eight_ball"/>
+
+                <Button
+                    android:id="@+id/cameraButton"
+                    android:layout_width="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#55828B"
+                    android:text="Camera"/>
+
+                <Button
+                    android:id="@+id/ringtoneButton"
+                    android:layout_width="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#364958"
+                    android:text="Ringtones"/>
+
+                <Button
+                    android:id="@+id/cameraTestButton"
+                    android:layout_width="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#364958"
+                    android:text="CAMTEST"/>
+
+
+                <Button
+                    android:id="@+id/searchButton"
+                    android:layout_width="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="#364958"
+                    android:text="Search Button"
+                    android:paddingVertical="100dp"/>
+
+            </GridLayout>
+            <Button
+                android:id="@+id/evilGardenButton"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_height="match_parent"
+                android:backgroundTint="#364958"
+                android:text="Evil Garden"
+                android:paddingVertical="100dp"/>
+        </LinearLayout>
+
+    </ScrollView>
+
 </layout>

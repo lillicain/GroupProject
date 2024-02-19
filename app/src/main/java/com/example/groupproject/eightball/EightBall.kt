@@ -26,12 +26,30 @@ enum class Answer(val value: String) {
     VERY_DOUBTFUL("Very doubtful")
 }
 data class EightBall (
-    var selectedAnswer: List<Answer> = listOf(Answer.entries.toTypedArray().random())
+    var selectedAnswer: Answer,
+    private var queuedAnswers: MutableList<Answer> = mutableListOf()
 ) {
+    init {
+
+    }
+    fun setAnswer() {
+        if (queuedAnswers.isNotEmpty()) {
+            // Set selectedAnswer to the first item in the queue
+            selectedAnswer = queuedAnswers.first()
+
+            // Remove the selectedAnswer from the queue
+            queuedAnswers.remove(selectedAnswer)
+        } else {
+            selectedAnswer = Answer.entries.random()
+        }
+    }
     fun addAnswer(answer: Answer) {
-        selectedAnswer = listOf(answer)
+        queuedAnswers.add(answer)
     }
-    fun resetAnswer() {
-        selectedAnswer = listOf(Answer.entries.toTypedArray().random())
+    fun resetQueue() {
+        queuedAnswers = mutableListOf()
     }
+//    fun resetAnswer() {
+//        selectedAnswer = Answer.entries.random()
+//    }
 }

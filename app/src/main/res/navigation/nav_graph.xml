@@ -5,7 +5,6 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
 
-
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.groupproject.home.HomeFragment"
@@ -17,6 +16,21 @@
         <action
             android:id="@+id/actionToCameraFragment"
             app:destination="@id/cameraFragment" />
+        <action
+            android:id="@+id/actionToRingtoneFragment"
+            app:destination="@id/ringtoneFragment" />
+        <action
+
+            android:id="@+id/actionToCameraTestFragment"
+            app:destination="@id/cameraTestFragment" />
+        <action
+            android:id="@+id/actionToEvilGardenFragment"
+            app:destination="@id/evilGardenFragment" />
+        <action
+            android:id="@+id/actionToSearchFragment"
+            app:destination="@id/searchFragment" />
+
+
     </fragment>
 
     <fragment
@@ -31,6 +45,50 @@
         android:name="com.example.groupproject.camera.CameraFragment"
         android:label="fragment_camera"
         tools:layout="@layout/fragment_camera" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/ringtoneFragment"
+        android:name="com.example.groupproject.ringtone.RingtoneFragment"
+        android:label="fragment_ringtone"
+        tools:layout="@layout/fragment_ringtone" >
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.groupproject.search.SearchFragment"
+        android:label="fragment_searcht"
+        tools:layout="@layout/fragment_search"/>
+    <fragment
+        android:id="@+id/searchTextFragment"
+        android:name="com.example.groupproject.search.SearchTextFragment"
+        android:label="fragment_search_text"
+        tools:layout="@layout/fragment_search_text"/>
+
+    <fragment
+        android:id="@+id/evilGardenFragment"
+        android:name="com.example.groupproject.evilgarden.EvilGardenFragment"
+        android:label="fragment_ringtone"
+        tools:layout="@layout/fragment_ringtone" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/cameraTestFragment"
+        android:name="com.example.groupproject.matthewcamera.EvilCameraTestFragment"
+        android:label="activity_camera"
+        tools:layout="@layout/fragment_face_detection" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/previewFragment"
+        android:name="com.example.groupproject.camera.PreviewFragment"
+        android:label="fragment_preview"
+        tools:layout="@layout/fragment_preview" >
+    </fragment>
+    <fragment
+        android:id="@+id/videoFragment"
+        android:name="com.example.groupproject.camera.VideoFragment"
+        android:label="fragment_video"
+        tools:layout="@layout/fragment_video" >
     </fragment>
 
 </navigation>
