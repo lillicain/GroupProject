@@ -27,7 +27,7 @@
                 android:layout_height="match_parent"
                 app:scaleType="fillCenter"/>
 
-           <net.yanzm.cameraxobjectdetection.GraphicOverlay
+           <com.example.groupproject.camera.GraphicOverlay
                android:layout_width="match_parent"
                android:layout_height="match_parent"
                android:id="@+id/overlay"/>

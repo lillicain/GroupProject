@@ -53,6 +53,8 @@ import com.example.groupproject.R
 import com.example.groupproject.R.*
 import com.example.groupproject.R.id.*
 import com.example.groupproject.camera.VideoFragment.Companion.TAG
+import com.example.groupproject.cameraAwesome.DetectedObjects
+import com.example.groupproject.cameraAwesome.ObjectDetectionAnalyzer
 import com.example.groupproject.databinding.FragmentCameraBinding
 import com.example.groupproject.utils.MediaType
 import com.example.groupproject.utils.OutputFileOptionsFactory
@@ -64,10 +66,7 @@ import com.google.mlkit.vision.objects.ObjectDetection
 import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import net.yanzm.cameraxobjectdetection.BoxData
-import net.yanzm.cameraxobjectdetection.DetectedObjects
-import net.yanzm.cameraxobjectdetection.ObjectDetectionAnalyzer
-import net.yanzm.cameraxobjectdetection.PermissionsFragment
+
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -101,11 +100,38 @@ class CameraFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (!PermissionsFragment.hasPermissions(requireContext())) {
+//        if (!PermissionsFragment.hasPermissions(requireContext())) {
             activity as? MainActivity?
-        }
+//        }
     }
-
+//    private fun startCamera() {
+//        val cameraProviderFuture = ProcessCameraProvider.getInstance(this.requireContext())
+//
+//        cameraProviderFuture.addListener({
+//            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+//
+//            val preview = Preview.Builder()
+//                .build()
+//                .also {
+//                    it.setSurfaceProvider {
+//                        preview
+//                    }
+//                }
+//            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+//
+//            try {
+//                cameraProvider.unbindAll()
+//
+//                cameraProvider.bindToLifecycle(
+//                    this as LifecycleOwner, cameraSelector, preview
+//                )
+//
+//            } catch (exc: Exception) {
+//                Log.e(TAG, "Use case binding failed", exc)
+//            }
+//
+//        }, ContextCompat.getMainExecutor(this.requireContext()))
+//    }
     private fun bindPreview(cameraProvider: ProcessCameraProvider) {
         val preview = Preview.Builder()
             .setTargetName("Preview")
@@ -120,9 +146,9 @@ class CameraFragment : Fragment() {
             .build()
 
         val analyzer = ObjectDetectionAnalyzer {
-            overlay?.post {
+//            overlay?.post {
                 updateOverlay(it)
-            }
+//            }
         }
 
         imageAnalysis.setAnalyzer(
@@ -134,8 +160,15 @@ class CameraFragment : Fragment() {
             cameraProvider.unbindAll()
 
             cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis)
+            val preview = Preview.Builder()
+                .build()
+                .also {
+                    it.setSurfaceProvider {
+                        preview
+                    }
+                }
+//            preview.setSurfaceProvider(previewView.surfaceProvider)
 
-            preview.setSurfaceProvider(previewView.surfaceProvider)
         } catch (e: Exception) {
         }
     }
@@ -147,11 +180,11 @@ class CameraFragment : Fragment() {
         }
 
         if (detectedObjects.objects.isEmpty()) {
-            overlay.set(emptyList())
+//            overlay.set(emptyList())
             return
         }
 
-        overlay.setSize(detectedObjects.imageWidth, detectedObjects.imageHeight)
+//        overlay.setSize(detectedObjects.imageWidth, detectedObjects.imageHeight)
 
         val list = mutableListOf<BoxData>()
 
@@ -169,7 +202,7 @@ class CameraFragment : Fragment() {
             list.add(BoxData(text, box))
         }
 
-        overlay.set(list)
+//        overlay.set(list)
     }
 
 
