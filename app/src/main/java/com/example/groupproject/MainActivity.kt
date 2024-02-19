@@ -27,15 +27,17 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.example.groupproject.cameraAwesome.CameraXLivePreviewActivity
 import com.example.groupproject.databinding.ActivityCameraBinding
 import com.example.groupproject.matthewcamera.CameraVM
+import com.example.groupproject.preference.CameraXViewModel
 import com.example.groupproject.utils.Permissions
 import com.google.common.util.concurrent.ListenableFuture
 import java.util.concurrent.ExecutionException
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
-//    private val viewModel: CameraViewModel by viewModels()
+    private val viewModel: CameraXViewModel by viewModels()
     private lateinit var binding: ActivityCameraBinding
 //    private lateinit var cameraManager: CameraManager
 
@@ -46,15 +48,12 @@ class MainActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         initNavController()
         binding.btnRequestPermission.setOnClickListener { requestPermissions() }
         if (!Permissions.isPermissionTaken(this)) {
             requestPermissions()
         }
-//        onClicks()
-//        createCameraManager()
-
-
     }
     private fun initNavController() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -67,27 +66,6 @@ class MainActivity : AppCompatActivity() {
             val hasPermission = permissions.entries.all { it.value }
             binding.pnlPermission.visibility = if (!hasPermission) View.VISIBLE else View.GONE
         }
-////    private fun onClicks() {
-////        btnSwitch.setOnClickListener {
-////            cameraManager.changeCameraSelector()
-////        }
-////    }
-//    private fun createCameraManager() {
-////        cameraManager = CameraManager(
-////            this,
-////            previewView_finder,
-////            this,
-////            graphicOverlay_finder,
-////            ::processPicture
-////        )
-//    }
-//
-//
-//    private fun processPicture(faceStatus: FaceStatus) {
-//        Log.e("facestatus","This is it ${faceStatus.name}")
-////       when(faceStatus){}
-//    }
-
 }
 
 

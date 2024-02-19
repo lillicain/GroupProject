@@ -21,6 +21,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         setProperty("archivesBaseName", "vision-quickstart")
+        multiDexEnabled = true
     }
 
     buildTypes {
@@ -107,6 +108,6 @@ dependencies {
     implementation("com.h6ah4i.android.widget.verticalseekbar:verticalseekbar:1.0.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
-
+api("com.google.guava:guava:30.1-jre")
 
 }
