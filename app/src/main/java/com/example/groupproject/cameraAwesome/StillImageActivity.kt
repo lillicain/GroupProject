@@ -33,6 +33,7 @@ import com.example.groupproject.cameraAwesome.posedetector.PoseDetectorProcessor
 import com.example.groupproject.cameraAwesome.segmenter.SegmenterProcessor
 import com.example.groupproject.cameraAwesome.subjectsegmenter.SubjectSegmenterProcessor
 import com.example.groupproject.cameraAwesome.textdetector.TextRecognitionProcessor
+import com.example.groupproject.preference.BitmapUtils
 import com.example.groupproject.preference.GraphicOverlay
 import com.example.groupproject.preference.PreferenceUtils
 import com.example.groupproject.preference.SettingsActivity

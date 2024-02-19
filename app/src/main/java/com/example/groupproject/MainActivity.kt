@@ -3,13 +3,19 @@ package com.example.groupproject
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.opengl.Matrix
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -44,8 +50,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.example.groupproject.R.*
-import com.example.groupproject.camera.CameraViewModel
+import com.example.groupproject.databinding.ActivityCameraBinding
+import com.example.groupproject.utils.Permissions
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
@@ -53,7 +62,7 @@ import java.io.FileOutputStream
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
-    private val viewModel: CameraXViewModel by viewModels()
+//    private val viewModel: CameraXViewModel by viewModels()
     private lateinit var binding: ActivityCameraBinding
 //    private lateinit var cameraManager: CameraManager
 
