@@ -21,10 +21,10 @@ public class SettingsActivity extends AppCompatActivity {
     LIVE_PREVIEW(R.string.pref_screen_title_live_preview, LivePreviewPreferenceFragment.class),
     STILL_IMAGE(R.string.pref_screen_title_still_image, StillImagePreferenceFragment.class),
     CAMERAX_LIVE_PREVIEW(
-        R.string.pref_screen_title_camerax_live_preview,
-        CameraXLivePreviewPreferenceFragment.class),
+            R.string.pref_screen_title_camerax_live_preview,
+            CameraXLivePreviewPreferenceFragment.class),
     CAMERAXSOURCE_DEMO(
-        R.string.pref_screen_title_cameraxsource_demo, CameraXSourceDemoPreferenceFragment.class);
+            R.string.pref_screen_title_cameraxsource_demo, CameraXSourceDemoPreferenceFragment.class);
 
     private final int titleResId;
     private final Class<? extends PreferenceFragment> prefFragmentClass;
@@ -42,7 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
     setContentView(R.layout.activity_settings);
 
     LaunchSource launchSource =
-        (LaunchSource) getIntent().getSerializableExtra(EXTRA_LAUNCH_SOURCE);
+            (LaunchSource) getIntent().getSerializableExtra(EXTRA_LAUNCH_SOURCE);
     ActionBar actionBar = getSupportActionBar();
     if (actionBar != null) {
       actionBar.setTitle(launchSource.titleResId);
@@ -50,11 +50,11 @@ public class SettingsActivity extends AppCompatActivity {
 
     try {
       getFragmentManager()
-          .beginTransaction()
-          .replace(
-              R.id.settings_container,
-              launchSource.prefFragmentClass.getDeclaredConstructor().newInstance())
-          .commit();
+              .beginTransaction()
+              .replace(
+                      R.id.settings_container,
+                      launchSource.prefFragmentClass.getDeclaredConstructor().newInstance())
+              .commit();
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

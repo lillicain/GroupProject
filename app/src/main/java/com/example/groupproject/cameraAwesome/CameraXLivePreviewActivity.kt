@@ -1,5 +1,6 @@
 package com.example.groupproject.cameraAwesome
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -78,39 +79,6 @@ class CameraXLivePreviewActivity :
   private var lensFacing = CameraSelector.LENS_FACING_BACK
   private var cameraSelector: CameraSelector? = null
 
-  private fun captureView(view: View, window: Window, bitmapCallback: (Bitmap)->Unit) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      // Above Android O, use PixelCopy
-      val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
-      val location = IntArray(2)
-      view.getLocationInWindow(location)
-      PixelCopy.request(
-              window,
-              Rect(
-                      location[0],
-                      location[1],
-                      location[0] + view.width,
-                      location[1] + view.height
-              ),
-              bitmap,
-              {
-                if (it == PixelCopy.SUCCESS) {
-                  bitmapCallback.invoke(bitmap)
-                }
-              },
-              Handler(Looper.getMainLooper()) )
-    } else {
-      val tBitmap = Bitmap.createBitmap(
-              view.width, view.height, Bitmap.Config.RGB_565
-      )
-      val canvas = Canvas(tBitmap)
-      view.draw(canvas)
-      canvas.setBitmap(null)
-      bitmapCallback.invoke(tBitmap)
-    }
-  }
-
-
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     Log.d(TAG, "onCreate")
@@ -168,8 +136,9 @@ class CameraXLivePreviewActivity :
 
     val settingsButton = findViewById<ImageView>(R.id.settings_button)
     settingsButton.setOnClickListener {
-      val intent = Intent(applicationContext, SettingsActivity::class.java)
-      intent.putExtra(SettingsActivity.EXTRA_LAUNCH_SOURCE, SettingsActivity.LaunchSource.CAMERAX_LIVE_PREVIEW)
+      val intent = Intent(applicationContext, CameraXLivePreviewActivity::class.java)
+//      intent.putExtra(SettingsActivity.EXTRA_LAUNCH_SOURCE, SettingsActivity.LaunchSource.CAMERAX_LIVE_PREVIEW)
+
       startActivity(intent)
     }
   }
@@ -215,10 +184,10 @@ class CameraXLivePreviewActivity :
       // Falls through
     }
     Toast.makeText(
-        applicationContext,
-        "This device does not have lens with facing: $newLensFacing",
-        Toast.LENGTH_SHORT
-      )
+      applicationContext,
+      "This device does not have lens with facing: $newLensFacing",
+      Toast.LENGTH_SHORT
+    )
       .show()
   }
 
@@ -389,10 +358,10 @@ class CameraXLivePreviewActivity :
       } catch (e: Exception) {
         Log.e(TAG, "Can not create image processor: $selectedModel", e)
         Toast.makeText(
-            applicationContext,
-            "Can not create image processor: " + e.localizedMessage,
-            Toast.LENGTH_LONG
-          )
+          applicationContext,
+          "Can not create image processor: " + e.localizedMessage,
+          Toast.LENGTH_LONG
+        )
           .show()
         return
       }

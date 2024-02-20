@@ -13,10 +13,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.groupproject.camera.CameraXLivePreviewActivity
+import com.example.groupproject.cameraAwesome.CameraXLivePreviewActivity
 import com.example.groupproject.cameraAwesome.ChooserActivity
 import com.example.groupproject.databinding.FragmentHomeBinding
 import com.example.groupproject.preference.CameraXSourceDemoPreferenceFragment
+import com.example.groupproject.preference.SettingsActivity
 
 class HomeFragment : Fragment() {
 
@@ -89,9 +90,11 @@ class HomeFragment : Fragment() {
 
     fun startCamera() {
         val cameraIntent2 = Intent(requireContext(), ChooserActivity::class.java)
+//        val cameraIntent3 = Intent(requireContext(), SettingsActivity::class.java)
 //        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         try {
             startActivity(cameraIntent2)
+//            startActivity(cameraIntent3)
         } catch (e: ActivityNotFoundException) {
             println(e)
         }

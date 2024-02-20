@@ -63,7 +63,7 @@ import java.io.FileOutputStream
 
 class MainActivity: AppCompatActivity() {
     private lateinit var navController: NavController
-    private val viewModel: CameraXViewModel by viewModels()
+//    private val viewModel: CameraXViewModel by viewModels()
     private lateinit var binding: ActivityCameraBinding
 
 
