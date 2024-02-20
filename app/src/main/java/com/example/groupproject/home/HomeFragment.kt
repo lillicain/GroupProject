@@ -44,15 +44,15 @@ class HomeFragment : Fragment() {
             this.findNavController().navigate(HomeFragmentDirections.actionToEightBall())
         }
 
-        binding.cameraButton.setOnClickListener {
-            this.findNavController().navigate(HomeFragmentDirections.actionToCameraFragment())
-        }
+//        binding.cameraButton.setOnClickListener {
+//            this.findNavController().navigate(HomeFragmentDirections.actionToCameraFragment())
+//        }
 
         binding.ringtoneButton.setOnClickListener {
             this.findNavController().navigate(HomeFragmentDirections.actionToRingtoneFragment())
         }
 
-        binding.cameraTestButton.setOnClickListener {
+        binding.cameraImageButton.setOnClickListener {
             this.findNavController().navigate(HomeFragmentDirections.actionToCameraTestFragment())
 
         }
