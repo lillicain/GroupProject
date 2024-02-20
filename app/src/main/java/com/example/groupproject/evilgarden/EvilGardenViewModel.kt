@@ -1,6 +1,9 @@
 package com.example.groupproject.evilgarden
 
+import android.app.AlertDialog
 import android.app.Application
+import android.content.Context
+import android.widget.EditText
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -38,13 +41,13 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
         viewModelScope.launch {
             _user.value = userDatabase.getUser()
             _plants.value = plantDatabase.getAllItems()
-
+            println(_user.value?.username)
             if (_user.value != null && !_plants.value.isNullOrEmpty()) {
                 val currentIndex = _user.value?.currentPlantIndex ?: 0
                 if (currentIndex in _plants.value!!.indices) {
                     _currentPlant.value = _plants.value!![currentIndex]
                 }
-            } else if (_user.value == null ) {
+            } else if (_user.value == null ) { // THIS NEEDS TO CHECK OTHER STUFF ELSE IF IS NOT INCLUSIVE
                 print("Eeffoc")
             }
         }
@@ -92,5 +95,30 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
 
     fun water() {
         // Placeholder method
+    }
+    fun showUserNameDialog(context: Context) {
+        val editText = EditText(context)
+        val dialog = AlertDialog.Builder(context)
+            .setTitle("Enter Your Name")
+            .setView(editText)
+            .setPositiveButton("OK") { _, _ ->
+                val userName = editText.text.toString()
+                // Save the user with the entered name to the database
+                viewModelScope.launch {
+                userDatabase.insertUser(User(1, "$userName's Garden", 0, 0))
+                _user.value = userDatabase.getUser()
+                }
+            }
+            .setNegativeButton("Cancel") { _, _ ->
+                // Save the user with the entered name to the database
+                viewModelScope.launch {
+                userDatabase.insertUser(User(1, "Wonderful Garden", 0, 0))
+                    _user.value = userDatabase.getUser()
+                }
+                // Handle cancel action if needed
+            }
+            .create()
+
+        dialog.show()
     }
 }

@@ -105,7 +105,7 @@ dependencies {
     annotationProcessor("android.arch.persistence.room:compiler:1.1.1")
     implementation("androidx.room:room-runtime:2.6.1")
     // EVIL SLIDER
-//    implementation("com.sothree.slidinguppanel:library:3.4.0")
+//    implementation("com.sothree.slidinguppanel:library:3.3.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 }
 
