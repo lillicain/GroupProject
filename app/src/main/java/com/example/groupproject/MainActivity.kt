@@ -1,163 +1,105 @@
 package com.example.groupproject
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.ImageFormat
-import android.graphics.SurfaceTexture
-import android.hardware.camera2.CameraCaptureSession
-import android.hardware.camera2.CameraCaptureSession.*
-import android.hardware.camera2.CameraDevice
-import android.hardware.camera2.CameraManager
-import android.hardware.camera2.CaptureRequest
-import android.media.ImageReader
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.opengl.Matrix
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
-import android.os.Handler
-import android.os.HandlerThread
-import android.provider.ContactsContract.CommonDataKinds.Im
-import android.view.Surface
-import android.view.TextureView
+import android.util.Log
+import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
-import androidx.camera.lifecycle.ProcessCameraProvider
-import com.google.common.util.concurrent.ListenableFuture
+import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.ImageProxy
+import androidx.camera.core.impl.utils.MatrixExt.postRotate
+import androidx.camera.view.CameraController
+import androidx.camera.view.LifecycleCameraController
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Cameraswitch
+import androidx.compose.material.icons.filled.Photo
+import androidx.compose.material.icons.filled.PhotoCamera
+import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ComponentActivity
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import com.example.groupproject.R.*
+import com.example.groupproject.databinding.ActivityCameraBinding
+import com.example.groupproject.utils.Permissions
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity() {
-    lateinit var cameraManager: CameraManager
-    lateinit var textureView: TextureView
-    lateinit var cameraCaptureSession: CameraCaptureSession
-    lateinit var cameraDevice: CameraDevice
-    lateinit var captureRequest: CaptureRequest
-    lateinit var handler: Handler
-    lateinit var handlerThread: HandlerThread
-    lateinit var capReq: CaptureRequest.Builder
-    lateinit var imageReader: ImageReader
 
-//    lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
+    private lateinit var navController: NavController
+//    private val viewModel: CameraXViewModel by viewModels()
+    private lateinit var binding: ActivityCameraBinding
+//    private lateinit var cameraManager: CameraManager
 
-    override fun onDestroy() {
-        super.onDestroy()
-        cameraDevice.close()
-        handler.removeCallbacksAndMessages(null)
-        handlerThread.quitSafely()
-    }
-    @SuppressLint("MissingInflatedId")
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main)
 
-        getPermissions()
-
-        textureView = findViewById(R.id.textureView)
-        cameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
-        handlerThread = HandlerThread("videoThread")
-        handlerThread.start()
-        handler = Handler((handlerThread).looper)
-
-        textureView.surfaceTextureListener = object: TextureView.SurfaceTextureListener {
-            override fun onSurfaceTextureAvailable(surface: SurfaceTexture, width: Int, height: Int) {
-                open_camera()
-            }
-
-            override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture, width: Int, height: Int) {
-            }
-
-            override fun onSurfaceTextureDestroyed(surface: SurfaceTexture): Boolean {
-                return false
-            }
-
-            override fun onSurfaceTextureUpdated(surface: SurfaceTexture) {
-            }
-        }
-
-        imageReader = ImageReader.newInstance(1080, 1920, ImageFormat.JPEG, 1)
-        imageReader.setOnImageAvailableListener(object: ImageReader.OnImageAvailableListener {
-            override fun onImageAvailable(reader: ImageReader?) {
-                var image = reader?.acquireLatestImage()
-                var buffer = image!!.planes[0].buffer
-                var bytes = ByteArray(buffer.remaining())
-                buffer.get(bytes)
-                var file = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "img.jpeg")
-                var opStream = FileOutputStream(file)
-                opStream.write(bytes)
-                opStream.close()
-                image.close()
+       
 
 
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
+        window.navigationBarColor = Color.parseColor("#80000000")
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        binding = ActivityCameraBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-                Toast.makeText(this@MainActivity, "image captured", Toast.LENGTH_SHORT).show()
-            }
-        }, handler)
-
-        findViewById<Button>(R.id.capture).apply {
-            setOnClickListener {
-                capReq = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
-                capReq.addTarget(imageReader.surface)
-                cameraCaptureSession.capture(capReq.build(), null, null)
-            }
+        initNavController()
+        binding.btnRequestPermission.setOnClickListener { requestPermissions() }
+        if (!Permissions.isPermissionTaken(this)) {
+            requestPermissions()
         }
     }
-
-    @SuppressLint("MissingPermission")
-
-    fun open_camera() {
-        cameraManager.openCamera(cameraManager.cameraIdList[0], object: CameraDevice.StateCallback() {
-
-            override fun onOpened(camera: CameraDevice) {
-                cameraDevice = camera
-
-                capReq = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
-                var surface = Surface(textureView.surfaceTexture)
-                capReq.addTarget(surface)
-
-                cameraDevice.createCaptureSession(listOf(surface, imageReader.surface), object:
-                    CameraCaptureSession.StateCallback() {
-                    override fun onConfigured(session: CameraCaptureSession) {
-                        cameraCaptureSession = session
-                        cameraCaptureSession.setRepeatingRequest(capReq.build(), null, null)
-                    }
-
-                    override fun onConfigureFailed(session: CameraCaptureSession) {
-
-                    }
-
-                }, handler)
-            }
-            override fun onDisconnected(camera: CameraDevice) {
-            }
-
-            override fun onError(camera: CameraDevice, error: Int) {
-            }
-        }, handler)
+    private fun initNavController() {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
     }
-
-    fun getPermissions() {
-        var permissionList = mutableListOf<String>()
-
-        if(checkSelfPermission(android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) permissionList.add(android.Manifest.permission.CAMERA)
-        if(checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) permissionList.add(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-        if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) permissionList.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-
-        if(permissionList.size > 0) {
-            requestPermissions(permissionList.toTypedArray(), 101)
-
+    private fun requestPermissions() {
+        permissionLauncher.launch(Permissions.requestList)
+    }
+    private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            val hasPermission = permissions.entries.all { it.value }
+            binding.pnlPermission.visibility = if (!hasPermission) View.VISIBLE else View.GONE
         }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        grantResults.forEach {
-            if(it != PackageManager.PERMISSION_GRANTED) {
-                getPermissions()
-            }
-        }
-    }
 }
+
+
+
+
