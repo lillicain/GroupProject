@@ -61,9 +61,9 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 
-public class MainActivity: AppCompatActivity() {
+class MainActivity: AppCompatActivity() {
     private lateinit var navController: NavController
-        private val viewModel: CameraXViewModel by viewModels()
+    private val viewModel: CameraXViewModel by viewModels()
     private lateinit var binding: ActivityCameraBinding
 
 
@@ -83,21 +83,21 @@ public class MainActivity: AppCompatActivity() {
             requestPermissions()
 
         }
-        }
-        private fun initNavController() {
-            val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-            navController = navHostFragment.navController
-        }
-
-        private fun requestPermissions() {
-            permissionLauncher.launch(Permissions.requestList)
-        }
-
-        private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-            val hasPermission = permissions.entries.all { it.value }
-            binding.pnlPermission.visibility = if (!hasPermission) View.VISIBLE else View.VISIBLE
-        }
     }
+    private fun initNavController() {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+    }
+
+    private fun requestPermissions() {
+        permissionLauncher.launch(Permissions.requestList)
+    }
+
+    private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+        val hasPermission = permissions.entries.all { it.value }
+        binding.pnlPermission.visibility = if (!hasPermission) View.VISIBLE else View.VISIBLE
+    }
+}
 
 
 
