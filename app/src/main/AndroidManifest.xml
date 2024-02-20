@@ -62,9 +62,7 @@
         </activity>
 
         <activity
-            android:name=".cameraAwesome.CameraXLivePreviewActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme">
+            android:name=".cameraAwesome.CameraXLivePreviewActivity">
         </activity>
 
         <activity
@@ -93,9 +91,5 @@
                 android:resource="@xml/file_paths" />
         </provider>
     </application>
-    <queries>
-        <intent>
-            <action android:name="android.media.action.IMAGE_CAPTURE" />
-        </intent>
-    </queries>
+
 </manifest>

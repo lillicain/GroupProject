@@ -143,7 +143,6 @@ lateinit var outputDirectory: File
 
         return binding.root
 
-
     }
 
 
@@ -151,6 +150,7 @@ lateinit var outputDirectory: File
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 cameraExecutor = Executors.newSingleThreadExecutor()
+
 
         binding.viewFinder.setOnTouchListener { _, motionEvent ->
             scaleGestureDetector.onTouchEvent(motionEvent)

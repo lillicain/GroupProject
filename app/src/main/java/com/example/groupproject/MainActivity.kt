@@ -78,25 +78,25 @@ class MainActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         initNavController()
-        binding.btnRequestPermission.setOnClickListener { requestPermissions() }
-        if (!Permissions.isPermissionTaken(this)) {
-            requestPermissions()
+//        binding.btnRequestPermission.setOnClickListener { requestPermissions() }
+//        if (!Permissions.isPermissionTaken(this)) {
+//            requestPermissions()
 
-        }
+//        }
     }
     private fun initNavController() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
     }
 
-    private fun requestPermissions() {
-        permissionLauncher.launch(Permissions.requestList)
-    }
-
-    private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-        val hasPermission = permissions.entries.all { it.value }
-        binding.pnlPermission.visibility = if (!hasPermission) View.VISIBLE else View.VISIBLE
-    }
+//    private fun requestPermissions() {
+//        permissionLauncher.launch(Permissions.requestList)
+//    }
+//
+//    private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+//        val hasPermission = permissions.entries.all { it.value }
+//        binding.pnlPermission.visibility = if (!hasPermission) View.VISIBLE else View.VISIBLE
+//    }
 }
 
 

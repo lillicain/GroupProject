@@ -51,6 +51,7 @@ aaptOptions {
     buildFeatures {
         dataBinding = true
         viewBinding = true
+        mlModelBinding = true
     }
 }
 
