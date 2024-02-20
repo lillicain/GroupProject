@@ -44,7 +44,7 @@
         android:id="@+id/cameraFragment"
         android:name="com.example.groupproject.camera.CameraFragment"
         android:label="fragment_camera"
-        tools:layout="@layout/fragment_camera" >
+        tools:layout="@layout/activity_vision_camerax_live_preview">
     </fragment>
 
     <fragment
@@ -56,7 +56,7 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.groupproject.search.SearchFragment"
-        android:label="fragment_searcht"
+        android:label="fragment_search"
         tools:layout="@layout/fragment_search"/>
     <fragment
         android:id="@+id/searchTextFragment"
@@ -75,7 +75,7 @@
         android:id="@+id/cameraTestFragment"
         android:name="com.example.groupproject.matthewcamera.EvilCameraTestFragment"
         android:label="activity_camera"
-        tools:layout="@layout/fragment_face_detection" >
+        tools:layout="@layout/activity_still_image" >
     </fragment>
 
     <fragment
