@@ -577,7 +577,7 @@ package com.example.groupproject.camera
 //        private val REQUIRED_PERMISSIONS = arrayOf(android.Manifest.permission.CAMERA)
 //    }
 
-}
+//}
 
 //    /**
 //     * Get image form drawable and convert to bitmap.

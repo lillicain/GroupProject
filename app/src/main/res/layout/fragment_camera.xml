@@ -37,7 +37,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="#000"
         android:orientation="horizontal">
-
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:title="EVIL Garden"
+            app:titleTextColor="@color/white"/>
         <ToggleButton
             android:id="@+id/facing_switch"
             android:layout_width="48dp"

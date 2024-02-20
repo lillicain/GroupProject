@@ -50,38 +50,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".cameraAwesome.ChooserActivity"
-            android:exported="false">
-        </activity>
-
-        <activity
-            android:name=".cameraAwesome.LivePreviewActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme">
-        </activity>
-
-        <activity
-            android:name=".cameraAwesome.CameraXLivePreviewActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme">
-        </activity>
-
-        <activity
-            android:name=".cameraAwesome.CameraXSourceDemoActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme">
-        </activity>
-
-        <activity
-            android:name=".cameraAwesome.StillImageActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme">
-        </activity>
-
-        <activity
-            android:name=".preference.SettingsActivity"
-            android:exported="false"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
