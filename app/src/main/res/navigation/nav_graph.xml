@@ -44,7 +44,7 @@
         android:id="@+id/cameraFragment"
         android:name="com.example.groupproject.camera.CameraFragment"
         android:label="fragment_camera"
-        tools:layout="@layout/fragment_video" >
+        tools:layout="@layout/fragment_camera" >
     </fragment>
 
     <fragment
