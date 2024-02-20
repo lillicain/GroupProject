@@ -8,11 +8,22 @@
 
   <androidx.camera.view.PreviewView
       android:id="@+id/preview_view"
-      android:layout_width="0dp"
+      android:layout_width="match_parent"
       android:layout_height="match_parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/control"/>
+      app:layout_constraintEnd_toStartOf="@+id/control"
+      app:layout_constraintStart_toStartOf="parent" />
+  <ImageView
+      android:id="@+id/ivPreview"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:scaleType="centerCrop"
+      android:visibility="visible" />
 
+  <ImageView
+      android:id="@+id/overlay"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:scaleType="centerCrop" />
   <com.example.groupproject.preference.GraphicOverlay
       android:id="@+id/graphic_overlay"
       android:layout_width="0dp"

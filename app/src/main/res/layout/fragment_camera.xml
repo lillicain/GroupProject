@@ -26,7 +26,7 @@
             <com.example.groupproject.preference.GraphicOverlay
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/graphicOverlay_finder"
+                android:id="@+id/overlay"
                 android:clickable="true"
                 android:visibility="visible"/>
 

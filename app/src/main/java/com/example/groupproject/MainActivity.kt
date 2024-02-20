@@ -59,7 +59,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 
-class MainActivity : AppCompatActivity() {
+public class MainActivity: AppCompatActivity() {
 
     private lateinit var navController: NavController
 

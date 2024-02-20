@@ -5,30 +5,41 @@ import ARG_PREVIEW_TYPE
 import android.Manifest.*
 import android.Manifest.permission.*
 import android.annotation.SuppressLint
+import android.app.Activity.ScreenCaptureCallback
 import android.content.Context
 import android.content.Context.*
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Rect
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.PixelCopy
 import android.view.ScaleGestureDetector
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
+import androidx.camera.camera2.internal.compat.workaround.TargetAspectRatio.RATIO_16_9
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
@@ -55,9 +66,11 @@ import com.example.groupproject.camera.CameraViewModel.Companion.TAG
 import com.example.groupproject.camera.VideoFragment.Companion.TAG
 import com.example.groupproject.databinding.FragmentCameraBinding
 import com.example.groupproject.preference.CameraXLivePreviewPreferenceFragment
+import com.example.groupproject.preference.GraphicOverlay
 import com.example.groupproject.preference.PreferenceUtils
 import com.example.groupproject.utils.MediaType
 import com.example.groupproject.utils.OutputFileOptionsFactory
+import com.example.groupproject.utils.getAspectRationString
 import com.example.groupproject.utils.getDimensionRatioString
 import com.google.android.material.shape.CornerSize
 import com.google.androidbrowserhelper.trusted.Utils
@@ -86,7 +99,9 @@ class CameraFragment : Fragment() {
     var camera: Camera? = null
     val viewModel: CameraViewModel by viewModels()
     lateinit var result: String
+lateinit var outputDirectory: File
 
+    private var lensFacing: Int = CameraSelector.LENS_FACING_FRONT
     private lateinit var captureImageFab: Button
     private lateinit var inputImageView: ImageView
     private lateinit var imgSampleOne: ImageView
@@ -94,21 +109,21 @@ class CameraFragment : Fragment() {
     private lateinit var imgSampleThree: ImageView
     private lateinit var tvPlaceholder: TextView
     private lateinit var currentPhotoPath: String
-
-
+    lateinit var graphicOverlay: GraphicOverlay
+    private var cameraProvider: ProcessCameraProvider? = null
+   lateinit var bitmap: Bitmap
     private val filterListener = View.OnClickListener {
         changeFilter()
     }
     private var preview: Preview? = null
     private var imageAnalyzer: ImageAnalysis? = null
-
     lateinit var safeContext: Context
 
-    private lateinit var outputDirectory: File
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         safeContext = context
+        graphicOverlay.overlay
     }
 
     private fun getStatusBarHeight(): Int {
@@ -135,6 +150,7 @@ class CameraFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+cameraExecutor = Executors.newSingleThreadExecutor()
 
         binding.viewFinder.setOnTouchListener { _, motionEvent ->
             scaleGestureDetector.onTouchEvent(motionEvent)
@@ -183,11 +199,17 @@ class CameraFragment : Fragment() {
 //        binding.filterThree.setOnClickListener {
 //            binding.filterThree.setText("Filter3")
 //        }
+
+//        binding.viewFinder.setOnClickListener { runObjectDetection(bitmap) }
 //        binding.filterThree.setOnClickListener { changeFilter() }
-        binding.graphicOverlayFinder.setOnClickListener { result }
+//        binding.graphicOverlayFinder.setOnClickListener { result }
+//        binding.overlay.setOnClickListener { overlay.getAspectRationString(true)  }
+
+
         binding.viewFinder.setOnClickListener { startCamera() }
         binding.photoButton.setOnClickListener { takePhoto() }
         binding.pnlFLash.setOnClickListener(flashClickListener)
+        binding.overlay.setOnClickListener { runObjectDetection(bitmap) }
 //        binding.ivFlashOff.setOnClickListener(flashChangeListener)
 //        binding.ivFlashOn.setOnClickListener(flashChangeListener)
 //        binding.ivFlashAuto.setOnClickListener(flashChangeListener)
@@ -238,6 +260,7 @@ class CameraFragment : Fragment() {
                         binding.captureProgress.visibility = View.VISIBLE
                     }
                 })
+
     }
 
     fun bindCameraUseCases() {
@@ -316,7 +339,37 @@ class CameraFragment : Fragment() {
 //            }
 //        }
     }
-
+    private fun captureView(view: View, window: Window, bitmapCallback: (Bitmap)->Unit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Above Android O, use PixelCopy
+            val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+            val location = IntArray(2)
+            view.getLocationInWindow(location)
+            PixelCopy.request(
+                    window,
+                    Rect(
+                            location[0],
+                            location[1],
+                            location[0] + view.width,
+                            location[1] + view.height
+                    ),
+                    bitmap,
+                    {
+                        if (it == PixelCopy.SUCCESS) {
+                            bitmapCallback.invoke(bitmap)
+                        }
+                    },
+                    Handler(Looper.getMainLooper()) )
+        } else {
+            val tBitmap = Bitmap.createBitmap(
+                    view.width, view.height, Bitmap.Config.RGB_565
+            )
+            val canvas = Canvas(tBitmap)
+            view.draw(canvas)
+            canvas.setBitmap(null)
+            bitmapCallback.invoke(tBitmap)
+        }
+    }
     private fun updateFlashView() {
 //        binding.ivFlash.setImageResource(
 //            when (imageCapture?.flashMode) {
@@ -406,6 +459,125 @@ class CameraFragment : Fragment() {
 //        binding.pnlRatioOptions.visibility = View.GONE
     }
 
+    fun setupCamera() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+
+        cameraProviderFuture.addListener(
+                Runnable {
+                    // Used to bind the lifecycle of cameras to the lifecycle owner
+                    cameraProvider = cameraProviderFuture.get()
+
+                    // Get screen metrics used to setup camera for full screen resolution
+                    val metrics = DisplayMetrics().also { binding.viewFinder.display.getRealMetrics(it) }
+//                    Timber.d("Screen metrics: ${metrics.widthPixels} x ${metrics.heightPixels}")
+
+//                    val screenAspectRatio = aspectRatio(metrics.widthPixels, metrics.heightPixels)
+//                   Timber.d("Preview aspect ratio: $screenAspectRatio")
+
+                    val rotation = binding.viewFinder.display.rotation
+
+                    // CameraProvider
+                    val cameraProvider = cameraProvider
+                            ?: throw IllegalStateException("Camera initialization failed.")
+
+                    // CameraSelector
+                    val cameraSelector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
+
+                    // add text overlay *---------*
+                    binding.viewFinder.overlay.add(binding.filter)
+
+                    // Preview
+                    preview = Preview.Builder()
+                            // We request aspect ratio but no resolution
+//                            .setTargetAspectRatio(RATIO_16_9)
+                            // Set initial target rotation
+                            .setTargetRotation(rotation)
+                            .build()
+
+                    // ImageCapture
+                    imageCapture = ImageCapture.Builder()
+                            .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
+                            // We request aspect ratio but no resolution to match preview config, but letting
+                            // CameraX optimize for whatever specific resolution best fits our use cases
+//                            .setTargetAspectRatio()
+                            // Set initial target rotation, we will have to call this again if rotation changes
+                            // during the lifecycle of this use case
+                            .setTargetRotation(rotation)
+                            .build()
+
+                    // Must unbind the use-cases before rebinding them
+                    cameraProvider.unbindAll()
+
+                    try {
+                        // A variable number of use-cases can be passed here -
+                        // camera provides access to CameraControl & CameraInfo
+                        camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
+                        // Attach the viewfinder's surface provider to preview use case
+                        preview?.setSurfaceProvider(binding.viewFinder.surfaceProvider)
+                    } catch (exc: Exception) {
+                        Toast.makeText(requireContext(), "Something went wrong. Please try again.", Toast.LENGTH_SHORT).show()
+                        findNavController().navigateUp()
+                    }
+                },
+                ContextCompat.getMainExecutor(requireContext())
+        )
+    }
+
+//    private fun takePhoto() {
+//        imageCapture?.let { imageCapture ->
+//
+//            // Create output file to hold the image
+//            val photoFile = createFile(outputDirectory, FILENAME, PHOTO_EXTENSION)
+//
+//            // Setup image capture metadata
+//            val metadata = ImageCapture.Metadata().apply {
+//
+//                // Mirror image when using the front camera
+//                isReversedHorizontal = lensFacing == CameraSelector.LENS_FACING_FRONT
+//            }
+//
+//            // Create output options object which contains file + metadata
+//            val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile)
+//                    .setMetadata(metadata)
+//                    .build()
+//
+//            // Setup image capture listener which is triggered after photo has been taken
+//            imageCapture.takePicture(outputOptions, cameraExecutor, object : ImageCapture.OnImageSavedCallback {
+//                override fun onError(exc: ImageCaptureException) {
+//                    Timber.e(exc, "Photo capture failed: ${exc.message}")
+//                }
+//
+//                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+//                    val savedUri = output.savedUri ?: Uri.fromFile(photoFile)
+//                    Timber.d("Photo capture succeeded: $savedUri")
+//
+//                    // Implicit broadcasts will be ignored for devices running API level >= 24
+//                    // so if you only target API level 24+ you can remove this statement
+//                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+//                        requireActivity()
+//                                .sendBroadcast(Intent(android.hardware.Camera.ACTION_NEW_PICTURE, savedUri))
+//                    }
+//
+//
+//                    // If the folder selected is an external media directory, this is
+//                    // unnecessary but otherwise other apps will not be able to access our
+//                    // images unless we scan them using [MediaScannerConnection]
+//                    val mimeType = MimeTypeMap.getSingleton()
+//                            .getMimeTypeFromExtension(savedUri.toFile().extension)
+//                    MediaScannerConnection.scanFile(
+//                            context,
+//                            arrayOf(savedUri.toFile().absolutePath),
+//                            arrayOf(mimeType)
+//                    ) { _, uri ->
+//                        Timber.d("Image capture scanned into media store: $uri")
+//                    }
+//                }
+//            })
+//        }
+//    }
+//
+//}
+
     private fun updateRatioView() {
         val orientation = resources.configuration.orientation
 //        binding.tvRatio.text = viewModel.screenAspectRatio.getAspectRationString(orientation == Configuration.ORIENTATION_PORTRAIT)
@@ -437,7 +609,7 @@ class CameraFragment : Fragment() {
     }
 
     private fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(safeContext)
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(this.requireContext())
 
         cameraProviderFuture.addListener({
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
@@ -462,7 +634,7 @@ class CameraFragment : Fragment() {
 //                Log.e(TAG, "Use case binding failed", exc)
             }
 
-        }, ContextCompat.getMainExecutor(safeContext))
+        }, ContextCompat.getMainExecutor(this.requireContext()))
     }
 
 //    private fun startCamera() {
@@ -588,10 +760,10 @@ class CameraFragment : Fragment() {
             }
 
             // Draw the detection result on the input bitmap
-//            val visualizedResult = drawDetectionResult(bitmap, detectionResults)
+            val visualizedResult = drawDetectionResult(bitmap, detectedObjects)
 
             // Show the detection result on the app screen
-//            inputImageView.setImageBitmap(visualizedResult)
+            inputImageView.setImageBitmap(visualizedResult)
         }.addOnFailureListener {
             Log.e(CameraViewModel.TAG, it.message.toString())
         }
@@ -694,7 +866,7 @@ class CameraFragment : Fragment() {
                 /* suffix */
 //            storageDir /* directory */
         ).apply {
-            // Save a file: path for use with ACTION_VIEW intents
+//             Save a file: path for use with ACTION_VIEW intents
             currentPhotoPath = absolutePath
         }
     }
@@ -724,10 +896,7 @@ class CameraFragment : Fragment() {
     }
 
 
-    /**
-     * Draw bounding boxes around objects together with the object's name.
-     */
-    private fun drawDetectionResult(
+   fun drawDetectionResult(
             bitmap: Bitmap,
             detectionResults: List<BoxWithText>
     ): Bitmap {
@@ -785,6 +954,7 @@ class CameraFragment : Fragment() {
         }
     }
 }
+
     /**
      * A general-purpose data class to store detection result for visualization
      */

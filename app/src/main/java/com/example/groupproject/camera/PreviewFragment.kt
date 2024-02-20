@@ -20,6 +20,8 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.MediaController
 import android.widget.TextView
+import androidx.camera.view.PreviewView
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.exifinterface.media.ExifInterface
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
@@ -44,6 +46,7 @@ class PreviewFragment : Fragment() {
     private lateinit var imgSampleThree: ImageView
     private lateinit var label: TextView
     private lateinit var currentPhotoPath: String
+    lateinit var preview: PreviewView
 
  lateinit var binding: FragmentPreviewBinding
     override fun onCreateView(
@@ -68,9 +71,15 @@ class PreviewFragment : Fragment() {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
 
+//            val bitmap = binding.overlay
+            binding.ivPreview.setImageBitmap(preview.bitmap)
+            binding.ivPreview.visibility = View.VISIBLE
+//            cameraExecutor.shutdown()
+            binding.ivPreview.visibility = View.GONE
+
             when (mediaType) {
                 MediaType.IMAGE -> {
-                    binding.videoViewer.visibility = View.GONE
+                    binding.videoViewer.visibility = View.VISIBLE
                     binding.controllerView.visibility = View.VISIBLE
                     binding.ivPreview.visibility = View.VISIBLE
                     binding.ivPreview.setImageURI(mediaUri)
