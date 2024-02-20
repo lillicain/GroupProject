@@ -209,9 +209,7 @@ class CameraFragment : Fragment() {
 
 
 
-
-
-
+   lateinit var outPutDirectory: File
     lateinit var cameraExecutor: ExecutorService
     lateinit var scaleGestureDetector: ScaleGestureDetector
     lateinit var binding: FragmentCameraBinding
