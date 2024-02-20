@@ -1,76 +1,659 @@
 package com.example.groupproject.camera
 
 
-//import ARG_MEDIA_PATH
-//import ARG_PREVIEW_TYPE
-//import android.Manifest.*
-//import android.Manifest.permission.*
-//import android.annotation.SuppressLint
-//import android.content.Context.*
-//import android.content.Intent
-//import android.content.res.Configuration
-//import android.graphics.Bitmap
-//import android.graphics.BitmapFactory
-//import android.graphics.Color
-//import android.graphics.Matrix
-//import android.graphics.Paint
-//import android.graphics.Rect
-//import android.net.Uri
-//import android.os.Bundle
-//import android.os.CountDownTimer
-//import android.provider.MediaStore
-//import android.util.Log
-//import android.view.LayoutInflater
-//import android.view.MotionEvent
-//import android.view.ScaleGestureDetector
-//import android.view.View
-//import android.view.ViewGroup
-//import android.widget.Button
-//import android.widget.ImageView
-//import android.widget.SeekBar
-//import android.widget.TextView
-//import androidx.camera.core.AspectRatio
-//import androidx.camera.core.Camera
-//import androidx.camera.core.CameraSelector
-//import androidx.camera.core.FocusMeteringAction
-//import androidx.camera.core.ImageCapture
-//import androidx.camera.core.ImageCaptureException
-//import androidx.camera.core.Preview
-//import androidx.camera.lifecycle.ProcessCameraProvider
-//import androidx.constraintlayout.widget.ConstraintLayout
-//import androidx.core.content.ContextCompat
-//import androidx.core.content.FileProvider
-//import androidx.core.view.updateLayoutParams
-//import androidx.exifinterface.media.ExifInterface
-//import androidx.fragment.app.Fragment
-//import androidx.fragment.app.viewModels
-//import androidx.lifecycle.LifecycleOwner
-//import androidx.lifecycle.lifecycleScope
-//import androidx.navigation.fragment.findNavController
-//import com.example.groupproject.R
-//import com.example.groupproject.R.*
-//import com.example.groupproject.R.id.*
-//import com.example.groupproject.camera.VideoFragment.Companion.TAG
-//import com.example.groupproject.databinding.FragmentCameraBinding
-//import com.example.groupproject.utils.MediaType
-//import com.example.groupproject.utils.OutputFileOptionsFactory
-//import com.example.groupproject.utils.getDimensionRatioString
-//import com.google.mlkit.vision.common.InputImage
-//import com.google.mlkit.vision.objects.DetectedObject
-//import com.google.mlkit.vision.objects.ObjectDetection
-//import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions
-//import kotlinx.coroutines.delay
-//import kotlinx.coroutines.launch
-//import java.io.File
-//import java.io.IOException
-//import java.text.SimpleDateFormat
-//import java.util.Date
-//import java.util.concurrent.ExecutorService
-//import java.util.concurrent.Executors
-//import kotlin.math.max
-//import kotlin.math.min
+import ARG_MEDIA_PATH
+import ARG_PREVIEW_TYPE
+import android.Manifest.*
+import android.Manifest.permission.*
+import android.annotation.SuppressLint
+import android.content.Context.*
+import android.content.Intent
+import android.content.res.Configuration
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.Rect
+import android.net.Uri
+import android.os.Bundle
+import android.os.CountDownTimer
+import android.provider.MediaStore
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.ScaleGestureDetector
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.SeekBar
+import android.widget.TextView
+import androidx.camera.core.AspectRatio
+import androidx.camera.core.Camera
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.FocusMeteringAction
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import androidx.core.view.updateLayoutParams
+import androidx.exifinterface.media.ExifInterface
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.groupproject.R
+import com.example.groupproject.R.*
+import com.example.groupproject.R.id.*
+import com.example.groupproject.databinding.FragmentCameraBinding
+import com.example.groupproject.preference.CameraXLivePreviewPreferenceFragment
+import com.example.groupproject.preference.LivePreviewPreferenceFragment
+import com.example.groupproject.utils.MediaType
+import com.example.groupproject.utils.OutputFileOptionsFactory
+import com.example.groupproject.utils.getDimensionRatioString
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.objects.DetectedObject
+import com.google.mlkit.vision.objects.ObjectDetection
+import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+import kotlin.math.max
+import kotlin.math.min
+
+class CameraFragment: Fragment() {
+    lateinit var cameraExecutor: ExecutorService
+    lateinit var scaleGestureDetector: ScaleGestureDetector
+    lateinit var binding: FragmentCameraBinding
+    var imageCapture: ImageCapture? = null
+    var camera: Camera? = null
+    val viewModel: CameraViewModel by viewModels()
+    lateinit var result: String
+
+    private lateinit var captureImageFab: Button
+    private lateinit var inputImageView: ImageView
+    private lateinit var imgSampleOne: ImageView
+    private lateinit var imgSampleTwo: ImageView
+    private lateinit var imgSampleThree: ImageView
+    private lateinit var tvPlaceholder: TextView
+    private lateinit var currentPhotoPath: String
+
+    private val filterListener = View.OnClickListener {
+        changeFilter()
+    }
+
+
+
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentCameraBinding.inflate(inflater, container, false)
+//        btn = (Button) view.findViewById(R.id.cameraButton)
+//        String text = getA
+
+
+        return binding.root
+
+
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.viewFinder.setOnTouchListener { _, motionEvent ->
+            scaleGestureDetector.onTouchEvent(motionEvent)
+            when (motionEvent.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    binding.pnlFlashOptions.visibility = View.GONE
+                    binding.pnlRatioOptions.visibility = View.GONE
+                    startTouchTimer()
+                    return@setOnTouchListener true
+                }
+                MotionEvent.ACTION_UP -> {
+                    val factory = binding.viewFinder.meteringPointFactory
+                    val point = factory.createPoint(motionEvent.x, motionEvent.y)
+                    val action = FocusMeteringAction.Builder(point).build()
+                    camera?.cameraControl?.startFocusAndMetering(action)
+                    return@setOnTouchListener true
+                }
+                else -> return@setOnTouchListener false
+            }
+        }
+
+//        captureImageFab = findViewById(R.id.captureImageFab)
+//        inputImageView = findViewById(R.id.imageView)
+//        imgSampleOne = findViewById(R.id.imgSampleOne)
+//        imgSampleTwo = findViewById(R.id.imgSampleTwo)
+//        imgSampleThree = findViewById(R.id.imgSampleThree)
+//        tvPlaceholder = findViewById(R.id.tvPlaceholder)
 //
-//class CameraFragment : Fragment() {
+//        captureImageFab.setOnClickListener(this)
+//        imgSampleOne.setOnClickListener(this)
+//        imgSampleTwo.setOnClickListener(this)
+//        imgSampleThree.setOnClickListener(this)
+
+        updateRatioView()
+//        binding.scrollView.setOnClickListener {
+//
+//        }
+//        binding.filterOne.setOnClickListener {
+//
+//        }
+//        binding.filterTwo.setOnClickListener {
+//            binding.filterTwo.text = "Filter2"
+//        }
+//        binding.filterThree.setOnClickListener {
+//            binding.filterThree.setText("Filter3")
+//        }
+//        binding.filterThree.setOnClickListener { changeFilter() }
+        binding.photoButton.setOnClickListener { takePhoto() }
+        binding.pnlFLash.setOnClickListener(flashClickListener)
+//        binding.ivFlashOff.setOnClickListener(flashChangeListener)
+//        binding.ivFlashOn.setOnClickListener(flashChangeListener)
+//        binding.ivFlashAuto.setOnClickListener(flashChangeListener)
+        binding.pnlFacing.setOnClickListener(facingChangeListener)
+        binding.pnlRatio.setOnClickListener(ratioClickListener)
+        binding.tvRatio169.setOnClickListener(ratioChangeListener)
+        binding.tvRatio43.setOnClickListener(ratioChangeListener)
+        scaleGestureDetector = ScaleGestureDetector(requireContext(), zoomListener)
+//        binding.swCameraOption.setOnCheckedChangeListener { _, isChecked ->
+//            if (isChecked) {
+//                findNavController().navigate(R.id.previewFragment)
+//            }
+//        }
+        cameraExecutor = Executors.newSingleThreadExecutor()
+        bindCameraUseCases()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        updateRatioView()
+    }
+
+    fun changeFilter() {
+//        binding.filterOne.text = "Filter one"
+        binding.filter.text = result
+//        binding.cameraResult
+        if (result.isEmpty()) {
+            val result = "Evil"
+        }
+
+    }
+
+    fun takePhoto() {
+        binding.captureProgress.visibility = View.VISIBLE
+        val imageCapture = imageCapture ?: return
+        imageCapture.takePicture(
+            OutputFileOptionsFactory().getPhotoOutputFileOption(requireActivity()),
+            ContextCompat.getMainExecutor(requireContext()),
+            object : ImageCapture.OnImageSavedCallback {
+                override fun onError(exc: ImageCaptureException) {
+                    Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
+                    viewModel.savedUri.value
+                }
+                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                    output.savedUri?.let { setPreview(it) }
+                    viewModel.savedUri.value = output.savedUri
+                    binding.captureProgress.visibility = View.VISIBLE
+                }
+            })
+    }
+
+    fun bindCameraUseCases() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+        binding.viewFinder.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            val orientation = resources.configuration.orientation
+            dimensionRatio = viewModel.screenAspectRatio.getDimensionRatioString((orientation == Configuration.ORIENTATION_PORTRAIT))
+        }
+
+        cameraProviderFuture.addListener({
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+            val preview = Preview.Builder().setTargetAspectRatio(viewModel.screenAspectRatio).build().also {
+                it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
+            }
+
+            imageCapture = ImageCapture.Builder()
+                .setFlashMode(imageCapture?.flashMode ?: ImageCapture.FLASH_MODE_AUTO)
+                .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
+                .setTargetAspectRatio(viewModel.screenAspectRatio).build()
+
+            updateFlashView()
+            try {
+                cameraProvider.unbindAll()
+                camera = cameraProvider.bindToLifecycle(this, viewModel.lensFacing, preview, imageCapture)
+            } catch (exc: Exception) {
+                Log.e(TAG, "Use case binding failed", exc)
+            }
+        }, ContextCompat.getMainExecutor(requireContext()))
+    }
+
+    fun flipCamera() {
+        var rotationDegree = 0f
+        if (viewModel.lensFacing === CameraSelector.DEFAULT_FRONT_CAMERA) {
+            viewModel.lensFacing = CameraSelector.DEFAULT_BACK_CAMERA
+            rotationDegree = 180f
+        } else if (viewModel.lensFacing === CameraSelector.DEFAULT_BACK_CAMERA) {
+            viewModel.lensFacing = CameraSelector.DEFAULT_FRONT_CAMERA
+            rotationDegree = -180f
+        }
+        bindCameraUseCases()
+        binding.ivFacing.animate().rotation(rotationDegree).setDuration(500).start()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cameraExecutor.shutdown()
+    }
+
+    val flashClickListener = View.OnClickListener {
+        binding.pnlRatioOptions.visibility = View.GONE
+        binding.pnlFlashOptions.visibility = when (binding.pnlFlashOptions.visibility) {
+            View.VISIBLE -> View.GONE
+            View.GONE -> View.VISIBLE
+            else -> binding.pnlFlashOptions.visibility
+        }
+    }
+
+    val flashChangeListener = View.OnClickListener {
+//        when (it.id) {
+//            binding.ivFlashOff.id -> {
+//                imageCapture?.flashMode = ImageCapture.FLASH_MODE_OFF
+//                binding.pnlFlashOptions.visibility = View.GONE
+//                updateFlashView()
+//            }
+//
+//            binding.ivFlashOn.id -> {
+//                imageCapture?.flashMode = ImageCapture.FLASH_MODE_ON
+//                binding.pnlFlashOptions.visibility = View.GONE
+//                updateFlashView()
+//            }
+//
+//            binding.ivFlashAuto.id -> {
+//                imageCapture?.flashMode = ImageCapture.FLASH_MODE_AUTO
+//                binding.pnlFlashOptions.visibility = View.GONE
+//                updateFlashView()
+//            }
+//        }
+    }
+
+    private fun updateFlashView() {
+//        binding.ivFlash.setImageResource(
+//            when (imageCapture?.flashMode) {
+//                ImageCapture.FLASH_MODE_OFF -> {
+//                    R.drawable.ic_flash_off
+//                }
+//
+//                ImageCapture.FLASH_MODE_ON -> {
+//                    R.drawable.ic_flash_on
+//                }
+//
+//                ImageCapture.FLASH_MODE_AUTO -> {
+//                    R.drawable.ic_flash_auto
+//                }
+//
+//                else -> R.drawable.ic_flash_off
+//            }
+//        )
+    }
+
+
+    private val ratioClickListener = View.OnClickListener {
+        binding.pnlFlashOptions.visibility = View.GONE
+        binding.pnlRatioOptions.visibility = when (binding.pnlRatioOptions.visibility) {
+            View.VISIBLE -> View.GONE
+            View.GONE -> View.VISIBLE
+            else -> binding.pnlRatioOptions.visibility
+        }
+    }
+
+
+    private val facingChangeListener = View.OnClickListener {
+        flipCamera()
+    }
+
+    private val zoomListener = object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+        override fun onScale(detector: ScaleGestureDetector): Boolean {
+            val scale = camera?.cameraInfo?.zoomState?.value?.zoomRatio?.times(detector.scaleFactor)
+            scale?.let { value ->
+                camera?.cameraControl?.setZoomRatio(value)
+                val result = if (value < 1.5) 0.0f else value
+//                binding.zoomSeekBar.setOnSeekBarChangeListener(null)
+//                binding.zoomSeekBar.progress = (result * 10).toInt()
+//                binding.zoomSeekBar.setOnSeekBarChangeListener(zoomSeekListener)
+            }
+
+//            binding.zoomSeekWrapper.visibility = View.VISIBLE
+            startTouchTimer()
+
+            return true
+        }
+    }
+
+    private val zoomSeekListener = object : SeekBar.OnSeekBarChangeListener {
+        override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
+            camera?.cameraControl?.setLinearZoom(progress / 100.toFloat())
+            startTouchTimer()
+        }
+
+        override fun onStartTrackingTouch(p0: SeekBar?) {
+
+        }
+
+        override fun onStopTrackingTouch(p0: SeekBar?) {
+
+        }
+    }
+
+    private val ratioChangeListener = View.OnClickListener {
+        var ratio = 0
+        when (it.id) {
+            binding.tvRatio169.id -> {
+                ratio = AspectRatio.RATIO_16_9
+            }
+            binding.tvRatio43.id -> {
+                ratio = AspectRatio.RATIO_4_3
+            }
+        }
+        if (viewModel.screenAspectRatio != ratio) {
+            viewModel.screenAspectRatio = ratio
+            updateRatioView()
+            lifecycleScope.launch {
+                delay(500L)
+                bindCameraUseCases()
+            }
+        }
+        binding.pnlRatioOptions.visibility = View.GONE
+    }
+    private fun updateRatioView() {
+        val orientation = resources.configuration.orientation
+//        binding.tvRatio.text = viewModel.screenAspectRatio.getAspectRationString(orientation == Configuration.ORIENTATION_PORTRAIT)
+//        binding.tvRatio169.text = if (orientation == Configuration.ORIENTATION_PORTRAIT) "9:16" else "16:9"
+//        binding.tvRatio43.text = if (orientation == Configuration.ORIENTATION_PORTRAIT) "3:4" else "4:3"
+    }
+
+    private fun setPreview(uri: Uri) {
+        binding.previewImage.setImageURI(uri)
+        binding.pnlPreview.visibility = View.VISIBLE
+        binding.pnlPreview.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString(ARG_PREVIEW_TYPE, MediaType.IMAGE)
+            bundle.putString(ARG_MEDIA_PATH, uri.toString())
+            findNavController().navigate(R.id.previewFragment, bundle)
+        }
+    }
+    private var timer: CountDownTimer? = null
+    private fun startTouchTimer(duration: Long = 1000) {
+        timer?.cancel()
+        timer = null
+        timer = object : CountDownTimer(duration, 1000) {
+            override fun onTick(millisUntilFinished: Long) {}
+            override fun onFinish() {
+            }
+        }.start()
+    }
+    private fun startCamera() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(this.requireContext())
+
+        cameraProviderFuture.addListener({
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+
+            val preview = Preview.Builder()
+                .build()
+                .also {
+                    it.setSurfaceProvider {
+                        preview
+                    }
+                }
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            try {
+                cameraProvider.unbindAll()
+
+                cameraProvider.bindToLifecycle(
+                    this as LifecycleOwner, cameraSelector, preview
+                )
+
+            } catch (exc: Exception) {
+                Log.e(TAG, "Use case binding failed", exc)
+            }
+
+        }, ContextCompat.getMainExecutor(this.requireContext()))
+    }
+
+    private fun runObjectDetection(bitmap: Bitmap) {
+        val image = InputImage.fromBitmap(bitmap, 0)
+
+        val options = ObjectDetectorOptions.Builder()
+            .setDetectorMode(ObjectDetectorOptions.SINGLE_IMAGE_MODE)
+            .enableMultipleObjects()
+            .enableClassification()
+            .build()
+        val objectDetector = ObjectDetection.getClient(options)
+
+        objectDetector.process(image).addOnSuccessListener { results ->
+            debugPrint(results)
+
+            // Parse ML Kit's DetectedObject and create corresponding visualization data
+            val detectedObjects = results.map {
+                var text = "Unknown"
+
+                // We will show the top confident detection result if it exist
+                if (it.labels.isNotEmpty()) {
+                    val firstLabel = it.labels.first()
+                    text = "${firstLabel.text}, ${firstLabel.confidence.times(100).toInt()}%"
+                }
+//                BoxWithText(it.boundingBox, text)
+            }
+
+            // Draw the detection result on the input bitmap
+//            val visualizedResult = drawDetectionResult(bitmap, detectionResults)
+
+            // Show the detection result on the app screen
+//            inputImageView.setImageBitmap(visualizedResult)
+        }.addOnFailureListener {
+            Log.e(CameraViewModel.TAG, it.message.toString())
+        }
+    }
+    private fun setViewAndDetect(bitmap: Bitmap) {
+        // Display the captured image
+        inputImageView.setImageBitmap(bitmap)
+        tvPlaceholder.visibility = View.INVISIBLE
+
+        // Run object detection and display the result
+        runObjectDetection(bitmap)
+    }
+
+    /**
+     * getCapturedImage():
+     *     Decodes and crops the captured image from camera.
+     */
+    private fun getCapturedImage(): Bitmap {
+        // Get the dimensions of the View
+        val targetW: Int = inputImageView.width
+        val targetH: Int = inputImageView.height
+
+        val bmOptions = BitmapFactory.Options().apply {
+            // Get the dimensions of the bitmap
+            inJustDecodeBounds = true
+
+            BitmapFactory.decodeFile(currentPhotoPath, this)
+
+            val photoW: Int = outWidth
+            val photoH: Int = outHeight
+
+            // Determine how much to scale down the image
+            val scaleFactor: Int = max(1, min(photoW / targetW, photoH / targetH))
+
+            // Decode the image file into a Bitmap sized to fill the View
+            inJustDecodeBounds = false
+            inSampleSize = scaleFactor
+            inMutable = true
+        }
+        val exifInterface = ExifInterface(currentPhotoPath)
+        val orientation = exifInterface.getAttributeInt(
+            ExifInterface.TAG_ORIENTATION,
+            ExifInterface.ORIENTATION_UNDEFINED
+        )
+
+        val bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions)
+        return when (orientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> {
+                rotateImage(bitmap, 90f)
+            }
+            ExifInterface.ORIENTATION_ROTATE_180 -> {
+                rotateImage(bitmap, 180f)
+            }
+            ExifInterface.ORIENTATION_ROTATE_270 -> {
+                rotateImage(bitmap, 270f)
+            }
+            else -> {
+                bitmap
+            }
+        }
+    }
+
+    /**
+     * Get image form drawable and convert to bitmap.
+     */
+    private fun getSampleImage(drawable: Int): Bitmap {
+        return BitmapFactory.decodeResource(resources, drawable, BitmapFactory.Options().apply {
+            inMutable = true
+        })
+
+    }
+
+    /**
+     * Rotate the given bitmap.
+     */
+    private fun rotateImage(source: Bitmap, angle: Float): Bitmap {
+        val matrix = Matrix()
+        matrix.postRotate(angle)
+        return Bitmap.createBitmap(
+            source, 0, 0, source.width, source.height,
+            matrix, true
+        )
+    }
+
+    /**
+     * Create a file to pass to a camera app for storing captured image.
+     */
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+//        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+//            storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            currentPhotoPath = absolutePath
+        }
+    }
+    private fun dispatchTakePictureIntent() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            // Ensure that there's a camera activity to handle the intent
+//            takePictureIntent.resolveActivity(packageManager)?.also {
+            // Create the File where the photo should go
+            val photoFile: File? = try {
+                createImageFile()
+            } catch (e: IOException) {
+                Log.e(CameraXLivePreviewPreferenceFragment.TAG, e.message.toString())
+                null
+            }
+            // Continue only if the File was successfully created
+            photoFile?.also {
+                val photoURI: Uri = FileProvider.getUriForFile(
+                    this.requireContext(),
+                    "com.google.mlkit.codelab.objectdetection.fileprovider",
+                    it
+                )
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+//                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            }
+        }
+    }
+
+
+    /**
+     * Draw bounding boxes around objects together with the object's name.
+     */
+    private fun drawDetectionResult(
+        bitmap: Bitmap,
+        detectionResults: List<BoxWithText>
+    ): Bitmap {
+        val outputBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
+        val canvas = android.graphics.Canvas(outputBitmap)
+        val pen = Paint()
+        pen.textAlign = Paint.Align.LEFT
+
+        detectionResults.forEach {
+            // draw bounding box
+            pen.color = Color.RED
+            pen.strokeWidth = 8F
+            pen.style = Paint.Style.STROKE
+            val box = it.box
+            canvas.drawRect(box, pen)
+
+            val tagSize = Rect(0, 0, 0, 0)
+
+            // calculate the right font size
+            pen.style = Paint.Style.FILL_AND_STROKE
+            pen.color = Color.YELLOW
+            pen.strokeWidth = 2F
+
+//            pen.textSize =
+            pen.getTextBounds(it.text, 0, it.text.length, tagSize)
+            val fontSize: Float = pen.textSize * box.width() / tagSize.width()
+
+            // adjust the font size so texts are inside the bounding box
+            if (fontSize < pen.textSize) pen.textSize = fontSize
+
+            var margin = (box.width() - tagSize.width()) / 2.0F
+            if (margin < 0F) margin = 0F
+            canvas.drawText(
+                it.text, box.left + margin,
+                box.top + tagSize.height().times(1F), pen
+            )
+        }
+        return outputBitmap
+    }
+
+    /**
+     * Print out the object detection result to Logcat.
+     */
+    private fun debugPrint(detectedObjects: List<DetectedObject>) {
+        detectedObjects.forEachIndexed { index, detectedObject ->
+            val box = detectedObject.boundingBox
+
+            Log.d(CameraXLivePreviewPreferenceFragment.TAG, "Detected object: $index")
+            Log.d(CameraXLivePreviewPreferenceFragment.TAG, " trackingId: ${detectedObject.trackingId}")
+            Log.d(CameraXLivePreviewPreferenceFragment.TAG, " boundingBox: (${box.left}, ${box.top}) - (${box.right},${box.bottom})")
+            detectedObject.labels.forEach {
+                Log.d(CameraXLivePreviewPreferenceFragment.TAG, " categories: ${it.text}")
+                Log.d(CameraXLivePreviewPreferenceFragment.TAG, " confidence: ${it.confidence}")
+            }
+        }
+    }
+    /**
+     * A general-purpose data class to store detection result for visualization
+     */
+
+    data class BoxWithText(val box: Rect, val text: String)
+
+
+}
 //    lateinit var cameraExecutor: ExecutorService
 //    lateinit var scaleGestureDetector: ScaleGestureDetector
 //    lateinit var binding: FragmentCameraBinding
