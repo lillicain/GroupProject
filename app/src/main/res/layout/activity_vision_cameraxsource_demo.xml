@@ -5,6 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true">
+<View
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
+
 
   <androidx.camera.view.PreviewView
       android:id="@+id/preview_view"
@@ -58,6 +62,7 @@
         android:padding="12dp"
         android:contentDescription="@string/menu_item_settings"
         android:src="@drawable/ic_settings_white_24dp"/>
+
   </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -76,7 +76,6 @@ import java.util.concurrent.Executors
 import kotlin.math.max
 import kotlin.math.min
 
-
 data class BoxWithText(val box: Rect, val text: String)
 
 class CameraFragment : Fragment() {
@@ -185,6 +184,8 @@ class CameraFragment : Fragment() {
 //            binding.filterThree.setText("Filter3")
 //        }
 //        binding.filterThree.setOnClickListener { changeFilter() }
+        binding.graphicOverlayFinder.setOnClickListener { result }
+        binding.viewFinder.setOnClickListener { startCamera() }
         binding.photoButton.setOnClickListener { takePhoto() }
         binding.pnlFLash.setOnClickListener(flashClickListener)
 //        binding.ivFlashOff.setOnClickListener(flashChangeListener)
@@ -420,6 +421,7 @@ class CameraFragment : Fragment() {
             bundle.putString(ARG_PREVIEW_TYPE, MediaType.IMAGE)
             bundle.putString(ARG_MEDIA_PATH, uri.toString())
             findNavController().navigate(R.id.previewFragment, bundle)
+            graphic_overlay
         }
     }
 
@@ -435,7 +437,7 @@ class CameraFragment : Fragment() {
     }
 
     private fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(this.requireContext())
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(safeContext)
 
         cameraProviderFuture.addListener({
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
@@ -460,7 +462,7 @@ class CameraFragment : Fragment() {
 //                Log.e(TAG, "Use case binding failed", exc)
             }
 
-        }, ContextCompat.getMainExecutor(this.requireContext()))
+        }, ContextCompat.getMainExecutor(safeContext))
     }
 
 //    private fun startCamera() {
@@ -598,7 +600,7 @@ class CameraFragment : Fragment() {
     private fun setViewAndDetect(bitmap: Bitmap) {
         // Display the captured image
         inputImageView.setImageBitmap(bitmap)
-        tvPlaceholder.visibility = View.INVISIBLE
+        tvPlaceholder.visibility = View.VISIBLE
 
         // Run object detection and display the result
         runObjectDetection(bitmap)
@@ -673,7 +675,7 @@ class CameraFragment : Fragment() {
         val matrix = Matrix()
         matrix.postRotate(angle)
         return Bitmap.createBitmap(
-                source, 0, 0, source.width, source.height,
+                source, 20, 20, source.width, source.height,
                 matrix, true
         )
     }
@@ -742,12 +744,12 @@ class CameraFragment : Fragment() {
             val box = it.box
             canvas.drawRect(box, pen)
 
-            val tagSize = Rect(0, 0, 0, 0)
+            val tagSize = Rect(10, 10, 10, 10)
 
             // calculate the right font size
             pen.style = Paint.Style.FILL_AND_STROKE
             pen.color = Color.YELLOW
-            pen.strokeWidth = 2F
+            pen.strokeWidth = 20F
 
 //            pen.textSize =
             pen.getTextBounds(it.text, 0, it.text.length, tagSize)
