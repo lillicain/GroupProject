@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.HorizontalScrollView
 import android.widget.ImageView
 import android.widget.Toast
@@ -25,11 +26,14 @@ import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.example.groupproject.camera.CameraFragment
 import com.example.groupproject.camera.CameraViewModel
 import com.example.groupproject.cameraAwesome.DetectionFragment
+import com.example.groupproject.cameraAwesome.PermissionsFragment
 import com.example.groupproject.databinding.ActivityCameraBinding
 import com.example.groupproject.matthewcamera.CameraVM
 import com.example.groupproject.utils.Permissions
@@ -37,6 +41,9 @@ import com.google.common.util.concurrent.ListenableFuture
 import java.util.concurrent.ExecutionException
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        const val REQUEST_CODE_PERMISSIONS = 10
+    }
     private lateinit var navController: NavController
 //    private val viewModel: CameraViewModel by viewModels()
     private lateinit var binding: ActivityCameraBinding
@@ -49,13 +56,24 @@ class MainActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding.root)
+//        setContentView(R.layout.fragment_detection)
         initNavController()
         binding.btnRequestPermission.setOnClickListener { requestPermissions() }
         if (!Permissions.isPermissionTaken(this)) {
             requestPermissions()
         }
 
+        if (savedInstanceState == null) {
+            moveToPermission()
+        }
+        val btnQrReaderFragment: Button = findViewById(R.id.btnQrReaderFragment)
 
+
+
+        btnQrReaderFragment.setOnClickListener {
+            val qrReaderFragment = DialogFragment()
+            qrReaderFragment.show(supportFragmentManager, "QR_FRAGMENT")
+        }
 
     }
     fun moveToCamera() {
@@ -66,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 
     fun moveToPermission() {
         supportFragmentManager.beginTransaction()
-//            .replace(android.R.id.content, PermissionsFragment())
+            .replace(android.R.id.content, PermissionsFragment())
             .commit()
     }
 

@@ -81,5 +81,6 @@ class MLKitVisionImage {
         } else {
             (sensorOrientation - rotationCompensation + 360) % 360
         }
+        return rotationCompensation
     }
 }
