@@ -63,17 +63,17 @@ class MainActivity : AppCompatActivity() {
             requestPermissions()
         }
 
-        if (savedInstanceState == null) {
-            moveToPermission()
-        }
-        val btnQrReaderFragment: Button = findViewById(R.id.btnQrReaderFragment)
-
-
-
-        btnQrReaderFragment.setOnClickListener {
-            val qrReaderFragment = DialogFragment()
-            qrReaderFragment.show(supportFragmentManager, "QR_FRAGMENT")
-        }
+//        if (savedInstanceState == null) {
+//            moveToPermission()
+//        }
+//        val btnQrReaderFragment: Button = findViewById(R.id.btnQrReaderFragment)
+//
+//
+//
+//        btnQrReaderFragment.setOnClickListener {
+//            val qrReaderFragment = DialogFragment()
+//            qrReaderFragment.show(supportFragmentManager, "QR_FRAGMENT")
+//        }
 
     }
     fun moveToCamera() {

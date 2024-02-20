@@ -94,17 +94,17 @@ class CameraActivity: AppCompatActivity() {
     }
 
     private fun initViews() {
-        previewView = findViewById(R.id.previewView)
-        focusRing = findViewById(R.id.focusRing)
-        btnFlash = findViewById(R.id.btnFlash)
-        ivCapturePreview = findViewById(R.id.ivCapturePreview)
-        btnCapturePhoto = findViewById(R.id.btnCapturePhoto)
-        btnChangeCameraType = findViewById(R.id.btnChangeCameraType)
-        btnStartCamera = findViewById(R.id.btnStartCamera)
-        btnStopCamera = findViewById(R.id.btnStopCamera)
-        btnStartReading = findViewById(R.id.btnStartReading)
-        btnStopReading = findViewById(R.id.btnStopReading)
-        tvReadResult = findViewById(R.id.tvReadResult)
+//        previewView = findViewById(R.id.previewView)
+//        focusRing = findViewById(R.id.focusRing)
+//        btnFlash = findViewById(R.id.btnFlash)
+//        ivCapturePreview = findViewById(R.id.ivCapturePreview)
+//        btnCapturePhoto = findViewById(R.id.btnCapturePhoto)
+//        btnChangeCameraType = findViewById(R.id.btnChangeCameraType)
+//        btnStartCamera = findViewById(R.id.btnStartCamera)
+//        btnStopCamera = findViewById(R.id.btnStopCamera)
+//        btnStartReading = findViewById(R.id.btnStartReading)
+//        btnStopReading = findViewById(R.id.btnStopReading)
+//        tvReadResult = findViewById(R.id.tvReadResult)
     }
 
     private fun initCameraManager() {
