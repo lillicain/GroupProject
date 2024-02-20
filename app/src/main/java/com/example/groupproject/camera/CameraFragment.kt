@@ -5,6 +5,7 @@ import ARG_PREVIEW_TYPE
 import android.Manifest.*
 import android.Manifest.permission.*
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Context.*
 import android.content.Intent
 import android.content.res.Configuration
@@ -32,6 +33,7 @@ import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.FocusMeteringAction
+import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
@@ -53,9 +55,12 @@ import com.example.groupproject.camera.CameraViewModel.Companion.TAG
 import com.example.groupproject.camera.VideoFragment.Companion.TAG
 import com.example.groupproject.databinding.FragmentCameraBinding
 import com.example.groupproject.preference.CameraXLivePreviewPreferenceFragment
+import com.example.groupproject.preference.PreferenceUtils
 import com.example.groupproject.utils.MediaType
 import com.example.groupproject.utils.OutputFileOptionsFactory
 import com.example.groupproject.utils.getDimensionRatioString
+import com.google.android.material.shape.CornerSize
+import com.google.androidbrowserhelper.trusted.Utils
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.objects.DetectedObject
 import com.google.mlkit.vision.objects.ObjectDetection
@@ -95,6 +100,25 @@ class CameraFragment : Fragment() {
     private val filterListener = View.OnClickListener {
         changeFilter()
     }
+    private var preview: Preview? = null
+    private var imageAnalyzer: ImageAnalysis? = null
+
+    lateinit var safeContext: Context
+
+    private lateinit var outputDirectory: File
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        safeContext = context
+    }
+
+    private fun getStatusBarHeight(): Int {
+        val resourceId =
+                safeContext.resources.getIdentifier("status_bar_height", "dimen", "android")
+        return if (resourceId > 0) {
+            safeContext.resources.getDimensionPixelSize(resourceId)
+        } else 0
+    }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -107,6 +131,7 @@ class CameraFragment : Fragment() {
 
 
     }
+
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -438,7 +463,104 @@ class CameraFragment : Fragment() {
         }, ContextCompat.getMainExecutor(this.requireContext()))
     }
 
-    private fun runObjectDetection(bitmap: Bitmap) {
+//    private fun startCamera() {
+////        val cameraProviderFuture = ProcessCameraProvider.getInstance(this.requireContext())
+//
+//////        OpenCVLoader.initDebug()
+//        val cameraProviderFuture = ProcessCameraProvider.getInstance(safeContext)
+////
+//        val cameraSelector =
+//                CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
+//        cameraProviderFuture.addListener(Runnable {
+//            // Used to bind the lifecycle of cameras to the lifecycle owner
+//            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+//
+////            // Preview
+//            preview = Preview.Builder().build()
+////
+//            imageCapture = ImageCapture.Builder().build()
+////
+//            imageAnalyzer = ImageAnalysis.Builder().build().apply {
+//                setAnalyzer(Executors.newSingleThreadExecutor(), ImageAnalysis.Analyzer {
+////                setAnalyzer(Executors.newSingleThreadExecutor(), CornerAnalyzer {
+////                    val bitmap = viewFinder.bitmap
+////                    val img = Mat()
+//                    PreferenceUtils.getObjectDetectorOptionsForLivePreview(context)
+////                    PreferenceUtils.bitmapToMat(bitmap, img)
+////                    bitmap?.recycle()
+//                    // Do image analysis here if you need bitmap
+//                })
+//            }
+//            // Select back camera
+////
+////            try {
+////                // Unbind use cases before rebinding
+////                cameraProvider.unbindAll()
+////                cameraProvider.bindToLifecycle(
+////                        this,
+////                        cameraSelector,
+////                        preview,
+////                        imageCapture,
+////                        imageAnalyzer
+////                )
+////                // Bind use cases to camera
+////                camera = cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalyzer, preview, imageCapture)
+////                preview?.setSurfaceProvider {
+////                    viewFinder
+////                }
+////            } catch (exc: Exception) {
+////                Log.e(CameraViewModel.TAG, "Use case binding failed", exc)
+////            }
+////
+////        }, ContextCompat.getMainExecutor(safeContext))
+////
+////    }
+//            cameraProviderFuture.addListener({
+//                val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+//
+//                val preview = Preview.Builder()
+//                        .build()
+//                        .also {
+//                            it.setSurfaceProvider {
+//                                preview
+//                            }
+//                        }
+//                try {
+//                    // Unbind use cases before rebinding
+//                    cameraProvider.unbindAll()
+//                    cameraProvider.bindToLifecycle(
+//                            this,
+//                            cameraSelector,
+//                            preview,
+//                            imageCapture,
+//                            imageAnalyzer
+//                    )
+//                    // Bind use cases to camera
+//                    camera = cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalyzer, preview, imageCapture)
+//                    preview?.setSurfaceProvider {
+//                        viewFinder
+//                    }
+////            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+//
+////            try {
+////                cameraProvider.unbindAll()
+////
+////                cameraProvider.bindToLifecycle(
+////                        this as LifecycleOwner, cameraSelector, preview
+////                )
+////
+//                } catch (exc: Exception) {
+////                Log.e(TAG, "Use case binding failed", exc)
+//                }
+//
+//            }, ContextCompat.getMainExecutor(safeContext))
+//        }
+
+
+
+
+
+    fun runObjectDetection(bitmap: Bitmap) {
         val image = InputImage.fromBitmap(bitmap, 0)
 
         val options = ObjectDetectorOptions.Builder()
@@ -460,7 +582,7 @@ class CameraFragment : Fragment() {
                     val firstLabel = it.labels.first()
                     text = "${firstLabel.text}, ${firstLabel.confidence.times(100).toInt()}%"
                 }
-//                BoxWithText(it.boundingBox, text)
+                BoxWithText(it.boundingBox, text)
             }
 
             // Draw the detection result on the input bitmap

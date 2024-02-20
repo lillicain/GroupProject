@@ -446,7 +446,7 @@ import kotlin.math.min
             override fun onTick(millisUntilFinished: Long) {}
 
             override fun onFinish() {
-//                binding.zoomSeekWrapper.visibility = View.INVISIBLE
+                binding.zoomSeekWrapper.visibility = View.VISIBLE
             }
         }.start()
     }
