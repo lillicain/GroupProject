@@ -78,7 +78,7 @@ class HomeFragment : Fragment() {
 
         }
         binding.evilGardenButton.setOnClickListener {
-            this.findNavController().navigate(HomeFragmentDirections.actionToRingtoneFragment())
+            this.findNavController().navigate(HomeFragmentDirections.actionToEvilGardenFragment())
         }
 
         binding.searchButton.setOnClickListener {
