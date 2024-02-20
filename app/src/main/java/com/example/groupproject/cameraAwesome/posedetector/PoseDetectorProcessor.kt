@@ -29,7 +29,7 @@ class PoseDetectorProcessor(
   private val detector: PoseDetector
   private val classificationExecutor: Executor
 
-  private var poseClassifierProcessor: PoseClassifierProcessor? = null
+//  private var poseClassifierProcessor: PoseClassifierProcessor? = null
 
   /** Internal class to hold Pose and classification results. */
   class PoseWithClassification(val pose: Pose, val classificationResult: List<String>)
@@ -53,10 +53,10 @@ class PoseDetectorProcessor(
           val pose = task.getResult()
           var classificationResult: List<String> = ArrayList()
           if (runClassification) {
-            if (poseClassifierProcessor == null) {
-              poseClassifierProcessor = PoseClassifierProcessor(context, isStreamMode)
-            }
-            classificationResult = poseClassifierProcessor!!.getPoseResult(pose)
+//            if (poseClassifierProcessor == null) {
+//              poseClassifierProcessor = PoseClassifierProcessor(context, isStreamMode)
+//            }
+//            classificationResult = poseClassifierProcessor!!.getPoseResult(pose)
           }
           PoseWithClassification(pose, classificationResult)
         }
@@ -72,10 +72,10 @@ class PoseDetectorProcessor(
           val pose = task.getResult()
           var classificationResult: List<String> = ArrayList()
           if (runClassification) {
-            if (poseClassifierProcessor == null) {
-              poseClassifierProcessor = PoseClassifierProcessor(context, isStreamMode)
-            }
-            classificationResult = poseClassifierProcessor!!.getPoseResult(pose)
+//            if (poseClassifierProcessor == null) {
+//              poseClassifierProcessor = PoseClassifierProcessor(context, isStreamMode)
+//            }
+//            classificationResult = poseClassifierProcessor!!.getPoseResult(pose)
           }
           PoseWithClassification(pose, classificationResult)
         }
