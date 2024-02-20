@@ -75,7 +75,7 @@
         android:id="@+id/cameraTestFragment"
         android:name="com.example.groupproject.matthewcamera.EvilCameraTestFragment"
         android:label="activity_camera"
-        tools:layout="@layout/fragment_face_detection" >
+        tools:layout="@layout/activity_still_image" >
     </fragment>
 
     <fragment

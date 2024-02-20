@@ -62,13 +62,14 @@ import java.io.FileOutputStream
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
-//    private val viewModel: CameraXViewModel by viewModels()
+
+    //    private val viewModel: CameraXViewModel by viewModels()
     private lateinit var binding: ActivityCameraBinding
 //    private lateinit var cameraManager: CameraManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-       
+        super.onCreate(savedInstanceState)
 
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         window.navigationBarColor = Color.parseColor("#80000000")
@@ -80,20 +81,24 @@ class MainActivity : AppCompatActivity() {
         binding.btnRequestPermission.setOnClickListener { requestPermissions() }
         if (!Permissions.isPermissionTaken(this)) {
             requestPermissions()
+
         }
-    }
-    private fun initNavController() {
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.navController
-    }
-    private fun requestPermissions() {
-        permissionLauncher.launch(Permissions.requestList)
-    }
-    private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+        }
+        private fun initNavController() {
+            val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+            navController = navHostFragment.navController
+        }
+
+        private fun requestPermissions() {
+            permissionLauncher.launch(Permissions.requestList)
+        }
+
+        private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             val hasPermission = permissions.entries.all { it.value }
-            binding.pnlPermission.visibility = if (!hasPermission) View.VISIBLE else View.GONE
+            binding.pnlPermission.visibility = if (!hasPermission) View.VISIBLE else View.VISIBLE
         }
-}
+    }
+
 
 
 
