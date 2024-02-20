@@ -1,23 +1,23 @@
-//package com.example.groupproject.camera
-//
-//import android.content.Context
-//import android.content.pm.PackageManager
-//import android.os.Bundle
-//import android.util.Log
-//import android.widget.Toast
-//import androidx.camera.core.Camera
-//import androidx.camera.core.CameraSelector
-//import androidx.camera.core.ImageAnalysis
-//import androidx.camera.core.Preview
-//import androidx.camera.lifecycle.ProcessCameraProvider
-//import androidx.camera.view.PreviewView
-//import androidx.core.app.ActivityCompat
-//import androidx.core.content.ContextCompat
-//import androidx.lifecycle.LifecycleOwner
-//import com.example.groupproject.R
-//import com.example.groupproject.camera.CameraViewModel.Companion.TAG
-//import java.util.concurrent.ExecutorService
-//import java.util.concurrent.Executors
+package com.example.groupproject.camera
+
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import androidx.camera.core.Camera
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
+import com.example.groupproject.R
+import com.example.groupproject.camera.CameraViewModel.Companion.TAG
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 //
 //class CameraManager(
 //    private val context: Context,
