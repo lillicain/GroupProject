@@ -75,13 +75,13 @@ rootView = FragmentDetectionBinding.inflate(inflater)
     }
 
 
-    private fun initCameraManager(qrDialogFragment: QrDialogFragment) {
+    private fun initCameraManager(dialogFragment: DialogFragment) {
         cameraxManager = CameraxManager.getInstance(
             requireContext(),
-            qrDialogFragment,
+            dialogFragment,
 //            rootView.findViewById(R.id.preview),
 //            rootView.findViewById(R.id.focusRingFragment),
-            rootView.previewViewFragment,
+            rootView.viewFinder,
             rootView.focusRingFragment,
             1
         )
@@ -133,7 +133,7 @@ rootView = FragmentDetectionBinding.inflate(inflater)
     //region Permission Check
     private fun checkCameraPermission() {
         if (allPermissionsGranted()) {
-            initCameraManager(this)
+            initCameraManager(dialogFragment = DialogFragment())
         } else {
             requestPermissions(
                 requiredPermissions, REQUEST_CODE_PERMISSIONS
@@ -155,7 +155,7 @@ rootView = FragmentDetectionBinding.inflate(inflater)
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
-                initCameraManager(this)
+                initCameraManager(dialogFragment = DialogFragment())
 
             } else {
                 Toast.makeText(

@@ -1,31 +1,160 @@
-//package com.example.groupproject.camera
-//
-//import android.content.Intent
-//import android.os.Build.VERSION_CODES
-//import androidx.appcompat.app.AppCompatActivity
-//import android.view.View
-//import android.widget.AdapterView
-//import android.widget.AdapterView.OnItemSelectedListener
-//import android.widget.ArrayAdapter
-//import android.widget.CompoundButton
-//import android.widget.ImageView
-//import android.widget.Spinner
-//import android.widget.Toast
-//import android.widget.ToggleButton
-//import androidx.annotation.RequiresApi
-//import androidx.camera.core.CameraInfoUnavailableException
-//import androidx.camera.core.ImageAnalysis
-//import androidx.camera.core.ImageProxy
-//import androidx.camera.core.Preview
-//import androidx.camera.view.PreviewView
-//import androidx.core.content.ContextCompat
-//import androidx.lifecycle.Observer
-//import androidx.lifecycle.ViewModelProvider
-//import com.google.android.gms.common.annotation.KeepName
-//import com.google.mlkit.common.MlKitException
-//import com.google.mlkit.common.model.LocalModel
-//
-//
+package com.example.groupproject.camera
+
+import android.Manifest
+import android.content.Intent
+import android.os.Build.VERSION_CODES
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.CompoundButton
+import android.widget.ImageView
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
+import android.widget.ToggleButton
+import androidx.annotation.RequiresApi
+import androidx.camera.core.CameraInfoUnavailableException
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageProxy
+import androidx.camera.core.Preview
+import androidx.camera.view.PreviewView
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.example.groupproject.R
+import com.google.android.gms.common.annotation.KeepName
+import com.google.mlkit.common.MlKitException
+import com.google.mlkit.common.model.LocalModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+class CameraActivity: AppCompatActivity() {
+    private val requiredPermissions =
+        mutableListOf(
+            Manifest.permission.CAMERA
+        ).toTypedArray()
+
+    private var cameraxManager: CameraxManager? = null
+
+    private lateinit var previewView: PreviewView
+    private lateinit var focusRing: ImageView
+    private lateinit var btnFlash: Button
+    private lateinit var ivCapturePreview: ImageView
+    private lateinit var btnCapturePhoto: Button
+    private lateinit var btnChangeCameraType: Button
+    private lateinit var btnStartCamera: Button
+    private lateinit var btnStopCamera: Button
+    private lateinit var btnStartReading: Button
+    private lateinit var btnStopReading: Button
+    private lateinit var tvReadResult: TextView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_camera)
+
+        initViews()
+//        checkCameraPermission()
+
+        btnFlash.setOnClickListener {
+            cameraxManager?.changeFlashStatus()
+
+        }
+
+        btnChangeCameraType.setOnClickListener {
+            cameraxManager?.changeCameraType()
+        }
+
+        btnCapturePhoto.setOnClickListener {
+            lifecycleScope.launch(Dispatchers.IO) {
+                cameraxManager?.capturePhoto()
+            }
+        }
+
+        btnStartCamera.setOnClickListener {
+            cameraxManager?.startCamera()
+        }
+
+        btnStopCamera.setOnClickListener {
+            cameraxManager?.destroyReferences()
+        }
+
+        btnStartReading.setOnClickListener {
+            cameraxManager?.startReading()
+        }
+
+        btnStopReading.setOnClickListener {
+            cameraxManager?.stopReading()
+        }
+
+    }
+
+    private fun initViews() {
+        previewView = findViewById(R.id.previewView)
+        focusRing = findViewById(R.id.focusRing)
+        btnFlash = findViewById(R.id.btnFlash)
+        ivCapturePreview = findViewById(R.id.ivCapturePreview)
+        btnCapturePhoto = findViewById(R.id.btnCapturePhoto)
+        btnChangeCameraType = findViewById(R.id.btnChangeCameraType)
+        btnStartCamera = findViewById(R.id.btnStartCamera)
+        btnStopCamera = findViewById(R.id.btnStopCamera)
+        btnStartReading = findViewById(R.id.btnStartReading)
+        btnStopReading = findViewById(R.id.btnStopReading)
+        tvReadResult = findViewById(R.id.tvReadResult)
+    }
+
+    private fun initCameraManager() {
+
+        cameraxManager = CameraxManager.getInstance(
+            this,
+            null,
+            previewView,
+            focusRing,
+            1
+        )
+        cameraxManager?.startCamera()
+
+        cameraxManager?.setReaderFormats(
+            ReaderType.FORMAT_QR_CODE.value,
+            ReaderType.FORMAT_EAN_8.value,
+            ReaderType.FORMAT_EAN_13.value,
+            ReaderType.FORMAT_UPC_E.value,
+            ReaderType.FORMAT_UPC_A.value,
+            ReaderType.FORMAT_AZTEC.value
+        )
+        cameraxManager?.startReading()
+
+
+        cameraxManager?.apply {
+            setQrReadSuccessListener { result ->
+                println("QR RESULT ----------> $result")
+                tvReadResult.text = result
+            }
+
+            setFlashStatusChangedListener { status ->
+                when (status) {
+                    FlashStatus.ENABLED -> {
+                        btnFlash.setBackgroundResource(R.drawable.baseline_flash_on_24)
+                    }
+
+                    FlashStatus.DISABLED -> {
+                        btnFlash.setBackgroundResource(R.drawable.baseline_flash_off_24)
+                    }
+                }
+            }
+
+            setPhotoCaptureResultListener { capturedBitmap ->
+                runOnUiThread {
+                    ivCapturePreview.setImageBitmap(capturedBitmap)
+                }
+            }
+        }
+    }
+}
 ///** Live preview demo app for ML Kit APIs using CameraX. */
 //@KeepName
 //@RequiresApi(VERSION_CODES.LOLLIPOP)
