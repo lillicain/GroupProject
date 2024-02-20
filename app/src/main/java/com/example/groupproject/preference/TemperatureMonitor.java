@@ -11,9 +11,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-/**
- * Monitors device temperature.
- */
+
 public final class TemperatureMonitor implements SensorEventListener {
 
   private static final String TAG = "TemperatureMonitor";

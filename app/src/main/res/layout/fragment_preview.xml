@@ -22,6 +22,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.example.groupproject.preference.GraphicOverlay
+            android:id="@+id/graphic_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintLeft_toLeftOf="@id/ivPreview"
+            app:layout_constraintRight_toRightOf="@id/ivPreview"
+            app:layout_constraintTop_toTopOf="@id/ivPreview"
+            app:layout_constraintBottom_toBottomOf="@id/ivPreview"/>
+
+
 
         <VideoView
             android:id="@+id/video_viewer"
@@ -55,6 +65,7 @@
             android:background="@color/black80"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

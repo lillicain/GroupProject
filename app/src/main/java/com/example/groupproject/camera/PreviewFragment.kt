@@ -77,7 +77,9 @@ class PreviewFragment : Fragment() {
             super.onDestroyView()
             requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
         }
-    }
+
+
+}
 
 ////typealias CornersListener = () -> Unit
 ////

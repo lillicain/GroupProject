@@ -54,6 +54,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.groupproject.R.*
 import com.example.groupproject.databinding.ActivityCameraBinding
+import com.example.groupproject.preference.CameraXViewModel
 import com.example.groupproject.utils.Permissions
 import kotlinx.coroutines.launch
 import java.io.File
@@ -62,7 +63,7 @@ import java.io.FileOutputStream
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
-//    private val viewModel: CameraXViewModel by viewModels()
+    private val viewModel: CameraXViewModel by viewModels()
     private lateinit var binding: ActivityCameraBinding
 //    private lateinit var cameraManager: CameraManager
 

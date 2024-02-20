@@ -9,7 +9,9 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:orientation="vertical">
 
+
     <TextView
+        android:background="@drawable/border_circle"
         android:id="@+id/kotlin_entry_point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
