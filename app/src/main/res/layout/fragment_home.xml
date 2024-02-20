@@ -11,6 +11,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#87bba2"
         tools:context=".MainActivity">
 
         <LinearLayout
@@ -18,24 +19,21 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="10dp">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Tools"
-                    android:background="#c9e4ca"
-                    android:textAlignment="center"
-                    android:padding="6dp"
-                    /> </com.google.android.material.card.MaterialCardView>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="#3b6064"
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="Live Search"
+
+                app:titleTextColor="@color/white" />
 
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:columnCount="2"
+                android:columnCount="1"
                 android:rowCount="3"
                 android:useDefaultMargins="true">
 
@@ -47,9 +45,13 @@
                     android:backgroundTint="#87BBA2"
                     android:drawablePadding="8dp"
                     android:text="Magic 8 Ball"
-                    android:padding="16dp"
+                    android:padding="1dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/eightball_icon"/>
+                    android:src="@drawable/eightball_icon"
+                    android:elevation="8dp"
+
+                    />
+                
 
                 <ImageButton
                     android:id="@+id/cameraImageButton"
@@ -59,9 +61,11 @@
                     android:backgroundTint="#87BBA2"
                     android:drawablePadding="8dp"
                     android:text="Personality Test"
-                    android:padding="16dp"
+                    android:padding="1dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/camera_icon"/>
+                    android:src="@drawable/camera_icon"
+                    android:elevation="8dp"
+                    />
 
                 <ImageButton
                     android:id="@+id/ringtoneButton"
@@ -71,9 +75,11 @@
                     android:backgroundTint="#87BBA2"
                     android:drawablePadding="8dp"
                     android:text="Ringtones"
-                    android:padding="16dp"
+                    android:padding="1dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ringtone_icon"/>
+                    android:src="@drawable/ringtone_icon"
+                    android:elevation="8dp"
+                    />
 
                 <ImageButton
                     android:id="@+id/searchButton"
@@ -83,9 +89,12 @@
                     android:backgroundTint="#87BBA2"
                     android:drawablePadding="8dp"
                     android:text="Camera"
-                    android:padding="16dp"
+                    android:padding="1dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/search_icon"/>
+                    android:shadowRadius="10"
+                    android:src="@drawable/search_icon"
+                    android:elevation="8dp"
+                    />
 
                 <ImageButton
                     android:id="@+id/evilGardenButton"
@@ -95,9 +104,12 @@
                     android:backgroundTint="#87BBA2"
                     android:drawablePadding="8dp"
                     android:text="Ringtones"
-                    android:padding="16dp"
+                    android:padding="1dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/evil_plant_icon"/>
+                    android:src="@drawable/evil_plant_icon"
+                    android:elevation="8dp"
+                />
+
 
 
             </GridLayout>
