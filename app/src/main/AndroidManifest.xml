@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:installLocation="auto">
 
+    <uses-sdk
+        tools:overrideLibrary="
+          androidx.camera.camera2, androidx.camera.core,
+          androidx.camera.view, androidx.camera.lifecycle,
+          com.google.mlkit.vision.segmentation.subject" />
 
     <uses-feature android:name="android.hardware.camera"/>
 
@@ -74,7 +79,6 @@
 
         <activity
             android:name=".preference.SettingsActivity">
-
         </activity>
 
         <provider
@@ -87,5 +91,10 @@
                 android:resource="@xml/file_paths" />
         </provider>
     </application>
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
 
 </manifest>
