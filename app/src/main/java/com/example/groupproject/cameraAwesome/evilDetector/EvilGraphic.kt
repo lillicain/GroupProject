@@ -18,7 +18,7 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
     private val labelPaints = Array(numColors) { Paint() }
 
     init {
-        val selectedColor = Color.WHITE
+        val selectedColor = Color.RED
         facePositionPaint = Paint()
         facePositionPaint.color = selectedColor
         for (i in 0 until numColors) {
@@ -45,10 +45,10 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
         canvas.drawCircle(x, y, FACE_POSITION_RADIUS, facePositionPaint)
 
         // Calculate positions.
-        val left = x - scale(face.boundingBox.width() / 2.0f)
-        val top = y - scale(face.boundingBox.height() / 2.0f)
-        val right = x + scale(face.boundingBox.width() / 2.0f)
-        val bottom = y + scale(face.boundingBox.height() / 2.0f)
+        val left = x - scale(face.boundingBox.width() / 4.0f)
+        val top = y - scale(face.boundingBox.height() / 4.0f)
+        val right = x + scale(face.boundingBox.width() / 4.0f)
+        val bottom = y + scale(face.boundingBox.height() / 4.0f)
         val lineHeight = ID_TEXT_SIZE + BOX_STROKE_WIDTH
         var yLabelOffset: Float = if (face.trackingId == null) 0f else -lineHeight
 
@@ -63,7 +63,7 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
                 max(
                     textWidth,
                     idPaints[colorID].measureText(
-                        String.format(Locale.US, "Happiness: %.2f", face.smilingProbability)
+                        String.format(Locale.US, "EVIl", face.smilingProbability)
                     )
                 )
         }
@@ -73,7 +73,7 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
                 max(
                     textWidth,
                     idPaints[colorID].measureText(
-                        String.format(Locale.US, "Left eye open: %.2f", face.leftEyeOpenProbability)
+                        String.format(Locale.US, "EVIL", face.leftEyeOpenProbability)
                     )
                 )
         }
