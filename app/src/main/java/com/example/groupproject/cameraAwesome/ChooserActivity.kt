@@ -17,6 +17,8 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import com.example.groupproject.R
+import com.example.groupproject.databinding.ActivityVisionCameraxLivePreviewBinding
+import com.example.groupproject.preference.CameraXLivePreviewPreferenceFragment
 
 /** Demo app chooser which allows you pick from all available testing Activities. */
 class ChooserActivity :
