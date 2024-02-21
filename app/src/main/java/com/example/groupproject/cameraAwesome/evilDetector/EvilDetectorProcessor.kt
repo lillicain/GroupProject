@@ -28,7 +28,7 @@ class EvilDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
 
         detector = FaceDetection.getClient(options)
 
-        Log.v(MANUAL_TESTING_LOG, "Face detector options: $options")
+        Log.v(MANUAL_TESTING_LOG, "Evil detector options: $options")
     }
 
     override fun stop() {
@@ -48,11 +48,11 @@ class EvilDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
     }
 
     override fun onFailure(e: Exception) {
-        Log.e(TAG, "Face detection failed $e")
+        Log.e(TAG, "Evil detection failed $e")
     }
 
     companion object {
-        private const val TAG = "FaceDetectorProcessor"
+        private const val TAG = "EvilDetectorProcessor"
         private fun logExtrasForTesting(face: Face?) {
             if (face != null) {
                 Log.v(
@@ -61,15 +61,15 @@ class EvilDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
                 )
                 Log.v(
                     MANUAL_TESTING_LOG,
-                    "face Euler Angle X: " + face.headEulerAngleX
+                    "evil X: " + face.headEulerAngleX
                 )
                 Log.v(
                     MANUAL_TESTING_LOG,
-                    "face Euler Angle Y: " + face.headEulerAngleY
+                    "evil face Y: " + face.headEulerAngleY
                 )
                 Log.v(
                     MANUAL_TESTING_LOG,
-                    "face Euler Angle Z: " + face.headEulerAngleZ
+                    "evil Z: " + face.headEulerAngleZ
                 )
                 // All landmarks
                 val landMarkTypes = intArrayOf(
@@ -85,6 +85,9 @@ class EvilDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
                     FaceLandmark.NOSE_BASE
                 )
                 val landMarkTypesStrings = arrayOf(
+//                    "EVIL_PERSON",
+//                    "EVIL",
+//                    "EVIL"
                     "MOUTH_BOTTOM",
                     "MOUTH_RIGHT",
                     "MOUTH_LEFT",
@@ -101,12 +104,12 @@ class EvilDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
                     if (landmark == null) {
                         Log.v(
                             MANUAL_TESTING_LOG,
-                            "No landmark of type: " + landMarkTypesStrings[i] + " has been detected"
+                            landMarkTypesStrings[i] + " evil has been detected"
                         )
                     } else {
                         val landmarkPosition = landmark.position
                         val landmarkPositionStr =
-                            String.format(Locale.US, "x: %f , y: %f", landmarkPosition.x, landmarkPosition.y)
+                            String.format(Locale.US, "EVILNESS: %f , EVILNESS: %f", landmarkPosition.x, landmarkPosition.y)
                         Log.v(
                             MANUAL_TESTING_LOG,
                             "Position for face landmark: " +
@@ -118,11 +121,11 @@ class EvilDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
                 }
                 Log.v(
                     MANUAL_TESTING_LOG,
-                    "face left eye open probability: " + face.leftEyeOpenProbability
+                    "evil probability: " + face.leftEyeOpenProbability
                 )
                 Log.v(
                     MANUAL_TESTING_LOG,
-                    "face right eye open probability: " + face.rightEyeOpenProbability
+                    "evil eye open probability: " + face.rightEyeOpenProbability
                 )
                 Log.v(
                     MANUAL_TESTING_LOG,
@@ -130,7 +133,7 @@ class EvilDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
                 )
                 Log.v(
                     MANUAL_TESTING_LOG,
-                    "face tracking id: " + face.trackingId
+                    "evil tracking id: " + face.trackingId
                 )
             }
         }

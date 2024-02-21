@@ -46,7 +46,7 @@ android {
         jvmTarget = "1.8"
     }
     aaptOptions {
-        noCompress += "tflite"
+        noCompress += "tf-lite"
     }
     buildFeatures {
         dataBinding = true

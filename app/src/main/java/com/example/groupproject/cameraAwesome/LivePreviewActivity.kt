@@ -15,6 +15,7 @@ import android.widget.Toast
 import android.widget.ToggleButton
 import com.example.groupproject.R
 import com.example.groupproject.cameraAwesome.barcodescanner.BarcodeScannerProcessor
+import com.example.groupproject.cameraAwesome.evilDetector.EvilDetectorProcessor
 import com.example.groupproject.cameraAwesome.facedetector.FaceDetectorProcessor
 import com.example.groupproject.cameraAwesome.facemeshdetector.FaceMeshDetectorProcessor
 import com.example.groupproject.cameraAwesome.labeldetector.LabelDetectorProcessor
@@ -47,7 +48,7 @@ class LivePreviewActivity :
   private var cameraSource: CameraSource? = null
   private var preview: CameraSourcePreview? = null
   private var graphicOverlay: GraphicOverlay? = null
-  private var selectedModel = OBJECT_DETECTION
+  private var selectedModel = EVIL_DETECTION
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -207,6 +208,14 @@ class LivePreviewActivity :
             FaceDetectorProcessor(this, faceDetectorOptions)
           )
         }
+
+        EVIL_DETECTION -> {
+          Log.i(TAG, "Using Evil Detector Processor")
+          val faceDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
+          cameraSource!!.setMachineLearningFrameProcessor(
+            EvilDetectorProcessor(this, faceDetectorOptions)
+          )
+        }
         BARCODE_SCANNING -> {
           Log.i(TAG, "Using Barcode Detector Processor")
           var zoomCallback: ZoomCallback? = null
@@ -343,6 +352,7 @@ class LivePreviewActivity :
     private const val POSE_DETECTION = "Pose Detection"
     private const val SELFIE_SEGMENTATION = "Selfie Segmentation"
     private const val FACE_MESH_DETECTION = "Face Mesh Detection (Beta)"
+    private const val EVIL_DETECTION = "Evil Detection"
 
     private const val TAG = "LivePreviewActivity"
   }

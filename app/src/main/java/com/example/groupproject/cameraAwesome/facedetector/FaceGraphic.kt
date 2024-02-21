@@ -98,21 +98,21 @@ class FaceGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
       Math.max(
         textWidth,
         idPaints[colorID].measureText(
-          String.format(Locale.US, "EulerX: %.2f", face.headEulerAngleX)
+          String.format(Locale.US, "Instigator: %.2f", face.headEulerAngleX)
         )
       )
     textWidth =
       Math.max(
         textWidth,
         idPaints[colorID].measureText(
-          String.format(Locale.US, "EulerY: %.2f", face.headEulerAngleY)
+          String.format(Locale.US, "Hater: %.2f", face.headEulerAngleY)
         )
       )
     textWidth =
       Math.max(
         textWidth,
         idPaints[colorID].measureText(
-          String.format(Locale.US, "EulerZ: %.2f", face.headEulerAngleZ)
+          String.format(Locale.US, "Evil: %.2f", face.headEulerAngleZ)
         )
       )
 
