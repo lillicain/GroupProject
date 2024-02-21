@@ -209,12 +209,17 @@ class LivePreviewActivity :
           )
         }
 
+//        EVIL_DETECTION -> {
+//          Log.i(TAG, "Using Evil Detector Processor")
+//          val faceDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
+//          cameraSource!!.setMachineLearningFrameProcessor(
+//            EvilDetectorProcessor(this, faceDetectorOptions)
+//          )
+//        }
         EVIL_DETECTION -> {
           Log.i(TAG, "Using Evil Detector Processor")
-          val faceDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
-          cameraSource!!.setMachineLearningFrameProcessor(
-            EvilDetectorProcessor(this, faceDetectorOptions)
-          )
+          val objectDetectorOptions = PreferenceUtils.getObjectDetectorOptionsForLivePreview(this)
+          EvilDetectorProcessor(this, objectDetectorOptions)
         }
         BARCODE_SCANNING -> {
           Log.i(TAG, "Using Barcode Detector Processor")

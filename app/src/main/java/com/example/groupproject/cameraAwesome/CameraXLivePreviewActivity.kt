@@ -304,9 +304,14 @@ class CameraXLivePreviewActivity :
           }
           EVIL_DETECTION -> {
             Log.i(TAG, "Using Evil Detector Processor")
-            val faceDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
-            EvilDetectorProcessor(this, faceDetectorOptions)
+            val objectDetectorOptions = PreferenceUtils.getObjectDetectorOptionsForLivePreview(this)
+            EvilDetectorProcessor(this, objectDetectorOptions)
           }
+//          EVIL_DETECTION -> {
+//            Log.i(TAG, "Using Evil Detector Processor")
+//            val faceDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
+//            EvilDetectorProcessor(this, faceDetectorOptions)
+//          }
           BARCODE_SCANNING -> {
             Log.i(TAG, "Using Barcode Detector Processor")
             var zoomCallback: ZoomCallback? = null
