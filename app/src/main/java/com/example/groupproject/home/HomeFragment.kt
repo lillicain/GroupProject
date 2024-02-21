@@ -18,6 +18,7 @@ import com.example.groupproject.cameraAwesome.ChooserActivity
 import com.example.groupproject.databinding.FragmentHomeBinding
 import com.example.groupproject.preference.CameraXSourceDemoPreferenceFragment
 import com.example.groupproject.preference.SettingsActivity
+import kotlin.coroutines.coroutineContext
 
 class HomeFragment : Fragment() {
 
@@ -35,7 +36,7 @@ class HomeFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-//
+
 //        binding.photosGrid.adapter = GridAdapter(GridAdapter.OnClickListener {
 //            viewModel.displayDictionaryWordDetails(it)
 //        })
@@ -47,74 +48,51 @@ class HomeFragment : Fragment() {
 //            }
 //        }
 
-        //TODO: Buttons navigation
-
         binding.magic8BallButton.setOnClickListener {
             this.findNavController().navigate(HomeFragmentDirections.actionToEightBall())
         }
 
-
         binding.cameraImageButton.setOnClickListener {
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-             startCamera()
+                startCamera()
             } else {
                 requestPermissions(arrayOf(Manifest.permission.CAMERA), REQUEST_IMAGE_CAPTURE)
             }
-
-//            this.findNavController().navigate(HomeFragmentDirections.actionToCameraFragment())
-
-//            activity?.let { val intent = Intent (it, CameraXLivePreviewActivity::class.java)
-//          it.startActivity(intent)
-//            }
-//            val intent = Intent(this, CameraXLivePreviewActivity::class.java)
-//            startActivity(intent)
         }
 
         binding.ringtoneButton.setOnClickListener {
             this.findNavController().navigate(HomeFragmentDirections.actionToRingtoneFragment())
         }
 
-//        binding.cameraImageButton.setOnClickListener {
-//            this.findNavController().navigate(HomeFragmentDirections.actionToCameraTestFragment())
-//
-//        }
         binding.evilGardenButton.setOnClickListener {
             this.findNavController().navigate(HomeFragmentDirections.actionToEvilGardenFragment())
         }
 
         binding.searchButton.setOnClickListener {
             this.findNavController().navigate(HomeFragmentDirections.actionToSearchFragment())
-
         }
+
         return binding.root
     }
 
+
+
     fun startCamera() {
-        val cameraIntent2 = Intent(requireContext(), ChooserActivity::class.java)
-//        val cameraIntent3 = Intent(requireContext(), SettingsActivity::class.java)
-//        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val cameraIntent2 = Intent(context, ChooserActivity::class.java)
         try {
             startActivity(cameraIntent2)
-//            startActivity(cameraIntent3)
         } catch (e: ActivityNotFoundException) {
             println(e)
         }
     }
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startCamera()
-            } else {
-            // Denied
             }
         }
-
     }
 
     companion object {
