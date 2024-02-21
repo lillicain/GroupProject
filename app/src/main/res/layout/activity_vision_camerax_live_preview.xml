@@ -47,7 +47,6 @@
         android:textOff=""
         android:textOn=""/>
 
-
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="0dp"
