@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 
 class EightBallViewModel : ViewModel() {
 
-    var greengusString = MutableLiveData<String>("GREENGUS")
+    var greengusString = MutableLiveData<String>("")
     private val _eightBall = MutableLiveData<EightBall>()
     var _buttonsVisible = MutableLiveData<Boolean>()
     val buttonsVisible: LiveData<Boolean>
