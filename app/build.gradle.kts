@@ -45,9 +45,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-aaptOptions {
-    noCompress += "tflite"
-}
+    aaptOptions {
+        noCompress += "tflite"
+    }
     buildFeatures {
         dataBinding = true
         viewBinding = true
@@ -144,5 +144,3 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
 }
-
-
