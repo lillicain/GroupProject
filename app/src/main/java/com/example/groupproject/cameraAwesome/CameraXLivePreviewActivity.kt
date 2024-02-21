@@ -136,9 +136,8 @@ class CameraXLivePreviewActivity :
 
     val settingsButton = findViewById<ImageView>(R.id.settings_button)
     settingsButton.setOnClickListener {
-      val intent = Intent(applicationContext, CameraXLivePreviewActivity::class.java)
-//      intent.putExtra(SettingsActivity.EXTRA_LAUNCH_SOURCE, SettingsActivity.LaunchSource.CAMERAX_LIVE_PREVIEW)
-
+      val intent = Intent(applicationContext, SettingsActivity::class.java)
+      intent.putExtra(SettingsActivity.EXTRA_LAUNCH_SOURCE, SettingsActivity.LaunchSource.CAMERAX_LIVE_PREVIEW)
       startActivity(intent)
     }
   }
@@ -151,7 +150,7 @@ class CameraXLivePreviewActivity :
   @Synchronized
   override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
     // An item was selected. You can retrieve the selected item using
-    // parent.getItemAtPosition(pos)
+//    parent.getItemAtPosition(pos)
     selectedModel = parent?.getItemAtPosition(pos).toString()
     Log.d(TAG, "Selected model: $selectedModel")
     bindAnalysisUseCase()
