@@ -88,6 +88,7 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
             user.value?.currentPlantIndex = newIndex
             _currentPlant.value = _plants.value?.get(newIndex)
         }
+        println(currentPlant.value?.name)
     }
 
     fun swipeLeft() {
