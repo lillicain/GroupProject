@@ -52,29 +52,13 @@ class HomeFragment : Fragment() {
             this.findNavController().navigate(HomeFragmentDirections.actionToEightBall())
         }
 
-
         binding.cameraImageButton.setOnClickListener {
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 startCamera()
-//                startCameraPreview()
             } else {
-
                 requestPermissions(arrayOf(Manifest.permission.CAMERA), REQUEST_IMAGE_CAPTURE)
             }
-
-//            this.findNavController().navigate(HomeFragmentDirections.actionToCameraFragment())
-
-//            activity?.let { val intent = Intent (it, CameraXLivePreviewActivity::class.java)
-//          it.startActivity(intent)
-//            }
-//            val intent = Intent(this, CameraXLivePreviewActivity::class.java)
-//            startActivity(intent)
-
         }
-
-//        binding.cameraImageButton.setOnClickListener {
-//            this.findNavController().navigate(HomeFragmentDirections.actionToCameraTestFragment())
-//        }
 
         binding.ringtoneButton.setOnClickListener {
             this.findNavController().navigate(HomeFragmentDirections.actionToRingtoneFragment())
@@ -102,22 +86,11 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun startCameraPreview() {
-        val cameraIntent = Intent(context, CameraXLivePreviewActivity::class.java)
-        try {
-            startActivity(cameraIntent)
-        } catch (e: ActivityNotFoundException) {
-            startActivity(cameraIntent)
-            println(e)
-        }
-    }
-
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startCamera()
-                startCameraPreview()
             }
         }
     }

@@ -48,33 +48,28 @@
         </activity>
         <activity
             android:name=".cameraAwesome.ChooserActivity"
-            android:exported="false">
-        </activity>
-
+            android:exported="false"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".cameraAwesome.LivePreviewActivity"
             android:exported="false"
-            android:theme="@style/AppTheme">
-        </activity>
-
+            android:theme="@style/AppTheme"/>
         <activity
-            android:name=".cameraAwesome.CameraXLivePreviewActivity">
-        </activity>
-
+            android:name=".cameraAwesome.CameraXLivePreviewActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".cameraAwesome.CameraXSourceDemoActivity"
             android:exported="false"
-            android:theme="@style/AppTheme">
-        </activity>
-
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".cameraAwesome.StillImageActivity"
             android:exported="false"
-            android:theme="@style/AppTheme">
-        </activity>
-
+            android:theme="@style/AppTheme"/>
         <activity
-            android:name=".preference.SettingsActivity"/>
+            android:name=".preference.SettingsActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
