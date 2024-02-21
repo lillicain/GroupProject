@@ -46,8 +46,8 @@ class EvilGardenFragment : Fragment() {
                 // Show the user name dialog if there is no user data
                 viewModel.showUserNameDialog(requireContext())
             } else {
-                println("EEFFOC")
-                viewModel.updateUser()
+//                println("EEFFOC")
+//                viewModel.updateUser()
                 // Update the UI with the existing user data
                 // ...
             }
@@ -57,7 +57,7 @@ class EvilGardenFragment : Fragment() {
         binding.lifecycleOwner = this
 
         binding.shopButton.setOnClickListener {
-            this.findNavController().navigate(HomeFragmentDirections.actionToEvilGardenShopFragment())
+            this.findNavController().navigate(EvilGardenFragmentDirections.actionToEvilGardenShopFragment())
 
         }
         return binding.root

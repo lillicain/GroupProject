@@ -12,6 +12,8 @@ interface UserDao {
 
     @Query("Select * FROM user_table WHERE id = 1")
     suspend fun getUser(): User?
+    @Query("UPDATE user_table SET xp = xp + :xpToAdd WHERE id = 1")
+    suspend fun addXP(xpToAdd: Int)
 }
 @Dao
 interface PlantDao {

@@ -142,4 +142,18 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
             }
 
     }
+    override fun onCleared() {
+        super.onCleared()
+
+        // Update user and plants in the Room database when the ViewModel is cleared
+        viewModelScope.launch {
+            _user.value?.let {
+                userDatabase.insertUser(it)
+            }
+//
+//            _plants.value?.let {
+////                plantDatabase.insertPlantList(it)
+//            }
+        }
+    }
 }

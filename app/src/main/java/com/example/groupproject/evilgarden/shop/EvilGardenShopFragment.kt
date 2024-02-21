@@ -25,8 +25,10 @@ class EvilGardenShopFragment: Fragment() {
         val application = requireNotNull(this.activity).application
         val userDataSource = EvilDatabase.getInstance(application).userDao()
         val plantDataSource = EvilDatabase.getInstance(application).plantDao()
-        val viewModelFactory = EvilGardenViewModelFactory(userDataSource, plantDataSource)
+        val viewModelFactory = EvilGardenShopViewModelFactory(userDataSource, plantDataSource)
         val viewModel = ViewModelProvider(this, viewModelFactory).get(EvilGardenShopViewModel::class.java)
-
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+        return binding.root
     }
 }

@@ -12,7 +12,7 @@ private val plantDatabase: PlantDao
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(EvilGardenViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(EvilGardenShopViewModel::class.java)) {
             return EvilGardenShopViewModel(userDatabase, plantDatabase) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
