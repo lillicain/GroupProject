@@ -2,6 +2,7 @@ package com.example.groupproject.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.UUID
 
 @Entity(tableName = "user_table")
 data class User(
@@ -25,8 +26,8 @@ enum class PlantEnum(val stringValue: String) {
 }
 @Entity(tableName = "plant_table")
 data class Plant(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    @PrimaryKey
+    val id: UUID = UUID.randomUUID(),
     var name: String,
     val type: PlantEnum,
     var evilness: Int

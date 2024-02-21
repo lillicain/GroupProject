@@ -1,7 +1,15 @@
+package com.example.groupproject.database
 import android.widget.ImageView
+
 import androidx.databinding.BindingAdapter
 
-@BindingAdapter("app:imageResource")
-fun setImageResource(imageView: ImageView, resource: Int) {
-    imageView.setImageResource(resource)
+object BindingAdapters {
+
+    @JvmStatic
+    @BindingAdapter("app:imageResource")
+    fun setImageResource(imageView: ImageView, resource: Int?) {
+        resource?.let {
+            imageView.setImageResource(it)
+        }
+    }
 }

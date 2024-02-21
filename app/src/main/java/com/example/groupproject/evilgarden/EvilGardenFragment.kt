@@ -40,18 +40,20 @@ class EvilGardenFragment : Fragment() {
         val plantDataSource = EvilDatabase.getInstance(application).plantDao()
         val viewModelFactory = EvilGardenViewModelFactory(userDataSource, plantDataSource)
         val viewModel = ViewModelProvider(this, viewModelFactory).get(EvilGardenViewModel::class.java)
-        binding.viewModel = viewModel
-        // Observe the user data in the ViewModel
         viewModel.user.observe(viewLifecycleOwner, Observer { user ->
             if (user == null) {
                 // Show the user name dialog if there is no user data
                 viewModel.showUserNameDialog(requireContext())
             } else {
                 println("EEFFOC")
+                viewModel.updateUser()
                 // Update the UI with the existing user data
                 // ...
             }
         })
+        binding.viewModel = viewModel
+        // Observe the user data in the ViewModel
+        binding.lifecycleOwner = this
 
 
         return binding.root

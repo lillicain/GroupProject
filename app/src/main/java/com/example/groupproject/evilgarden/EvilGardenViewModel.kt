@@ -18,6 +18,7 @@ import com.example.groupproject.database.UserDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao) : ViewModel() {
 
@@ -41,6 +42,11 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
         viewModelScope.launch {
             _user.value = userDatabase.getUser()
             _plants.value = plantDatabase.getAllItems()
+            if (_user.value == null) {
+                println("No Coke")
+            } else {
+                println("Has Coke")
+            }
             println(_user.value?.username)
             if (_user.value != null && !_plants.value.isNullOrEmpty()) {
                 val currentIndex = _user.value?.currentPlantIndex ?: 0
@@ -49,6 +55,14 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
                 }
             } else if (_user.value == null ) { // THIS NEEDS TO CHECK OTHER STUFF ELSE IF IS NOT INCLUSIVE
                 print("Eeffoc")
+            } else if (_plants.value.isNullOrEmpty()) {
+                plantDatabase.insertPlant(Plant(id = UUID.randomUUID(), "Malicious Bush", PlantEnum.EVIL_BUSH, 1))
+                _plants.value = plantDatabase.getAllItems()
+                val currentIndex = _user.value?.currentPlantIndex ?: 0
+                if (currentIndex in _plants.value!!.indices) {
+                    _currentPlant.value = _plants.value!![currentIndex]
+                }
+
             }
         }
 
@@ -63,6 +77,7 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
                 }
             }
         }
+
     }
 
     fun swipeRight() {
@@ -120,5 +135,11 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
             .create()
 
         dialog.show()
+    }
+     fun updateUser() {
+            viewModelScope.launch {
+                _user.value = userDatabase.getUser()
+            }
+
     }
 }
