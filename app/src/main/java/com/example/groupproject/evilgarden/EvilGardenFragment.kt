@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import com.example.groupproject.database.EvilDatabase
 import com.example.groupproject.database.User
 import com.example.groupproject.databinding.FragmentEvilGardenBinding
+import com.example.groupproject.home.HomeFragmentDirections
 
 class EvilGardenFragment : Fragment() {
 
@@ -55,9 +56,13 @@ class EvilGardenFragment : Fragment() {
         // Observe the user data in the ViewModel
         binding.lifecycleOwner = this
 
+        binding.shopButton.setOnClickListener {
+            this.findNavController().navigate(HomeFragmentDirections.actionToEvilGardenShopFragment())
 
+        }
         return binding.root
     }
+
 //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 //        super.onViewCreated(view, savedInstanceState)
 //
