@@ -13,8 +13,7 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-class EvilGraphic constructor(
-overlay: GraphicOverlay,
+class EvilGraphic constructor(overlay: GraphicOverlay,
 private val detectedObject: DetectedObject
 ) : GraphicOverlay.Graphic(overlay) {
 
@@ -89,7 +88,7 @@ private val detectedObject: DetectedObject
         yLabelOffset += TEXT_SIZE
 
         canvas.drawText(
-            "Evil ID: " + detectedObject.trackingId,
+            "Scanning Evil Person: " + detectedObject.trackingId,
             rect.left,
             rect.top + yLabelOffset,
             textPaints[colorID]
@@ -223,8 +222,8 @@ private val detectedObject: DetectedObject
 //            Math.max(
 //                textWidth,
 //                idPaints[colorID].measureText(
-//                    "Evil"
-////                    String.format(Locale.US, "Hater: %.2f", face.headEulerAngleX)
+////                    "Evil"
+//                    String.format(Locale.US, "Hater: %.2f", face.headEulerAngleX)
 //                )
 //            )
 //        textWidth =
