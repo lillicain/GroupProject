@@ -78,6 +78,7 @@ class MainActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         initNavController()
+
 //        binding.btnRequestPermission.setOnClickListener { requestPermissions() }
 //        if (!Permissions.isPermissionTaken(this)) {
 //            requestPermissions()
