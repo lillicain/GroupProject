@@ -30,5 +30,6 @@ data class Plant(
     val id: UUID = UUID.randomUUID(),
     var name: String,
     val type: PlantEnum,
-    var evilness: Int
+    var evilness: Int,
+    var xp: Int = 0
 )

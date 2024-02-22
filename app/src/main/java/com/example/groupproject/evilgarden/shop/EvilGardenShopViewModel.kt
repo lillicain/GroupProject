@@ -39,4 +39,9 @@ class EvilGardenShopViewModel(val userDatabase: UserDao, val plantDatabase: Plan
 
         }
     }
+    fun buyDemonTree() {
+        viewModelScope.launch {
+            plantDatabase.insertPlant(Plant(id = UUID.randomUUID(), "Demonic Tree", PlantEnum.DEMON_TREE, 1))
+        }
+    }
 }

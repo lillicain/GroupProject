@@ -10,6 +10,8 @@ import androidx.navigation.fragment.findNavController
 import android.R
 import android.app.AlertDialog
 import android.content.Context
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -22,6 +24,7 @@ class EvilGardenFragment : Fragment() {
 
     private lateinit var binding: FragmentEvilGardenBinding
     private lateinit var viewModel: EvilGardenViewModel
+    private lateinit var gestureDetector: GestureDetector
 
 
     override fun onCreateView(
@@ -62,7 +65,50 @@ class EvilGardenFragment : Fragment() {
         }
         return binding.root
     }
+    // Override the necessary methods for GestureDetector.OnGestureListener
+    fun onDown(e: MotionEvent?): Boolean {
+        return true
+    }
 
+    fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+        val deltaX = e2?.x?.minus(e1?.x ?: 0f) ?: 0f
+        val deltaY = e2?.y?.minus(e1?.y ?: 0f) ?: 0f
+
+        // You can customize these thresholds based on your requirements
+        val swipeThreshold = 150
+        val swipeVelocityThreshold = 150
+
+        if (kotlin.math.abs(deltaX) > swipeThreshold && kotlin.math.abs(velocityX) > swipeVelocityThreshold) {
+            // Horizontal swipe detected
+            if (deltaX > 0) {
+                // Swipe right
+                viewModel.swipeRight()
+            } else {
+                // Swipe left
+                viewModel.swipeLeft()
+            }
+        }
+
+        return true
+    }
+
+    override fun onResume() {
+        super.onResume()
+//        viewModel.updateUser()
+//        viewModel.updatePlants()
+    }
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            // Fragment is now visible
+            updateDataIfNeeded()
+        }
+    }
+
+    private fun updateDataIfNeeded() {
+        viewModel.updateUser()
+        viewModel.updatePlants()
+    }
 //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 //        super.onViewCreated(view, savedInstanceState)
 //

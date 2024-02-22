@@ -97,6 +97,7 @@
                 android:layout_marginStart="24dp"
                 android:src="@drawable/triangle1"
                 android:alpha="0.2"
+                android:onClick="@{() -> viewModel.swipeLeft()}"
                 android:text="Button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/right_button"
@@ -111,7 +112,7 @@
                 android:layout_height="148dp"
                 android:layout_marginEnd="16dp"
                 android:alpha="0.2"
-
+                android:onClick="@{() -> viewModel.swipeRight()}"
                 android:rotation="180"
                 android:src="@drawable/triangle2"
                 android:text="Button"
