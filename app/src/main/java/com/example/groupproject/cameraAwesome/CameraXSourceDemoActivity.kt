@@ -210,13 +210,11 @@ class CameraXSourceDemoActivity : AppCompatActivity(), CompoundButton.OnCheckedC
   }
 
   private val isPortraitMode: Boolean
-    private get() =
-      (getApplicationContext().getResources().getConfiguration().orientation !==
-        Configuration.ORIENTATION_LANDSCAPE)
+    private get() = (getApplicationContext().getResources().getConfiguration().orientation !== Configuration.ORIENTATION_LANDSCAPE)
 
   companion object {
     private const val TAG = "CameraXSourcePreview"
     private val localModel: LocalModel =
-      LocalModel.Builder().setAssetFilePath("custom_models/object_labeler.tflite").build()
+      LocalModel.Builder().setAssetFilePath("custom_models/object_labeler.tf-lite").build()
   }
 }
