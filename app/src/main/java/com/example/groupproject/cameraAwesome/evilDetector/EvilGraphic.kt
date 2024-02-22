@@ -55,7 +55,7 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
         var yLabelOffset: Float = if (face.trackingId == null) 0f else -lineHeight
 
         // Decide color based on face ID
-        val colorID = if (face.trackingId == null) 0 else abs(face.trackingId!! % NUM_COLORS)
+        val colorID = if (face.trackingId == null) 0 else abs(face.trackingId!! % Color.RED)
 
         // Calculate width and height of label box
         var textWidth = idPaints[colorID].measureText("Evil ID: " + face.trackingId)

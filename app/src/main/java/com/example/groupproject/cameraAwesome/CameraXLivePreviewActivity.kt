@@ -1,20 +1,11 @@
 package com.example.groupproject.cameraAwesome
 
-import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Rect
-import android.os.Build
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
-import android.view.PixelCopy
 import android.view.View
-import android.view.Window
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
@@ -304,11 +295,11 @@ class CameraXLivePreviewActivity :
             FaceDetectorProcessor(this, faceDetectorOptions)
           }
 
-          EVIL_DETECTION -> {
-            Log.i(TAG, "Using Evil Detector Processor")
-            val evilDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
-            EvilDetectorProcessor(this, evilDetectorOptions)
-          }
+//          EVIL_DETECTION -> {
+//            Log.i(TAG, "Using Evil Detector Processor")
+//            val evilDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
+//            EvilDetectorProcessor(this, evilDetectorOptions)
+//          }
 
 //          EVIL_DETECTION -> {
 //            Log.i(TAG, "Using Evil Detector Processor")

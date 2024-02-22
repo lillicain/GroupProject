@@ -12,12 +12,10 @@ import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetector
 import com.google.mlkit.vision.face.FaceDetectorOptions
 import com.google.mlkit.vision.face.FaceLandmark
-import com.google.mlkit.vision.objects.ObjectDetector
-import com.google.mlkit.vision.objects.ObjectDetectorOptionsBase
-import java.io.IOException
+import com.google.mlkit.vision.objects.custom.CustomObjectDetectorOptions
 import java.util.Locale
 
-class EvilDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptions?) :
+class EvilDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptions) :
     VisionProcessorBase<List<Face>>(context) {
 
     private val detector: FaceDetector

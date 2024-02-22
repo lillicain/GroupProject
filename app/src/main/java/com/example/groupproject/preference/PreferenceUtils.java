@@ -190,10 +190,10 @@ public class PreferenceUtils {
                     R.string.pref_key_live_preview_face_detection_performance_mode,
                     FaceDetectorOptions.PERFORMANCE_MODE_FAST);
 
-    int evilMode = getModeTypePreferenceValue(
-            context,
-            R.string.pref_entries_evil_detector_landmark_mode_all_landmarks,
-            FaceDetectorOptions.LANDMARK_MODE_ALL);
+//    int evilMode = getModeTypePreferenceValue(
+//            context,
+//            R.string.pref_entries_evil_detector_landmark_mode_all_landmarks,
+//            FaceDetectorOptions.LANDMARK_MODE_ALL);
 
     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     boolean enableFaceTracking =
@@ -212,7 +212,7 @@ public class PreferenceUtils {
                     .setClassificationMode(classificationMode)
                     .setPerformanceMode(performanceMode)
 
-                    .setLandmarkMode(evilMode)
+//                    .setLandmarkMode(evilMode)
 
                     .setMinFaceSize(minFaceSize);
     if (enableFaceTracking) {
@@ -222,41 +222,40 @@ public class PreferenceUtils {
   }
 
 
-//  public static EvilDetectorOptions getEvilDetectorOptions(Context context) {
+//  public static FaceDetectorOptions getEvilDetectorOptions(Context context) {
 //    int landmarkMode =
 //            getModeTypePreferenceValue(
 //                    context,
-////                    "",
-//                    R.string.pref_key_live_preview_face_detection_landmark_mode,
-//                    EvilDetectorOptions.LANDMARK_MODE_NONE);
+//                    R.string.pref_key_live_preview_evil_detection_landmark_mode,
+//                    FaceDetectorOptions.LANDMARK_MODE_NONE);
 //    int contourMode =
 //            getModeTypePreferenceValue(
 //                    context,
-//                    R.string.pref_key_live_preview_face_detection_contour_mode,
-//                    EvilDetectorOptions.CONTOUR_MODE_ALL);
+//                    R.string.pref_key_live_preview_evil_detection_contour_mode,
+//                   FaceDetectorOptions.CONTOUR_MODE_ALL);
 //    int classificationMode =
 //            getModeTypePreferenceValue(
 //                    context,
-//                    R.string.pref_key_live_preview_face_detection_classification_mode,
-//                    EvilDetectorOptions.CLASSIFICATION_MODE_NONE);
+//                    R.string.pref_key_live_preview_evil_detection_classification_mode,
+//                    FaceDetectorOptions.CLASSIFICATION_MODE_NONE);
 //    int performanceMode =
 //            getModeTypePreferenceValue(
 //                    context,
-//                    R.string.pref_key_live_preview_face_detection_performance_mode,
-//                    EvilDetectorOptions.PERFORMANCE_MODE_FAST);
+//                    R.string.pref_key_live_preview_evil_detection_performance_mode,
+//                    FaceDetectorOptions.PERFORMANCE_MODE_FAST);
 //
 //    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 //    boolean enableFaceTracking =
 //            sharedPreferences.getBoolean(
-//                    context.getString(R.string.pref_key_live_preview_face_detection_face_tracking), false);
+//                    context.getString(R.string.pref_key_live_preview_evil_detection_face_tracking), false);
 //    float minFaceSize =
 //            Float.parseFloat(
 //                    sharedPreferences.getString(
-//                            context.getString(R.string.pref_key_live_preview_face_detection_min_face_size),
+//                            context.getString(R.string.pref_key_live_preview_evil_detection_min_face_size),
 //                            "0.1"));
 //
-//    EvilDetectorOptions.Builder optionsBuilder =
-//            new EvilDetectorOptions.Builder()
+//    FaceDetectorOptions.Builder optionsBuilder =
+//            new FaceDetectorOptions.Builder()
 //                    .setLandmarkMode(landmarkMode)
 //                    .setContourMode(contourMode)
 //                    .setClassificationMode(classificationMode)
@@ -387,8 +386,7 @@ public class PreferenceUtils {
   }
 
 
-  private static int getModeTypePreferenceValue(
-          Context context, @StringRes int prefKeyResId, int defaultValue) {
+  private static int getModeTypePreferenceValue(Context context, @StringRes int prefKeyResId, int defaultValue) {
     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     String prefKey = context.getString(prefKeyResId);
     return Integer.parseInt(sharedPreferences.getString(prefKey, String.valueOf(defaultValue)));
@@ -403,11 +401,9 @@ public class PreferenceUtils {
   public static int getFaceMeshUseCase(Context context) {
     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     String prefKey = context.getString(R.string.pref_key_face_mesh_use_case);
-    return Integer.parseInt(
-            sharedPreferences.getString(prefKey, String.valueOf(FaceMeshDetectorOptions.FACE_MESH)));
+    return Integer.parseInt(sharedPreferences.getString(prefKey, String.valueOf(FaceMeshDetectorOptions.FACE_MESH)));
   }
 
-  private PreferenceUtils() {
+  private PreferenceUtils() {}
 
-  }
 }

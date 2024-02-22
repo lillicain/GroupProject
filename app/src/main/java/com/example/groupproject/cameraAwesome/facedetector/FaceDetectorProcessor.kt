@@ -40,8 +40,8 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
     return detector.process(image)
   }
 
-  override fun onSuccess(faces: List<Face>, graphicOverlay: GraphicOverlay) {
-    for (face in faces) {
+  override fun onSuccess(results: List<Face>, graphicOverlay: GraphicOverlay) {
+    for (face in results) {
       graphicOverlay.add(FaceGraphic(graphicOverlay, face))
       logExtrasForTesting(face)
     }

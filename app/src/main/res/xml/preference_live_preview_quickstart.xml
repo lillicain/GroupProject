@@ -150,8 +150,8 @@
 
         <ListPreference
             android:defaultValue="@string/pref_entry_values_face_detector_landmark_mode_no_landmarks"
-            android:entries="@array/pref_entries_face_detector_landmark_mode"
-            android:entryValues="@array/pref_entry_values_face_detector_landmark_mode"
+            android:entries="@array/pref_entries_evil_detector_landmark_mode"
+            android:entryValues="@array/pref_entry_values_evil_detector_landmark_mode"
             android:key="evil"
             android:persistent="true"
             android:title="@string/pref_title_evil_detector_landmark_mode"
@@ -159,53 +159,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="Evil Detection">
-
-        <ListPreference
-            android:defaultValue="@string/pref_entry_values_face_detector_landmark_mode_no_landmarks"
-            android:entries="@array/pref_entries_evil_detector_landmark_mode"
-            android:entryValues="@array/pref_entry_values_evil_detector_landmark_mode"
-            android:key="@string/pref_key_live_preview_evil_detection_landmark_mode"
-            android:persistent="true"
-            android:title="@string/pref_title_face_detector_landmark_mode"
-            android:summary="%s"/>
-        <ListPreference
-            android:defaultValue="@string/pref_entry_values_face_detector_contour_mode_all_contours"
-            android:entries="@array/pref_entries_face_detector_contour_mode"
-            android:entryValues="@array/pref_entry_values_face_detector_contour_mode"
-            android:key="evil"
-            android:persistent="true"
-            android:title="@string/pref_title_face_detector_contour_mode"
-            android:summary="%s"/>
-        <ListPreference
-            android:defaultValue="@string/pref_entry_values_face_detector_classification_mode_no_classifications"
-            android:entries="@array/pref_entries_evil_detector_classification_mode"
-            android:entryValues="@array/pref_entry_values_evil_detector_classification_mode"
-            android:key="evil"
-            android:persistent="true"
-            android:title="@string/pref_title_face_detector_classification_mode"
-            android:summary="%s"/>
-        <ListPreference
-            android:defaultValue="@string/pref_entry_values_face_detector_performance_mode_fast"
-            android:entries="@array/pref_entries_evil_detector_performance_mode"
-            android:entryValues="@array/pref_entry_values_evil_detector_performance_mode"
-            android:key="evil"
-            android:persistent="true"
-            android:title="@string/pref_title_face_detector_performance_mode"
-            android:summary="%s"/>
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="evil"
-            android:persistent="true"
-            android:title="@string/pref_title_face_detector_face_tracking"/>
-        <EditTextPreference
-            android:defaultValue="0.1"
-            android:dialogMessage="@string/pref_dialog_message_face_detector_min_face_size"
-            android:key="evil"
-            android:persistent="true"
-            android:title="@string/pref_title_face_detector_min_face_size"/>
-    </PreferenceCategory>
 
 
     <PreferenceCategory android:title="@string/pref_category_pose_detection">

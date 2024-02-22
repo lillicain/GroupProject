@@ -48,7 +48,7 @@ class LivePreviewActivity :
   private var cameraSource: CameraSource? = null
   private var preview: CameraSourcePreview? = null
   private var graphicOverlay: GraphicOverlay? = null
-  private var selectedModel = EVIL_DETECTION
+  private var selectedModel = OBJECT_DETECTION
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -67,6 +67,7 @@ class LivePreviewActivity :
 
     val spinner = findViewById<Spinner>(R.id.spinner)
     val options: MutableList<String> = ArrayList()
+
 //    options.add(OBJECT_DETECTION)
 //    options.add(OBJECT_DETECTION_CUSTOM)
 //    options.add(CUSTOM_AUTOML_OBJECT_DETECTION)
@@ -88,7 +89,6 @@ class LivePreviewActivity :
     options.add(OBJECT_DETECTION_CUSTOM)
     options.add(CUSTOM_AUTOML_OBJECT_DETECTION)
     options.add(EVIL_DETECTION)
-
     options.add(FACE_DETECTION)
     options.add(FACE_MESH_DETECTION)
     options.add(BARCODE_SCANNING)
@@ -228,13 +228,14 @@ class LivePreviewActivity :
           )
         }
 
-        EVIL_DETECTION -> {
-          Log.i(TAG, "Using Evil Detector Processor")
-          val evilDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
-          cameraSource!!.setMachineLearningFrameProcessor(
-            EvilDetectorProcessor(this, evilDetectorOptions)
-          )
-        }
+
+//        EVIL_DETECTION -> {
+//          Log.i(TAG, "Using Evil Detector Processor")
+//          val evilDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
+//          cameraSource!!.setMachineLearningFrameProcessor(
+//            EvilDetectorProcessor(this, evilDetectorOptions)
+//          )
+//        }
 
 //        EVIL_DETECTION -> {
 //          Log.i(TAG, "Using Evil Detector Processor")
@@ -373,7 +374,7 @@ class LivePreviewActivity :
     private const val SELFIE_SEGMENTATION = "Selfie Segmentation"
     private const val FACE_MESH_DETECTION = "Face Mesh Detection (Beta)"
 
-    private const val EVIL_DETECTION = "Detection"
+    private const val EVIL_DETECTION = "Evil Detection"
 
     private const val TAG = "LivePreviewActivity"
   }
