@@ -17,8 +17,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SearchFragment: Fragment() {
-    val sharedViewModel: SharedViewModel by activityViewModels()
-    val viewModel: SearchUtil by lazy { ViewModelProvider(this)[SearchUtil(sharedViewModel)::class.java] }
+//    val sharedViewModel: SharedViewModel by activityViewModels()
+    val viewModel: SearchUtil by lazy { ViewModelProvider(this)[SearchUtil()::class.java] }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,7 +54,7 @@ class SearchFragment: Fragment() {
         super.onPause()
         val userDao = EvilDatabase.getInstance(requireContext()).userDao()
         lifecycleScope.launch {
-            sharedViewModel.saveUserToDatabase(userDao)
+//            sharedViewModel.saveUserToDatabase(userDao)
         }
 
     }

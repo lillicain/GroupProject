@@ -20,7 +20,9 @@ enum class PlantEnum(val stringValue: String) {
     DEMON_TREE("Demon Tree"),
     ANGRY_PUMPKIN("Angry Pumpkin"),
     DEATH_POTATO("Death Potato"),
-    SIN_FLOWER("Sin Flower")
+    SIN_FLOWER("Sin Flower"),
+    HATER_GRASS("Victim Grass"),
+
 
 
 }
