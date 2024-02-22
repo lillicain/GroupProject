@@ -6,14 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.example.groupproject.database.EvilDatabase
 import com.example.groupproject.databinding.FragmentSearchBinding
+import com.example.groupproject.evilgarden.SharedViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SearchFragment: Fragment() {
-    val viewModel: SearchUtil by lazy { ViewModelProvider(this)[SearchUtil::class.java] }
+//    val sharedViewModel: SharedViewModel by activityViewModels()
+    val viewModel: SearchUtil by lazy { ViewModelProvider(this)[SearchUtil()::class.java] }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +47,15 @@ class SearchFragment: Fragment() {
 
 //        var response = response
         return binding.root
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val userDao = EvilDatabase.getInstance(requireContext()).userDao()
+        lifecycleScope.launch {
+//            sharedViewModel.saveUserToDatabase(userDao)
+        }
 
     }
 

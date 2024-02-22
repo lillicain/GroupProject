@@ -1,6 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    
+    <data>
+        <import type="com.example.groupproject.database.BindingAdapters"></import>
+        <variable
+            name="viewModel"
+            type="com.example.groupproject.evilgarden.EvilGardenViewModel" />
+    </data>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:title="EVIL Garden"
+            app:titleTextColor="@color/white"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- The rest of your layout goes here -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayoutOne"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#301934"
+            android:layout_below="@+id/toolbar">
+
+
+            <TextView
+                android:id="@+id/nameOfUser"
+                android:layout_width="246dp"
+                android:layout_height="49dp"
+                android:text="@{viewModel.user.username}"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.23"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.922"
+                tools:text="Name of users garden" />
+
+            <TextView
+                android:id="@+id/xp"
+                android:layout_width="343dp"
+                android:layout_height="44dp"
+                android:text="@{String.valueOf(viewModel.user.xp)}"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.974"
+                tools:text="XP: " />
+
+            <TextView
+                android:id="@+id/plantXp"
+                android:layout_width="211dp"
+                android:layout_height="43dp"
+                android:text="@{viewModel.currentPlant.name}"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.011"
+                tools:text=" plant XP" />
+
+            <TextView
+                android:id="@+id/nameOfPlant"
+                android:layout_width="211dp"
+                android:layout_height="43dp"
+                android:text="@{String.valueOf(viewModel.currentPlant.evilness)}"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/plantXp"
+                app:layout_constraintVertical_bias="0.08"
+                tools:text="Name of plant" />
+
+            <ImageButton
+                android:id="@+id/left_button"
+                android:layout_width="14dp"
+                android:layout_height="125dp"
+                android:layout_marginStart="24dp"
+                android:src="@drawable/triangle1"
+                android:alpha="0.2"
+                android:onClick="@{() -> viewModel.swipeLeft()}"
+                android:text="Button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/right_button"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="left" />
+
+            <ImageButton
+                android:id="@+id/right_button"
+                android:layout_width="21dp"
+                android:layout_height="148dp"
+                android:layout_marginEnd="16dp"
+                android:alpha="0.2"
+                android:onClick="@{() -> viewModel.swipeRight()}"
+                android:rotation="180"
+                android:src="@drawable/triangle2"
+                android:text="Button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="right"
+
+                />
+
+            <ImageView
+                android:id="@+id/imageButton"
+                android:layout_width="295dp"
+                android:layout_height="422dp"
+                app:imageResource="@{viewModel.plantImage}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nameOfPlant"
+                tools:src="@drawable/evil_bush1"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+            <Button
+                android:id="@+id/shopButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/nameOfUser"
+                app:layout_constraintTop_toTopOf="@+id/nameOfUser" />
+
+            <!--        android:background="null"-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+</layout>

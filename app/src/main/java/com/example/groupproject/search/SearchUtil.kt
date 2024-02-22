@@ -3,6 +3,7 @@ package com.example.groupproject.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.groupproject.evilgarden.SharedViewModel
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,7 +18,9 @@ import java.io.IOException
 
 
 
-class SearchUtil : ViewModel() {
+class SearchUtil(
+//    private val sharedViewModel: SharedViewModel
+) : ViewModel() {
 
     val client = OkHttpClient()
 
@@ -41,12 +44,6 @@ class SearchUtil : ViewModel() {
 
     suspend fun convertDataToClass() {
         println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
-        println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
-        println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
-        println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
-        println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
-        println("${_suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
-        println("${_suggestions.value?.get(0)?.text.toString()} 9999999999999999999888999")
         val mediaType = MediaType.parse("application/json")
 //        val body = RequestBody.create(mediaType, "{\"text\":\"${_userInputSearchData.value?.text}\",\"style\":\"general\",\"startIndex\":0,\"endIndex\":${userInputSearchData.value?.text?.count()}}")
         val body = RequestBody.create(mediaType, "{\"text\":\"${userInputSearchData}\",\"style\":\"general\",\"startIndex\":0,\"endIndex\":${userInputSearchData.count()}}")
@@ -57,13 +54,22 @@ class SearchUtil : ViewModel() {
             .addHeader("content-type", "application/json")
             .addHeader("Authorization", "Bearer ${searchKey}")
             .build()
-
+        fun addXp() {
+//            sharedViewModel.updateUserXP(10)
+        }
         withContext(Dispatchers.IO) {
             try {
+                val startsWithIs = userInputSearchData.startsWith("is", ignoreCase = true)
+
+                if (startsWithIs) {
+                    // Remove "is" from the beginning of the string
+                    userInputSearchData = userInputSearchData.substring(2)
+                }
                 val searchResponse = client.newCall(request).execute()
                 println(userInputSearchData.toString())
 
                 if (searchResponse.isSuccessful) {
+
                     // Get the response body as a string
                     val responseBody = searchResponse.body()?.string()
 
@@ -82,6 +88,7 @@ class SearchUtil : ViewModel() {
                     if (phraseResponse != null) {
                         println(phraseResponse.suggestions.toString())
                     }
+                    addXp()
                 } else {
                     // Handle unsuccessful response
                     println("Error: ${searchResponse.code()}")
@@ -94,6 +101,7 @@ class SearchUtil : ViewModel() {
                 println("IOException: ${e.message}")
             }
         }
+
     }
 
 //    private val moshi = Moshi.Builder()
