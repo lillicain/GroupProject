@@ -16,6 +16,8 @@ public class InferenceInfoGraphic extends GraphicOverlay.Graphic {
   private final long frameLatency;
   private final long detectorLatency;
 
+//  private final long testText;
+
   // Only valid when a stream of input images is being processed. Null for single image mode.
   @Nullable private final Integer framesPerSecond;
   private boolean showLatencyInfo = true;
@@ -24,12 +26,14 @@ public class InferenceInfoGraphic extends GraphicOverlay.Graphic {
       GraphicOverlay overlay,
       long frameLatency,
       long detectorLatency,
+//      long testText,
       @Nullable Integer framesPerSecond) {
     super(overlay);
     this.overlay = overlay;
     this.frameLatency = frameLatency;
     this.detectorLatency = detectorLatency;
     this.framesPerSecond = framesPerSecond;
+//    this.testText = testText;
     textPaint = new Paint();
     textPaint.setColor(TEXT_COLOR);
     textPaint.setTextSize(TEXT_SIZE);
@@ -53,6 +57,7 @@ public class InferenceInfoGraphic extends GraphicOverlay.Graphic {
         x,
         y,
         textPaint);
+
 
     if (!showLatencyInfo) {
       return;

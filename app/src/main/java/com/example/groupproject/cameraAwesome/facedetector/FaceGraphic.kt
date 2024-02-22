@@ -2,6 +2,7 @@ package com.example.groupproject.cameraAwesome.facedetector
 
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.ColorFilter
 import android.graphics.Paint
 import com.example.groupproject.preference.GraphicOverlay
 import com.google.mlkit.vision.face.Face
@@ -22,6 +23,8 @@ class FaceGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
   private val boxPaints = Array(numColors) { Paint() }
   private val labelPaints = Array(numColors) { Paint() }
 
+  private val evilPaints = Array(numColors) { Paint() }
+
   init {
     val selectedColor = Color.WHITE
     facePositionPaint = Paint()
@@ -37,6 +40,12 @@ class FaceGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
       labelPaints[i] = Paint()
       labelPaints[i].color = COLORS[i][1]
       labelPaints[i].style = Paint.Style.FILL
+
+      evilPaints[i].strokeWidth = EVIL_BOX_STROKE_WIDTH
+      evilPaints[i].color = Color.RED
+      evilPaints[i].style = Paint.Style.FILL_AND_STROKE
+      evilPaints[i].maskFilter
+
     }
   }
 
@@ -240,6 +249,9 @@ class FaceGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
     private const val ID_TEXT_SIZE = 30.0f
     private const val ID_Y_OFFSET = 40.0f
     private const val BOX_STROKE_WIDTH = 5.0f
+
+    private const val EVIL_BOX_STROKE_WIDTH = 8.0f
+
     private const val NUM_COLORS = 10
     private val COLORS =
       arrayOf(

@@ -102,6 +102,7 @@ class CameraXLivePreviewActivity :
     options.add(OBJECT_DETECTION_CUSTOM)
     options.add(CUSTOM_AUTOML_OBJECT_DETECTION)
     options.add(EVIL_DETECTION)
+
     options.add(FACE_DETECTION)
     options.add(FACE_MESH_DETECTION)
     options.add(BARCODE_SCANNING)
@@ -302,16 +303,19 @@ class CameraXLivePreviewActivity :
             val faceDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
             FaceDetectorProcessor(this, faceDetectorOptions)
           }
+
           EVIL_DETECTION -> {
             Log.i(TAG, "Using Evil Detector Processor")
-            val objectDetectorOptions = PreferenceUtils.getObjectDetectorOptionsForLivePreview(this)
-            EvilDetectorProcessor(this, objectDetectorOptions)
+            val evilDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
+            EvilDetectorProcessor(this, evilDetectorOptions)
           }
+
 //          EVIL_DETECTION -> {
 //            Log.i(TAG, "Using Evil Detector Processor")
-//            val faceDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
-//            EvilDetectorProcessor(this, faceDetectorOptions)
+//            val objectDetectorOptions = PreferenceUtils.getObjectDetectorOptionsForLivePreview(this)
+//            EvilDetectorProcessor(this, objectDetectorOptions)
 //          }
+
           BARCODE_SCANNING -> {
             Log.i(TAG, "Using Barcode Detector Processor")
             var zoomCallback: ZoomCallback? = null
@@ -431,6 +435,7 @@ class CameraXLivePreviewActivity :
     private const val POSE_DETECTION = "Pose Detection"
     private const val SELFIE_SEGMENTATION = "Selfie Segmentation"
     private const val FACE_MESH_DETECTION = "Face Mesh Detection (Beta)"
+
     private const val EVIL_DETECTION = "Evil Detection"
 
     private const val STATE_SELECTED_MODEL = "selected_model"
