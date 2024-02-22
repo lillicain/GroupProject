@@ -6,8 +6,10 @@ import android.widget.GridLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.groupproject.evilgarden.SharedViewModel
 
-class EightBallViewModel : ViewModel() {
+class EightBallViewModel(private val sharedViewModel: SharedViewModel) : ViewModel() {
+
 
     var greengusString = MutableLiveData<String>("")
     private val _eightBall = MutableLiveData<EightBall>()
@@ -54,12 +56,14 @@ class EightBallViewModel : ViewModel() {
             startCooldownTimer(shakeCooldownMillis)
             startShakeTimer()
             println(" RINKLEE ${eightBall.value?.selectedAnswer?.value}")
+            updateXP()
         } else {
             println("Shake is on cooldown")
         }
     }
     fun addAnswer(answer: Answer) {
         _eightBall.value?.addAnswer(answer)
+        updateXP2()
     }
 
     private fun startShakeTimer() {
@@ -111,4 +115,11 @@ class EightBallViewModel : ViewModel() {
         shakeTimer?.cancel()
         cooldownTimer?.cancel()
     }
+    private fun updateXP() {
+        sharedViewModel.updateUserXP(xpToAdd = 5)
+    }
+    private fun updateXP2() {
+        sharedViewModel.updateUserXP(xpToAdd = 3)
+    }
+
 }

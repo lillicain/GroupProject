@@ -94,6 +94,8 @@
 
     </PreferenceCategory>
 
+
+
     <PreferenceCategory
         android:title="@string/pref_category_face_detection">
 
@@ -145,9 +147,12 @@
             android:key="@string/pref_key_live_preview_face_detection_min_face_size"
             android:persistent="true"
             android:title="@string/pref_title_face_detector_min_face_size"/>
+
     </PreferenceCategory>
 
+
     <PreferenceCategory android:title="@string/pref_category_pose_detection">
+
         <ListPreference
             android:defaultValue="@string/pref_entry_values_pose_detector_performance_mode_fast"
             android:entries="@array/pref_entries_values_pose_detector_performance_mode"

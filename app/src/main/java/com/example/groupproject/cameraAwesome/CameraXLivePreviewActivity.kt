@@ -1,20 +1,11 @@
 package com.example.groupproject.cameraAwesome
 
-import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Rect
-import android.os.Build
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
-import android.view.PixelCopy
 import android.view.View
-import android.view.Window
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
@@ -37,6 +28,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.groupproject.R
 import com.example.groupproject.cameraAwesome.barcodescanner.BarcodeScannerProcessor
+import com.example.groupproject.cameraAwesome.evilDetector.EvilDetectorProcessor
 import com.example.groupproject.cameraAwesome.facedetector.FaceDetectorProcessor
 import com.example.groupproject.cameraAwesome.facemeshdetector.FaceMeshDetectorProcessor
 import com.example.groupproject.cameraAwesome.labeldetector.LabelDetectorProcessor
@@ -100,7 +92,10 @@ class CameraXLivePreviewActivity :
     options.add(OBJECT_DETECTION)
     options.add(OBJECT_DETECTION_CUSTOM)
     options.add(CUSTOM_AUTOML_OBJECT_DETECTION)
+    options.add(EVIL_DETECTION)
+
     options.add(FACE_DETECTION)
+    options.add(FACE_MESH_DETECTION)
     options.add(BARCODE_SCANNING)
     options.add(IMAGE_LABELING)
     options.add(IMAGE_LABELING_CUSTOM)
@@ -112,7 +107,7 @@ class CameraXLivePreviewActivity :
     options.add(TEXT_RECOGNITION_DEVANAGARI)
     options.add(TEXT_RECOGNITION_JAPANESE)
     options.add(TEXT_RECOGNITION_KOREAN)
-    options.add(FACE_MESH_DETECTION)
+
 
     // Creating adapter for spinner
     val dataAdapter = ArrayAdapter(this, R.layout.spinner_style, options)
@@ -299,6 +294,19 @@ class CameraXLivePreviewActivity :
             val faceDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
             FaceDetectorProcessor(this, faceDetectorOptions)
           }
+
+//          EVIL_DETECTION -> {
+//            Log.i(TAG, "Using Evil Detector Processor")
+//            val evilDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
+//            EvilDetectorProcessor(this, evilDetectorOptions)
+//          }
+
+//          EVIL_DETECTION -> {
+//            Log.i(TAG, "Using Evil Detector Processor")
+//            val objectDetectorOptions = PreferenceUtils.getObjectDetectorOptionsForLivePreview(this)
+//            EvilDetectorProcessor(this, objectDetectorOptions)
+//          }
+
           BARCODE_SCANNING -> {
             Log.i(TAG, "Using Barcode Detector Processor")
             var zoomCallback: ZoomCallback? = null
@@ -418,6 +426,8 @@ class CameraXLivePreviewActivity :
     private const val POSE_DETECTION = "Pose Detection"
     private const val SELFIE_SEGMENTATION = "Selfie Segmentation"
     private const val FACE_MESH_DETECTION = "Face Mesh Detection (Beta)"
+
+    private const val EVIL_DETECTION = "Evil Detection"
 
     private const val STATE_SELECTED_MODEL = "selected_model"
   }

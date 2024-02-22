@@ -12,9 +12,10 @@ import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetector
 import com.google.mlkit.vision.face.FaceDetectorOptions
 import com.google.mlkit.vision.face.FaceLandmark
+import com.google.mlkit.vision.objects.custom.CustomObjectDetectorOptions
 import java.util.Locale
 
-class EvilDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptions?) :
+class EvilDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptions) :
     VisionProcessorBase<List<Face>>(context) {
 
     private val detector: FaceDetector
@@ -28,7 +29,7 @@ class EvilDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
 
         detector = FaceDetection.getClient(options)
 
-        Log.v(MANUAL_TESTING_LOG, "Face detector options: $options")
+        Log.v(MANUAL_TESTING_LOG, "Evil detector options: $options")
     }
 
     override fun stop() {
@@ -40,38 +41,26 @@ class EvilDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
         return detector.process(image)
     }
 
-    override fun onSuccess(faces: List<Face>, graphicOverlay: GraphicOverlay) {
-        for (face in faces) {
-            graphicOverlay.add(FaceGraphic(graphicOverlay, face))
+    override fun onSuccess(results: List<Face>, graphicOverlay: GraphicOverlay) {
+        for (face in results) {
+            graphicOverlay.add(EvilGraphic(graphicOverlay, face))
             logExtrasForTesting(face)
         }
     }
 
     override fun onFailure(e: Exception) {
-        Log.e(TAG, "Face detection failed $e")
+        Log.e(TAG, "Evil detection failed $e")
     }
 
     companion object {
-        private const val TAG = "FaceDetectorProcessor"
+        private const val TAG = "EvilDetectorProcessor"
         private fun logExtrasForTesting(face: Face?) {
             if (face != null) {
-                Log.v(
-                    MANUAL_TESTING_LOG,
-                    "face bounding box: " + face.boundingBox.flattenToString()
-                )
-                Log.v(
-                    MANUAL_TESTING_LOG,
-                    "face Euler Angle X: " + face.headEulerAngleX
-                )
-                Log.v(
-                    MANUAL_TESTING_LOG,
-                    "face Euler Angle Y: " + face.headEulerAngleY
-                )
-                Log.v(
-                    MANUAL_TESTING_LOG,
-                    "face Euler Angle Z: " + face.headEulerAngleZ
-                )
-                // All landmarks
+                Log.v(MANUAL_TESTING_LOG, "evil bounding box: " + face.boundingBox.flattenToString())
+                Log.v(MANUAL_TESTING_LOG, "evil X: " + face.headEulerAngleX)
+                Log.v(MANUAL_TESTING_LOG, "hater: " + face.headEulerAngleY)
+                Log.v(MANUAL_TESTING_LOG, "instigator: " + face.headEulerAngleZ)
+
                 val landMarkTypes = intArrayOf(
                     FaceLandmark.MOUTH_BOTTOM,
                     FaceLandmark.MOUTH_RIGHT,
@@ -85,54 +74,71 @@ class EvilDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
                     FaceLandmark.NOSE_BASE
                 )
                 val landMarkTypesStrings = arrayOf(
-                    "MOUTH_BOTTOM",
-                    "MOUTH_RIGHT",
-                    "MOUTH_LEFT",
-                    "RIGHT_EYE",
-                    "LEFT_EYE",
-                    "RIGHT_EAR",
-                    "LEFT_EAR",
-                    "RIGHT_CHEEK",
-                    "LEFT_CHEEK",
-                    "NOSE_BASE"
+                    "EVIL_PERSON",
+                    "EVIL",
+                    "EVIL",
+                    "EVIL_PERSON",
+                    "EVIL",
+                    "EVIL",
+                    "EVIL_PERSON",
+                    "EVIL",
+                    "EVIL",
+                    "EVIL LANDMARK"
                 )
                 for (i in landMarkTypes.indices) {
                     val landmark = face.getLandmark(landMarkTypes[i])
                     if (landmark == null) {
-                        Log.v(
-                            MANUAL_TESTING_LOG,
-                            "No landmark of type: " + landMarkTypesStrings[i] + " has been detected"
-                        )
+                        Log.v(MANUAL_TESTING_LOG, landMarkTypesStrings[i] + " evil has been detected")
+
                     } else {
                         val landmarkPosition = landmark.position
-                        val landmarkPositionStr =
-                            String.format(Locale.US, "x: %f , y: %f", landmarkPosition.x, landmarkPosition.y)
-                        Log.v(
-                            MANUAL_TESTING_LOG,
-                            "Position for face landmark: " +
-                                    landMarkTypesStrings[i] +
-                                    " is :" +
-                                    landmarkPositionStr
-                        )
+                        val landmarkPositionStr = String.format(Locale.US, "EVILNESS: %f , EVILNESS: %f", landmarkPosition.x, landmarkPosition.y)
+
+                        Log.v(MANUAL_TESTING_LOG, "Position for face landmark: " + landMarkTypesStrings[i] + " is :" + landmarkPositionStr)
                     }
                 }
-                Log.v(
-                    MANUAL_TESTING_LOG,
-                    "face left eye open probability: " + face.leftEyeOpenProbability
-                )
-                Log.v(
-                    MANUAL_TESTING_LOG,
-                    "face right eye open probability: " + face.rightEyeOpenProbability
-                )
-                Log.v(
-                    MANUAL_TESTING_LOG,
-                    "face smiling probability: " + face.smilingProbability
-                )
-                Log.v(
-                    MANUAL_TESTING_LOG,
-                    "face tracking id: " + face.trackingId
-                )
+                Log.v(MANUAL_TESTING_LOG, "evil probability: " + face.leftEyeOpenProbability)
+                Log.v(MANUAL_TESTING_LOG, "evil eye open probability: " + face.rightEyeOpenProbability)
+                Log.v(MANUAL_TESTING_LOG, "face smiling probability: " + face.smilingProbability)
+                Log.v(MANUAL_TESTING_LOG, "evil tracking id: " + face.trackingId)
             }
         }
     }
 }
+
+//class EvilDetectorProcessor(context: Context, options: ObjectDetectorOptionsBase) :
+//    VisionProcessorBase<List<DetectedObject>>(context) {
+//
+//    private val detector: ObjectDetector = ObjectDetection.getClient(options)
+//
+//    override fun stop() {
+//        super.stop()
+//        try {
+//            detector.close()
+//        } catch (e: IOException) {
+//            Log.e(
+//                TAG,
+//                "Exception thrown while trying to close object detector!",
+//                e
+//            )
+//        }
+//    }
+//
+//    override fun detectInImage(image: InputImage): Task<List<DetectedObject>> {
+//        return detector.process(image)
+//    }
+//
+//    override fun onSuccess(results: List<DetectedObject>, graphicOverlay: GraphicOverlay) {
+//        for (result in results) {
+//            graphicOverlay.add(EvilGraphic(graphicOverlay, result))
+//        }
+//    }
+//
+//    override fun onFailure(e: Exception) {
+//        Log.e(TAG, "Object detection failed!", e)
+//    }
+//
+//    companion object {
+//        private const val TAG = "EvilDetectorProcessor"
+//    }
+//}

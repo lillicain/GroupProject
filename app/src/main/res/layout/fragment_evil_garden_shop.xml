@@ -35,7 +35,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/buyEvilBush"
                 app:layout_constraintVertical_bias="0.434" />
-
+            <Button
+                android:id="@+id/buyDemonTree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Buy DEMON TREE"
+                android:onClick="@{() -> viewModel.buyDemonTree()}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/buyXp"
+                app:layout_constraintVertical_bias="0.434" />
             <TextView
                 android:id="@+id/userXP"
                 android:layout_width="wrap_content"

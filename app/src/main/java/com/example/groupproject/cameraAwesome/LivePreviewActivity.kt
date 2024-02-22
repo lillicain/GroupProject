@@ -15,6 +15,7 @@ import android.widget.Toast
 import android.widget.ToggleButton
 import com.example.groupproject.R
 import com.example.groupproject.cameraAwesome.barcodescanner.BarcodeScannerProcessor
+import com.example.groupproject.cameraAwesome.evilDetector.EvilDetectorProcessor
 import com.example.groupproject.cameraAwesome.facedetector.FaceDetectorProcessor
 import com.example.groupproject.cameraAwesome.facemeshdetector.FaceMeshDetectorProcessor
 import com.example.groupproject.cameraAwesome.labeldetector.LabelDetectorProcessor
@@ -66,10 +67,30 @@ class LivePreviewActivity :
 
     val spinner = findViewById<Spinner>(R.id.spinner)
     val options: MutableList<String> = ArrayList()
+
+//    options.add(OBJECT_DETECTION)
+//    options.add(OBJECT_DETECTION_CUSTOM)
+//    options.add(CUSTOM_AUTOML_OBJECT_DETECTION)
+//    options.add(FACE_DETECTION)
+//    options.add(BARCODE_SCANNING)
+//    options.add(IMAGE_LABELING)
+//    options.add(IMAGE_LABELING_CUSTOM)
+//    options.add(CUSTOM_AUTOML_LABELING)
+//    options.add(POSE_DETECTION)
+//    options.add(SELFIE_SEGMENTATION)
+//    options.add(TEXT_RECOGNITION_LATIN)
+//    options.add(TEXT_RECOGNITION_CHINESE)
+//    options.add(TEXT_RECOGNITION_DEVANAGARI)
+//    options.add(TEXT_RECOGNITION_JAPANESE)
+//    options.add(TEXT_RECOGNITION_KOREAN)
+//    options.add(FACE_MESH_DETECTION)
+
     options.add(OBJECT_DETECTION)
     options.add(OBJECT_DETECTION_CUSTOM)
     options.add(CUSTOM_AUTOML_OBJECT_DETECTION)
+    options.add(EVIL_DETECTION)
     options.add(FACE_DETECTION)
+    options.add(FACE_MESH_DETECTION)
     options.add(BARCODE_SCANNING)
     options.add(IMAGE_LABELING)
     options.add(IMAGE_LABELING_CUSTOM)
@@ -81,7 +102,6 @@ class LivePreviewActivity :
     options.add(TEXT_RECOGNITION_DEVANAGARI)
     options.add(TEXT_RECOGNITION_JAPANESE)
     options.add(TEXT_RECOGNITION_KOREAN)
-    options.add(FACE_MESH_DETECTION)
 
     // Creating adapter for spinner
     val dataAdapter = ArrayAdapter(this, R.layout.spinner_style, options)
@@ -207,6 +227,22 @@ class LivePreviewActivity :
             FaceDetectorProcessor(this, faceDetectorOptions)
           )
         }
+
+
+        EVIL_DETECTION -> {
+          Log.i(TAG, "Using Evil Detector Processor")
+          val evilDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
+          cameraSource!!.setMachineLearningFrameProcessor(
+            EvilDetectorProcessor(this, evilDetectorOptions)
+          )
+        }
+
+//        EVIL_DETECTION -> {
+//          Log.i(TAG, "Using Evil Detector Processor")
+//          val objectDetectorOptions = PreferenceUtils.getObjectDetectorOptionsForLivePreview(this)
+//          EvilDetectorProcessor(this, objectDetectorOptions)
+//        }
+
         BARCODE_SCANNING -> {
           Log.i(TAG, "Using Barcode Detector Processor")
           var zoomCallback: ZoomCallback? = null
@@ -283,11 +319,6 @@ class LivePreviewActivity :
     }
   }
 
-  /**
-   * Starts or restarts the camera source, if it exists. If the camera source doesn't exist yet
-   * (e.g., because onResume was called before the camera source was created), this will be called
-   * again when the camera source is created.
-   */
   private fun startCameraSource() {
     if (cameraSource != null) {
       try {
@@ -313,7 +344,6 @@ class LivePreviewActivity :
     startCameraSource()
   }
 
-  /** Stops the camera. */
   override fun onPause() {
     super.onPause()
     preview?.stop()
@@ -343,6 +373,8 @@ class LivePreviewActivity :
     private const val POSE_DETECTION = "Pose Detection"
     private const val SELFIE_SEGMENTATION = "Selfie Segmentation"
     private const val FACE_MESH_DETECTION = "Face Mesh Detection (Beta)"
+
+    private const val EVIL_DETECTION = "Evil Detection"
 
     private const val TAG = "LivePreviewActivity"
   }

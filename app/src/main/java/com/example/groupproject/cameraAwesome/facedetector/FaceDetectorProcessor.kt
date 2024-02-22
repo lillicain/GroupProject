@@ -10,6 +10,7 @@ import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetector
 import com.google.mlkit.vision.face.FaceDetectorOptions
+import com.google.mlkit.vision.face.FaceDetectorOptions.ClassificationMode
 import com.google.mlkit.vision.face.FaceLandmark
 import java.util.Locale
 
@@ -40,8 +41,8 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
     return detector.process(image)
   }
 
-  override fun onSuccess(faces: List<Face>, graphicOverlay: GraphicOverlay) {
-    for (face in faces) {
+  override fun onSuccess(results: List<Face>, graphicOverlay: GraphicOverlay) {
+    for (face in results) {
       graphicOverlay.add(FaceGraphic(graphicOverlay, face))
       logExtrasForTesting(face)
     }
