@@ -25,6 +25,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import com.example.groupproject.R
 import com.example.groupproject.cameraAwesome.barcodescanner.BarcodeScannerProcessor
+import com.example.groupproject.cameraAwesome.evilDetector.EvilDetectorProcessor
 import com.example.groupproject.cameraAwesome.facedetector.FaceDetectorProcessor
 import com.example.groupproject.cameraAwesome.facemeshdetector.FaceMeshDetectorProcessor
 import com.example.groupproject.cameraAwesome.labeldetector.LabelDetectorProcessor
@@ -145,6 +146,7 @@ class StillImageActivity : AppCompatActivity() {
     options.add(OBJECT_DETECTION_CUSTOM)
     options.add(CUSTOM_AUTOML_OBJECT_DETECTION)
     options.add(FACE_DETECTION)
+    options.add(EVIL_DETECTION)
     options.add(BARCODE_SCANNING)
     options.add(IMAGE_LABELING)
     options.add(IMAGE_LABELING_CUSTOM)
@@ -367,6 +369,12 @@ class StillImageActivity : AppCompatActivity() {
           val faceDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
           imageProcessor = FaceDetectorProcessor(this, faceDetectorOptions)
         }
+        EVIL_DETECTION -> {
+          Log.i(TAG, "Using Face Detector Processor")
+          val faceDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
+          imageProcessor = EvilDetectorProcessor(this, faceDetectorOptions)
+        }
+
         BARCODE_SCANNING -> imageProcessor = BarcodeScannerProcessor(this, zoomCallback = null)
         TEXT_RECOGNITION_LATIN ->
           imageProcessor = TextRecognitionProcessor(this, TextRecognizerOptions.Builder().build())
@@ -450,6 +458,7 @@ class StillImageActivity : AppCompatActivity() {
     private const val OBJECT_DETECTION_CUSTOM = "Custom Object Detection"
     private const val CUSTOM_AUTOML_OBJECT_DETECTION = "Custom AutoML Object Detection (Flower)"
     private const val FACE_DETECTION = "Face Detection"
+    private const val EVIL_DETECTION = "Evil Detection"
     private const val BARCODE_SCANNING = "Barcode Scanning"
     private const val TEXT_RECOGNITION_LATIN = "Text Recognition Latin"
     private const val TEXT_RECOGNITION_CHINESE = "Text Recognition Chinese"
