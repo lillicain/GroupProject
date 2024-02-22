@@ -182,18 +182,15 @@ public class PreferenceUtils {
     int classificationMode =
             getModeTypePreferenceValue(
                     context,
-                    R.string.pref_key_live_preview_face_detection_classification_mode,
+                    R.string.pref_key_live_preview_evil_detection_classification_mode,
                     FaceDetectorOptions.CLASSIFICATION_MODE_NONE);
+
+
     int performanceMode =
             getModeTypePreferenceValue(
                     context,
                     R.string.pref_key_live_preview_face_detection_performance_mode,
                     FaceDetectorOptions.PERFORMANCE_MODE_FAST);
-
-//    int evilMode = getModeTypePreferenceValue(
-//            context,
-//            R.string.pref_entries_evil_detector_landmark_mode_all_landmarks,
-//            FaceDetectorOptions.LANDMARK_MODE_ALL);
 
     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     boolean enableFaceTracking =
@@ -211,9 +208,6 @@ public class PreferenceUtils {
                     .setContourMode(contourMode)
                     .setClassificationMode(classificationMode)
                     .setPerformanceMode(performanceMode)
-
-//                    .setLandmarkMode(evilMode)
-
                     .setMinFaceSize(minFaceSize);
     if (enableFaceTracking) {
       optionsBuilder.enableTracking();
