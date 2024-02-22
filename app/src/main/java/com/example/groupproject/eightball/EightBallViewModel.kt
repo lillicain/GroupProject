@@ -8,7 +8,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.groupproject.evilgarden.SharedViewModel
 
-class EightBallViewModel(private val sharedViewModel: SharedViewModel) : ViewModel() {
+class EightBallViewModel(
+//    private val sharedViewModel: SharedViewModel
+) : ViewModel() {
 
 
     var greengusString = MutableLiveData<String>("")
@@ -116,10 +118,10 @@ class EightBallViewModel(private val sharedViewModel: SharedViewModel) : ViewMod
         cooldownTimer?.cancel()
     }
     private fun updateXP() {
-        sharedViewModel.updateUserXP(xpToAdd = 5)
+//        sharedViewModel.updateUserXP(xpToAdd = 5)
     }
     private fun updateXP2() {
-        sharedViewModel.updateUserXP(xpToAdd = 3)
+//        sharedViewModel.updateUserXP(xpToAdd = 3)
     }
 
 }
