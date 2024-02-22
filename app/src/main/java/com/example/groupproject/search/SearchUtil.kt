@@ -3,6 +3,7 @@ package com.example.groupproject.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.groupproject.evilgarden.SharedViewModel
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,7 +18,7 @@ import java.io.IOException
 
 
 
-class SearchUtil : ViewModel() {
+class SearchUtil(private val sharedViewModel: SharedViewModel) : ViewModel() {
 
     val client = OkHttpClient()
 
@@ -64,6 +65,7 @@ class SearchUtil : ViewModel() {
                 println(userInputSearchData.toString())
 
                 if (searchResponse.isSuccessful) {
+
                     // Get the response body as a string
                     val responseBody = searchResponse.body()?.string()
 
@@ -82,6 +84,7 @@ class SearchUtil : ViewModel() {
                     if (phraseResponse != null) {
                         println(phraseResponse.suggestions.toString())
                     }
+                    sharedViewModel.updateUserXP(10)
                 } else {
                     // Handle unsuccessful response
                     println("Error: ${searchResponse.code()}")

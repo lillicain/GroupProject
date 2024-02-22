@@ -73,6 +73,7 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
                 _plantImage.value = when (plant.type) {
                     PlantEnum.EVIL_BUSH -> R.drawable.evil_bush1
                     PlantEnum.DEMON_TREE -> R.drawable.demon_tree
+                    PlantEnum.GLOOM_FRUIT -> R.drawable.gloom_fruit2
                     else -> R.drawable.eight_ball
                 }
             }
@@ -99,14 +100,6 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
             user.value?.currentPlantIndex = newIndex
             _currentPlant.value = _plants.value!![newIndex]
         }
-    }
-
-    fun getRoomData() {
-        // Placeholder method
-    }
-
-    fun goToShop() {
-        // Placeholder method
     }
 
     fun water() {
@@ -141,6 +134,12 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
             viewModelScope.launch {
                 _user.value = userDatabase.getUser()
             }
+
+    }
+    fun updatePlants() {
+        viewModelScope.launch {
+            _plants.value = plantDatabase.getAllItems()
+        }
 
     }
     override fun onCleared() {

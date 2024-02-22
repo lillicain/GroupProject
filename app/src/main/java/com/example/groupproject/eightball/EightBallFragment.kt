@@ -16,15 +16,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.groupproject.database.EvilDatabase
 import com.example.groupproject.databinding.FragmentEightBallBinding
+import com.example.groupproject.evilgarden.SharedViewModel
+import kotlinx.coroutines.launch
 
 class EightBallFragment: Fragment(), SensorEventListener {
     private lateinit var binding: FragmentEightBallBinding
     private lateinit var sensorManager: SensorManager
     private var accelerometer: Sensor? = null
+    private val sharedViewModel: SharedViewModel by activityViewModels()
     private val viewModel: EightBallViewModel by lazy {
-        ViewModelProvider(this).get(EightBallViewModel::class.java)
+        ViewModelProvider(this).get(EightBallViewModel(sharedViewModel)::class.java)
     }
 
     override fun onCreateView(
@@ -69,6 +75,12 @@ class EightBallFragment: Fragment(), SensorEventListener {
     override fun onPause() {
         super.onPause()
         sensorManager.unregisterListener(this)
+        lifecycleScope.launch {
+            val userDao = EvilDatabase.getInstance(requireContext()).userDao()
+            sharedViewModel.saveUserToDatabase(userDao)
+        }
+        // Fetch the UserDao from the EvilDatabase
+
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
@@ -102,6 +114,7 @@ class EightBallFragment: Fragment(), SensorEventListener {
         TransitionManager.beginDelayedTransition(binding.root as ViewGroup, fade)
         binding.executePendingBindings()
     }
+
 //
 //    viewModel.selectedAnswer.observe(viewLifecycleOwner, { newValue ->
 //        val textView = binding.textView
