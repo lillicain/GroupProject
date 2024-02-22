@@ -4,6 +4,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import com.example.groupproject.cameraAwesome.facedetector.FaceGraphic
 import com.example.groupproject.preference.GraphicOverlay
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceLandmark
@@ -58,30 +59,42 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
         val colorID = if (face.trackingId == null) 0 else abs(face.trackingId!! % Color.RED)
 
         // Calculate width and height of label box
-        var textWidth = idPaints[colorID].measureText("Evil ID: " + face.trackingId)
+        var textWidth = idPaints[colorID].measureText("ID: " + face.trackingId)
         if (face.smilingProbability != null) {
             yLabelOffset -= lineHeight
-            textWidth =
-                max(textWidth, idPaints[colorID].measureText(String.format(Locale.US, "evil", face.smilingProbability)))
-//                       "EVIl" + face.smilingProbability
-
+            max(
+                textWidth,
+                idPaints[colorID].measureText(
+                    String.format(Locale.US, "Narcissistic: %.2f", face.smilingProbability)
+                )
+            )
         }
         if (face.leftEyeOpenProbability != null) {
             yLabelOffset -= lineHeight
             textWidth =
-                max(textWidth, idPaints[colorID].measureText(String.format(Locale.US, "EVIL", face.leftEyeOpenProbability)))
+                max(
+                    textWidth,
+                    idPaints[colorID].measureText(
+                        String.format(Locale.US, "Hating: %.2f", face.leftEyeOpenProbability)
+                    )
+                )
         }
         if (face.rightEyeOpenProbability != null) {
             yLabelOffset -= lineHeight
             textWidth =
-                max(textWidth, idPaints[colorID].measureText(String.format(Locale.US, "Right eye open: %.2f", face.rightEyeOpenProbability)))
+                max(
+                    textWidth,
+                    idPaints[colorID].measureText(
+                        String.format(Locale.US, "Liar: %.2f", face.rightEyeOpenProbability)
+                    )
+                )
         }
 
         yLabelOffset = yLabelOffset - 3 * lineHeight
 
         textWidth = Math.max(textWidth, idPaints[colorID].measureText(String.format(Locale.US, "Hater: %.2f", face.headEulerAngleX)))
-        textWidth = Math.max(textWidth, idPaints[colorID].measureText(String.format(Locale.US, "Evil: %.2f", face.headEulerAngleY)))
-        textWidth = Math.max(textWidth, idPaints[colorID].measureText(String.format(Locale.US, "Evil: %.2f", face.headEulerAngleZ)))
+        textWidth = Math.max(textWidth, idPaints[colorID].measureText(String.format(Locale.US, "Greediness: %.2f", face.headEulerAngleY)))
+        textWidth = Math.max(textWidth, idPaints[colorID].measureText(String.format(Locale.US, "Disrespectful: %.2f", face.headEulerAngleZ)))
 
         // Draw labels
         canvas.drawRect(
@@ -94,7 +107,7 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
         yLabelOffset += ID_TEXT_SIZE
         canvas.drawRect(left, top, right, bottom, boxPaints[colorID])
         if (face.trackingId != null) {
-            canvas.drawText("EVIL ID: " + face.trackingId, left, top + yLabelOffset, idPaints[colorID])
+            canvas.drawText("Cockiness: " + face.trackingId, left, top + yLabelOffset, idPaints[colorID])
             yLabelOffset += lineHeight
         }
 
@@ -112,18 +125,18 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
 
         // Draws smiling and left/right eye open probabilities.
         if (face.smilingProbability != null) {
-            canvas.drawText("Evil Smile: " + String.format(Locale.US, "%.2f", face.smilingProbability), left, top + yLabelOffset, idPaints[colorID])
+            canvas.drawText("Manipulative: " + String.format(Locale.US, "%.2f", face.smilingProbability), left, top + yLabelOffset, idPaints[colorID])
             yLabelOffset += lineHeight
         }
 
         val leftEye = face.getLandmark(FaceLandmark.LEFT_EYE)
         if (face.leftEyeOpenProbability != null) {
-            canvas.drawText("Left eye open: " + String.format(Locale.US, "%.2f", face.leftEyeOpenProbability), left, top + yLabelOffset, idPaints[colorID])
+            canvas.drawText("Laziness: " + String.format(Locale.US, "%.2f", face.leftEyeOpenProbability!! * 10), left, top + yLabelOffset, idPaints[colorID])
             yLabelOffset += lineHeight
         }
         if (leftEye != null) {
             val leftEyeLeft =
-                translateX(leftEye.position.x) - idPaints[colorID].measureText("Evil") / 2.0f
+                translateX(leftEye.position.x) - idPaints[colorID].measureText("Evil") / 3.0f
             canvas.drawRect(
                 leftEyeLeft - BOX_STROKE_WIDTH,
                 translateY(leftEye.position.y) + ID_Y_OFFSET - ID_TEXT_SIZE,
@@ -141,23 +154,33 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
 
         val rightEye = face.getLandmark(FaceLandmark.RIGHT_EYE)
         if (face.rightEyeOpenProbability != null) {
-            canvas.drawText("Evil: " + String.format(Locale.US, "%.2f", face.rightEyeOpenProbability), left, top + yLabelOffset, idPaints[colorID])
+            canvas.drawText("Evil: " + String.format(Locale.US, "%.2f", face.rightEyeOpenProbability!! * 10), left, top + yLabelOffset, idPaints[colorID])
             yLabelOffset += lineHeight
         }
 
         if (rightEye != null) {
-            val rightEyeLeft = translateX(rightEye.position.x) - idPaints[colorID].measureText("Evil") / 2.0f
-            canvas.drawRect(rightEyeLeft - BOX_STROKE_WIDTH, translateY(rightEye.position.y) + ID_Y_OFFSET - ID_TEXT_SIZE, rightEyeLeft + idPaints[colorID].measureText("Evil") + BOX_STROKE_WIDTH, translateY(rightEye.position.y) + ID_Y_OFFSET + BOX_STROKE_WIDTH, labelPaints[colorID])
-            canvas.drawText("Right Eye", rightEyeLeft, translateY(rightEye.position.y) + ID_Y_OFFSET, idPaints[colorID])
+            val rightEyeLeft =
+                translateX(rightEye.position.x) - idPaints[colorID].measureText("Hater") / 4.0f
+            canvas.drawRect(
+                rightEyeLeft - EvilGraphic.BOX_STROKE_WIDTH,
+                translateY(rightEye.position.y) + EvilGraphic.ID_Y_OFFSET - EvilGraphic.ID_TEXT_SIZE,
+                rightEyeLeft + idPaints[colorID].measureText("Instigator") + EvilGraphic.BOX_STROKE_WIDTH,
+                translateY(rightEye.position.y) + EvilGraphic.ID_Y_OFFSET + EvilGraphic.BOX_STROKE_WIDTH,
+                labelPaints[colorID]
+            )
+            canvas.drawText(
+                "Right Eye",
+                rightEyeLeft,
+                translateY(rightEye.position.y) + EvilGraphic.ID_Y_OFFSET,
+                idPaints[colorID]
+            )
         }
 
-        canvas.drawText("Evil: " + face.headEulerAngleX, left, top + yLabelOffset, idPaints[colorID])
+        canvas.drawText("Aggressiveness: " + face.headEulerAngleX, left, top + yLabelOffset, idPaints[colorID])
         yLabelOffset += lineHeight
-
-        canvas.drawText("Hater: " + face.headEulerAngleY, left, top + yLabelOffset, idPaints[colorID])
+        canvas.drawText("Irresponsible: " + face.headEulerAngleY, left, top + yLabelOffset, idPaints[colorID])
         yLabelOffset += lineHeight
-
-        canvas.drawText("Instigator: " + face.headEulerAngleZ, left, top + yLabelOffset, idPaints[colorID])
+        canvas.drawText("Stubbornness : " + face.headEulerAngleZ, left, top + yLabelOffset, idPaints[colorID])
 
         drawFaceLandmark(canvas, FaceLandmark.LEFT_EYE)
         drawFaceLandmark(canvas, FaceLandmark.RIGHT_EYE)
@@ -198,129 +221,3 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
             )
     }
 }
-
-//    (overlay: GraphicOverlay,
-//                              private val detectedObject: DetectedObject
-//) : GraphicOverlay.Graphic(overlay) {
-//
-//    private val numColors = COLORS.size
-//
-//    private val boxPaints = Array(numColors) { Paint() }
-//    private val textPaints = Array(numColors) { Paint() }
-//    private val labelPaints = Array(numColors) { Paint() }
-//
-//    init {
-//        for (i in 0 until numColors) {
-//            textPaints[i] = Paint()
-//            textPaints[i].color = COLORS[i][0]
-//            textPaints[i].textSize = TEXT_SIZE
-//            boxPaints[i] = Paint()
-//            boxPaints[i].color = COLORS[i][1]
-//            boxPaints[i].style = Paint.Style.STROKE
-//            boxPaints[i].strokeWidth = STROKE_WIDTH
-//            labelPaints[i] = Paint()
-//            labelPaints[i].color = COLORS[i][1]
-//            labelPaints[i].style = Paint.Style.FILL
-//        }
-//    }
-//
-//    override fun draw(canvas: Canvas) {
-//        // Decide color based on object tracking ID
-//        val colorID =
-//            if (detectedObject.trackingId == null) 0
-//            else abs(detectedObject.trackingId!! % NUM_COLORS)
-//        var textWidth =
-//            textPaints[colorID].measureText("Scanning Evil Person: " + detectedObject.trackingId)
-//
-//        val lineHeight = TEXT_SIZE + STROKE_WIDTH
-//        var yLabelOffset = -lineHeight
-//
-//        // Calculate width and height of label box
-//        for (label in detectedObject.labels) {
-//            textWidth =
-//                max(textWidth, textPaints[colorID].measureText(label.text))
-//            textWidth = max(
-//                textWidth,
-//                textPaints[colorID].measureText(
-//                    String.format(
-//                        Locale.US,
-//                        EVIL_LABEL_FORMAT,
-//                        label.confidence * 100,
-//                        label.index
-//                    )
-//                )
-//            )
-//            yLabelOffset -= 2 * lineHeight
-//        }
-//
-//        // Draws the bounding box.
-//        val rect = RectF(detectedObject.boundingBox)
-//        val x0 = translateX(rect.left)
-//        val x1 = translateX(rect.right)
-//        rect.left = min(x0, x1)
-//        rect.right = max(x0, x1)
-//        rect.top = translateY(rect.top)
-//        rect.bottom = translateY(rect.bottom)
-//        canvas.drawRect(rect, boxPaints[colorID])
-//
-//        // Draws other object info.
-//        canvas.drawRect(
-//            rect.left - STROKE_WIDTH,
-//            rect.top + yLabelOffset,
-//            rect.left + textWidth + 2 * STROKE_WIDTH,
-//            rect.top,
-//            labelPaints[colorID]
-//        )
-//        yLabelOffset += TEXT_SIZE
-//
-//        canvas.drawText(
-////            "Scanning Evil Person: " + detectedObject.trackingId,
-//            "Evil person",
-//            rect.left,
-//            rect.top + yLabelOffset,
-//            textPaints[colorID]
-//        )
-//        yLabelOffset += lineHeight
-//        for (label in detectedObject.labels) {
-//            canvas.drawText(
-//                label.text + " (index: " + label.index + ")",
-//                rect.left,
-//                rect.top + yLabelOffset,
-//                textPaints[colorID]
-//            )
-//            yLabelOffset += lineHeight
-//            canvas.drawText(
-//                String.format(
-//                    Locale.US,
-//                    EVIL_LABEL_FORMAT,
-//                    label.confidence * 100,
-//                    label.index
-//                ),
-//                rect.left,
-//                rect.top + yLabelOffset,
-//                textPaints[colorID]
-//            )
-//            yLabelOffset += lineHeight
-//        }
-//    }
-//
-//    companion object {
-//        private const val TEXT_SIZE = 54.0f
-//        private const val STROKE_WIDTH = 4.0f
-//        private const val NUM_COLORS = 10
-//        private val COLORS =
-//            arrayOf(
-//                intArrayOf(Color.BLACK, Color.RED),
-//                intArrayOf(Color.WHITE, Color.RED),
-//                intArrayOf(Color.BLACK, Color.RED),
-//                intArrayOf(Color.WHITE, Color.RED),
-//                intArrayOf(Color.WHITE, Color.DKGRAY),
-//                intArrayOf(Color.WHITE, Color.DKGRAY),
-//                intArrayOf(Color.BLACK, Color.WHITE),
-//                intArrayOf(Color.WHITE, Color.RED),
-//                intArrayOf(Color.WHITE, Color.RED),
-//                intArrayOf(Color.WHITE, Color.DKGRAY)
-//            )
-//        private const val EVIL_LABEL_FORMAT = "%.2f%% confidence (index: %d)"
-//    }
-//}
