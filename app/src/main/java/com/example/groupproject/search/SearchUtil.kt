@@ -42,12 +42,6 @@ class SearchUtil(private val sharedViewModel: SharedViewModel) : ViewModel() {
 
     suspend fun convertDataToClass() {
         println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
-        println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
-        println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
-        println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
-        println("${suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
-        println("${_suggestions.value?.get(0)?.text.toString()} 9999999999999999999999")
-        println("${_suggestions.value?.get(0)?.text.toString()} 9999999999999999999888999")
         val mediaType = MediaType.parse("application/json")
 //        val body = RequestBody.create(mediaType, "{\"text\":\"${_userInputSearchData.value?.text}\",\"style\":\"general\",\"startIndex\":0,\"endIndex\":${userInputSearchData.value?.text?.count()}}")
         val body = RequestBody.create(mediaType, "{\"text\":\"${userInputSearchData}\",\"style\":\"general\",\"startIndex\":0,\"endIndex\":${userInputSearchData.count()}}")
@@ -61,6 +55,12 @@ class SearchUtil(private val sharedViewModel: SharedViewModel) : ViewModel() {
 
         withContext(Dispatchers.IO) {
             try {
+                val startsWithIs = userInputSearchData.startsWith("is", ignoreCase = true)
+
+                if (startsWithIs) {
+                    // Remove "is" from the beginning of the string
+                    userInputSearchData = userInputSearchData.substring(2)
+                }
                 val searchResponse = client.newCall(request).execute()
                 println(userInputSearchData.toString())
 
