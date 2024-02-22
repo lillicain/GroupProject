@@ -18,7 +18,9 @@ import java.io.IOException
 
 
 
-class SearchUtil(private val sharedViewModel: SharedViewModel) : ViewModel() {
+class SearchUtil(
+//    private val sharedViewModel: SharedViewModel
+) : ViewModel() {
 
     val client = OkHttpClient()
 
@@ -58,7 +60,9 @@ class SearchUtil(private val sharedViewModel: SharedViewModel) : ViewModel() {
             .addHeader("content-type", "application/json")
             .addHeader("Authorization", "Bearer ${searchKey}")
             .build()
-
+        fun addXp() {
+//            sharedViewModel.updateUserXP(10)
+        }
         withContext(Dispatchers.IO) {
             try {
                 val searchResponse = client.newCall(request).execute()
@@ -84,7 +88,7 @@ class SearchUtil(private val sharedViewModel: SharedViewModel) : ViewModel() {
                     if (phraseResponse != null) {
                         println(phraseResponse.suggestions.toString())
                     }
-                    sharedViewModel.updateUserXP(10)
+                    addXp()
                 } else {
                     // Handle unsuccessful response
                     println("Error: ${searchResponse.code()}")
@@ -97,6 +101,7 @@ class SearchUtil(private val sharedViewModel: SharedViewModel) : ViewModel() {
                 println("IOException: ${e.message}")
             }
         }
+
     }
 
 //    private val moshi = Moshi.Builder()

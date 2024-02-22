@@ -28,9 +28,9 @@ class EightBallFragment: Fragment(), SensorEventListener {
     private lateinit var binding: FragmentEightBallBinding
     private lateinit var sensorManager: SensorManager
     private var accelerometer: Sensor? = null
-    private val sharedViewModel: SharedViewModel by activityViewModels()
+//    private val sharedViewModel: SharedViewModel by activityViewModels()
     private val viewModel: EightBallViewModel by lazy {
-        ViewModelProvider(this).get(EightBallViewModel(sharedViewModel)::class.java)
+        ViewModelProvider(this).get(EightBallViewModel()::class.java)
     }
 
     override fun onCreateView(
@@ -77,7 +77,7 @@ class EightBallFragment: Fragment(), SensorEventListener {
         sensorManager.unregisterListener(this)
         lifecycleScope.launch {
             val userDao = EvilDatabase.getInstance(requireContext()).userDao()
-            sharedViewModel.saveUserToDatabase(userDao)
+//            sharedViewModel.saveUserToDatabase(userDao)
         }
         // Fetch the UserDao from the EvilDatabase
 
@@ -113,6 +113,12 @@ class EightBallFragment: Fragment(), SensorEventListener {
         val fade = Fade()
         TransitionManager.beginDelayedTransition(binding.root as ViewGroup, fade)
         binding.executePendingBindings()
+    }
+    private fun updateXP() {
+//        sharedViewModel.updateUserXP(xpToAdd = 5)
+    }
+    private fun updateXP2() {
+//        sharedViewModel.updateUserXP(xpToAdd = 3)
     }
 
 //
