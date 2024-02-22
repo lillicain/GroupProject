@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
-/** Utils functions for bitmap conversions. */
+
 public class BitmapUtils {
   private static final String TAG = "BitmapUtils";
 

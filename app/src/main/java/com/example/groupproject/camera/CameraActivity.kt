@@ -46,23 +46,12 @@ import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions
 import com.google.mlkit.vision.text.korean.KoreanTextRecognizerOptions
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import android.os.Bundle
-import android.os.Handler
-import android.os.HandlerThread
 import android.util.Log
-import android.view.OrientationEventListener
-import android.view.TextureView
-import androidx.camera.camera2.Camera2Config
-import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
-import androidx.camera.core.CameraXConfig
-import androidx.camera.core.ImageCapture
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.video.Recorder
-import androidx.camera.video.Recording
-import androidx.camera.video.VideoCapture
 import com.example.groupproject.R
-import com.example.groupproject.databinding.ActivityMainBinding
+import com.example.groupproject.cameraAwesome.evilDetector.EvilDetectorProcessor
 
 
 /** Live preview demo app for ML Kit APIs using CameraX. */
@@ -303,6 +292,12 @@ class CameraXLivePreviewActivity :
                         val faceDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
                         FaceDetectorProcessor(this, faceDetectorOptions)
                     }
+
+//                    EVIL_DETECTION -> {
+//                        Log.i(TAG, "Using Detector Processor")
+//                        val evilDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
+//                        EvilDetectorProcessor(this, evilDetectorOptions)
+//                    }
                     BARCODE_SCANNING -> {
                         Log.i(TAG, "Using Barcode Detector Processor")
                         var zoomCallback: ZoomSuggestionOptions.ZoomCallback? = null
@@ -422,6 +417,8 @@ class CameraXLivePreviewActivity :
         private const val POSE_DETECTION = "Pose Detection"
         private const val SELFIE_SEGMENTATION = "Selfie Segmentation"
         private const val FACE_MESH_DETECTION = "Face Mesh Detection (Beta)"
+
+        private const val EVIL_DETECTION = "Evil Detection"
 
         private const val STATE_SELECTED_MODEL = "selected_model"
     }

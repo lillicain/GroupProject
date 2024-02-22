@@ -59,7 +59,7 @@
         android:textStyle="bold"
         android:textColor="#FFF"
         android:textSize="16sp"
-        android:text="@string/custom_object_detection"/>
+        android:text="Detector"/>
   </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
