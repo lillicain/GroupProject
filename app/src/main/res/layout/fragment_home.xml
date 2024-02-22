@@ -26,7 +26,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="#3b6064"
                 app:layout_constraintTop_toTopOf="parent"
-                app:title="Live Search"
+                app:title="Live Tools"
 
                 app:titleTextColor="@color/white" />
 
