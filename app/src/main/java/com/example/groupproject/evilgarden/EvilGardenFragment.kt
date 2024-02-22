@@ -63,6 +63,7 @@ class EvilGardenFragment : Fragment() {
             this.findNavController().navigate(EvilGardenFragmentDirections.actionToEvilGardenShopFragment())
 
         }
+
         return binding.root
     }
     // Override the necessary methods for GestureDetector.OnGestureListener
