@@ -10,44 +10,46 @@
             type="com.example.groupproject.ringtone.RingtoneProperty"/>
     </data>
 
-    <RelativeLayout
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="60dp"
+        android:background="@drawable/table_border">
 
-        <TextView
-            android:id="@+id/ringtone_name"
-            android:layout_width="wrap_content"
-            android:layout_height="43dp"
-            android:paddingStart="9dp"
-            android:paddingEnd="9dp"
-            android:text="@{property.name}"
-            android:textSize="20sp"
-            tools:text="Name" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/black"/>
+        <TableRow>
 
-        <TextView
-            android:id="@+id/ringtone_year_text"
-            android:layout_width="wrap_content"
-            android:layout_height="43dp"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/ringtone_name"
-            android:layout_toStartOf="@+id/ringtoneButton"
-            android:text="@{property.year}"
-            android:textSize="20sp"
-            tools:text="Year" />
+            <TextView
+                android:id="@+id/ringtone_name"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:paddingStart="9dp"
+                android:paddingEnd="9dp"
+                android:text="@{property.name}"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/ringtoneButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp"
-            android:text="@string/play"
-            android:textColor="@color/charcoal"
-            android:backgroundTint="@color/blue_munsell"
-            tools:text="Play"/>
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/ringtone_year_text"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="@{property.year}"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/ringtoneButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/cambridge_blue"
+                android:text="Play"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </TableRow>
+    </TableLayout>
 </layout>
