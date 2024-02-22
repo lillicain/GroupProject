@@ -229,13 +229,13 @@ class LivePreviewActivity :
         }
 
 
-//        EVIL_DETECTION -> {
-//          Log.i(TAG, "Using Evil Detector Processor")
-//          val evilDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
-//          cameraSource!!.setMachineLearningFrameProcessor(
-//            EvilDetectorProcessor(this, evilDetectorOptions)
-//          )
-//        }
+        EVIL_DETECTION -> {
+          Log.i(TAG, "Using Evil Detector Processor")
+          val evilDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
+          cameraSource!!.setMachineLearningFrameProcessor(
+            EvilDetectorProcessor(this, evilDetectorOptions)
+          )
+        }
 
 //        EVIL_DETECTION -> {
 //          Log.i(TAG, "Using Evil Detector Processor")

@@ -43,7 +43,7 @@ class EvilDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
 
     override fun onSuccess(results: List<Face>, graphicOverlay: GraphicOverlay) {
         for (face in results) {
-            graphicOverlay.add(FaceGraphic(graphicOverlay, face))
+            graphicOverlay.add(EvilGraphic(graphicOverlay, face))
             logExtrasForTesting(face)
         }
     }
