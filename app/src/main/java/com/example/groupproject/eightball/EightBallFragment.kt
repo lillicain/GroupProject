@@ -27,10 +27,11 @@ import kotlinx.coroutines.launch
 class EightBallFragment: Fragment(), SensorEventListener {
     private lateinit var binding: FragmentEightBallBinding
     private lateinit var sensorManager: SensorManager
+    private val sharedViewModel: SharedViewModel by activityViewModels()
     private var accelerometer: Sensor? = null
-//    private val sharedViewModel: SharedViewModel by activityViewModels()
+
     private val viewModel: EightBallViewModel by lazy {
-        ViewModelProvider(this).get(EightBallViewModel()::class.java)
+        ViewModelProvider(this, EightBallViewModelFactory(sharedViewModel)).get(EightBallViewModel::class.java)
     }
 
     override fun onCreateView(

@@ -17,8 +17,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SearchFragment: Fragment() {
-//    val sharedViewModel: SharedViewModel by activityViewModels()
-    val viewModel: SearchUtil by lazy { ViewModelProvider(this)[SearchUtil()::class.java] }
+    val sharedViewModel: SharedViewModel by activityViewModels()
+    val viewModel: SearchUtil by lazy {
+        ViewModelProvider(this, SearchUtilViewModelFactory(sharedViewModel))
+            .get(SearchUtil::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +37,7 @@ class SearchFragment: Fragment() {
             viewModel.userInputSearchData = binding.searchEditText.text.toString()
             CoroutineScope(Dispatchers.Main).launch {
                 try {
+//                    sharedViewModel.updateUserXP(10)
                     // Call the suspend function
                     viewModel.convertDataToClass()
                 } catch (e: Exception) {
