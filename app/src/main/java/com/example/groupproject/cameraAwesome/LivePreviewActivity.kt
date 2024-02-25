@@ -44,12 +44,10 @@ import java.io.IOException
 @KeepName
 class LivePreviewActivity :
   AppCompatActivity(), OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
-
   private var cameraSource: CameraSource? = null
   private var preview: CameraSourcePreview? = null
   private var graphicOverlay: GraphicOverlay? = null
   private var selectedModel = OBJECT_DETECTION
-
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     Log.d(TAG, "onCreate")
@@ -59,7 +57,6 @@ class LivePreviewActivity :
     if (preview == null) {
       Log.d(TAG, "Preview is null")
     }
-
     graphicOverlay = findViewById(R.id.graphic_overlay)
     if (graphicOverlay == null) {
       Log.d(TAG, "graphicOverlay is null")
@@ -84,15 +81,11 @@ class LivePreviewActivity :
     options.add(TEXT_RECOGNITION_DEVANAGARI)
     options.add(TEXT_RECOGNITION_JAPANESE)
     options.add(TEXT_RECOGNITION_KOREAN)
-
     val dataAdapter = ArrayAdapter(this, R.layout.spinner_style, options)
 
-    // Drop down layout style - list view with radio button
     dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-    // attaching data adapter to spinner
     spinner.adapter = dataAdapter
     spinner.onItemSelectedListener = this
-
     val facingSwitch = findViewById<ToggleButton>(R.id.facing_switch)
     facingSwitch.setOnCheckedChangeListener(this)
 
@@ -102,14 +95,11 @@ class LivePreviewActivity :
       intent.putExtra(SettingsActivity.EXTRA_LAUNCH_SOURCE, SettingsActivity.LaunchSource.LIVE_PREVIEW)
       startActivity(intent)
     }
-
     createCameraSource(selectedModel)
   }
 
   @Synchronized
   override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
-    // An item was selected. You can retrieve the selected item using
-    // parent.getItemAtPosition(pos)
     selectedModel = parent?.getItemAtPosition(pos).toString()
     Log.d(TAG, "Selected model: $selectedModel")
     preview?.stop()
@@ -118,7 +108,6 @@ class LivePreviewActivity :
   }
 
   override fun onNothingSelected(parent: AdapterView<*>?) {
-    // Do nothing.
   }
 
   override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
@@ -143,19 +132,13 @@ class LivePreviewActivity :
         OBJECT_DETECTION -> {
           Log.i(TAG, "Using Object Detector Processor")
           val objectDetectorOptions = PreferenceUtils.getObjectDetectorOptionsForLivePreview(this)
-          cameraSource!!.setMachineLearningFrameProcessor(
-            ObjectDetectorProcessor(this, objectDetectorOptions)
-          )
+          cameraSource!!.setMachineLearningFrameProcessor(ObjectDetectorProcessor(this, objectDetectorOptions))
         }
         OBJECT_DETECTION_CUSTOM -> {
           Log.i(TAG, "Using Custom Object Detector Processor")
-          val localModel =
-            LocalModel.Builder().setAssetFilePath("custom_models/object_labeler.tflite").build()
-          val customObjectDetectorOptions =
-            PreferenceUtils.getCustomObjectDetectorOptionsForLivePreview(this, localModel)
-          cameraSource!!.setMachineLearningFrameProcessor(
-            ObjectDetectorProcessor(this, customObjectDetectorOptions)
-          )
+          val localModel = LocalModel.Builder().setAssetFilePath("custom_models/object_labeler.tflite").build()
+          val customObjectDetectorOptions = PreferenceUtils.getCustomObjectDetectorOptionsForLivePreview(this, localModel)
+          cameraSource!!.setMachineLearningFrameProcessor(ObjectDetectorProcessor(this, customObjectDetectorOptions))
         }
         CUSTOM_AUTOML_OBJECT_DETECTION -> {
           Log.i(TAG, "Using Custom AutoML Object Detector Processor")
@@ -195,7 +178,7 @@ class LivePreviewActivity :
           val evilDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
             cameraSource!!.setMachineLearningFrameProcessor(EvilDetectorProcessor(this, evilDetectorOptions))
         }
-        
+
         BARCODE_SCANNING -> {
           Log.i(TAG, "Using Barcode Detector Processor")
           var zoomCallback: ZoomCallback? = null
@@ -286,7 +269,6 @@ class LivePreviewActivity :
       cameraSource?.release()
     }
   }
-
   companion object {
     private const val OBJECT_DETECTION = "Object Detection"
     private const val OBJECT_DETECTION_CUSTOM = "Custom Object Detection"
@@ -307,5 +289,4 @@ class LivePreviewActivity :
     private const val EVIL_DETECTION = "Evil Detection"
     private const val TAG = "LivePreviewActivity"
   }
-
 }

@@ -33,8 +33,9 @@
   <LinearLayout
       android:id="@id/control"
       android:layout_width="match_parent"
-      android:layout_height="60dp"
+      android:layout_height="64dp"
       app:layout_constraintBottom_toBottomOf="parent"
+      android:backgroundTint="@color/blue_munsell"
       android:background="#000"
       android:orientation="horizontal">
 
@@ -42,6 +43,7 @@
         android:id="@+id/facing_switch"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:textColor="@color/white"
         android:background="@drawable/ic_switch_camera_white_48dp"
         android:layout_gravity="center_vertical"
         android:checked="false"
