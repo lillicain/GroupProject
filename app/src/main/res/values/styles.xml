@@ -2,12 +2,12 @@
     <style name="AppTheme" parent="Theme.AppCompat">
         <item name="android:backgroundTint">
             @color/cambridge_blue
-
         </item>
-
-
         <item name="android:textColor">
-            @color/black
+            @color/charcoal
+        </item>
+        <item name="android:textSize">
+            @dimen/text_standard
         </item>
     </style>
 </resources>
