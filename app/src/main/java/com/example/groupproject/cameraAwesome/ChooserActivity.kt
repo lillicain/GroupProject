@@ -80,8 +80,9 @@ class ChooserActivity :
         )
       else
         arrayOf<Class<*>>(
-          LivePreviewActivity::class.java,
           StillImageActivity::class.java,
+          LivePreviewActivity::class.java,
+
           CameraXLivePreviewActivity::class.java,
 //          CameraXSourceDemoActivity::class.java
         )

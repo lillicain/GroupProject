@@ -65,7 +65,8 @@
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".preference.SettingsActivity"
-            android:exported="false"/>
+            android:exported="false"
+            android:theme="@style/AppTheme"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

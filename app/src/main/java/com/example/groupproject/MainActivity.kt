@@ -62,11 +62,8 @@ import java.io.File
 import java.io.FileOutputStream
 
 class MainActivity: AppCompatActivity() {
-    private lateinit var navController: NavController
-//    private val viewModel: CameraXViewModel by viewModels()
-    private lateinit var binding: ActivityCameraBinding
-
-
+    lateinit var navController: NavController
+    lateinit var binding: ActivityCameraBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,29 +71,17 @@ class MainActivity: AppCompatActivity() {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         window.navigationBarColor = Color.parseColor("#80000000")
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
         binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         initNavController()
 
-//        binding.btnRequestPermission.setOnClickListener { requestPermissions() }
-//        if (!Permissions.isPermissionTaken(this)) {
-//            requestPermissions()
-//        }
     }
     private fun initNavController() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
     }
 
-//    private fun requestPermissions() {
-//        permissionLauncher.launch(Permissions.requestList)
-//    }
-//
-//    private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-//        val hasPermission = permissions.entries.all { it.value }
-//        binding.pnlPermission.visibility = if (!hasPermission) View.VISIBLE else View.VISIBLE
-//    }
 }
 
 

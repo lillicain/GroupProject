@@ -58,7 +58,6 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 @RequiresApi(VERSION_CODES.LOLLIPOP)
 class CameraXLivePreviewActivity :
   AppCompatActivity(), OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
-
   private var previewView: PreviewView? = null
   private var graphicOverlay: GraphicOverlay? = null
   private var cameraProvider: ProcessCameraProvider? = null
@@ -93,27 +92,22 @@ class CameraXLivePreviewActivity :
     options.add(OBJECT_DETECTION_CUSTOM)
     options.add(CUSTOM_AUTOML_OBJECT_DETECTION)
     options.add(EVIL_DETECTION)
-
     options.add(FACE_DETECTION)
     options.add(FACE_MESH_DETECTION)
+    options.add(POSE_DETECTION)
+    options.add(SELFIE_SEGMENTATION)
     options.add(BARCODE_SCANNING)
     options.add(IMAGE_LABELING)
     options.add(IMAGE_LABELING_CUSTOM)
     options.add(CUSTOM_AUTOML_LABELING)
-    options.add(POSE_DETECTION)
-    options.add(SELFIE_SEGMENTATION)
     options.add(TEXT_RECOGNITION_LATIN)
     options.add(TEXT_RECOGNITION_CHINESE)
     options.add(TEXT_RECOGNITION_DEVANAGARI)
     options.add(TEXT_RECOGNITION_JAPANESE)
     options.add(TEXT_RECOGNITION_KOREAN)
 
-
-    // Creating adapter for spinner
     val dataAdapter = ArrayAdapter(this, R.layout.spinner_style, options)
-    // Drop down layout style - list view with radio button
     dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-    // attaching data adapter to spinner
     spinner.adapter = dataAdapter
     spinner.onItemSelectedListener = this
     val facingSwitch = findViewById<ToggleButton>(R.id.facing_switch)
@@ -144,15 +138,12 @@ class CameraXLivePreviewActivity :
 
   @Synchronized
   override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
-    // An item was selected. You can retrieve the selected item using
-//    parent.getItemAtPosition(pos)
     selectedModel = parent?.getItemAtPosition(pos).toString()
     Log.d(TAG, "Selected model: $selectedModel")
     bindAnalysisUseCase()
   }
 
   override fun onNothingSelected(parent: AdapterView<*>?) {
-    // Do nothing.
   }
 
   override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
@@ -175,7 +166,6 @@ class CameraXLivePreviewActivity :
         return
       }
     } catch (e: CameraInfoUnavailableException) {
-      // Falls through
     }
     Toast.makeText(
       applicationContext,
@@ -192,7 +182,6 @@ class CameraXLivePreviewActivity :
 
   override fun onPause() {
     super.onPause()
-
     imageProcessor?.run { this.stop() }
   }
 
@@ -203,7 +192,6 @@ class CameraXLivePreviewActivity :
 
   private fun bindAllCameraUseCases() {
     if (cameraProvider != null) {
-      // As required by CameraX API, unbinds all use cases before trying to re-bind any of them.
       cameraProvider!!.unbindAll()
       bindPreviewUseCase()
       bindAnalysisUseCase()
@@ -220,7 +208,6 @@ class CameraXLivePreviewActivity :
     if (previewUseCase != null) {
       cameraProvider!!.unbind(previewUseCase)
     }
-
     val builder = Preview.Builder()
     val targetResolution = PreferenceUtils.getCameraXTargetResolution(this, lensFacing)
     if (targetResolution != null) {
@@ -228,8 +215,7 @@ class CameraXLivePreviewActivity :
     }
     previewUseCase = builder.build()
     previewUseCase!!.setSurfaceProvider(previewView!!.getSurfaceProvider())
-    camera =
-      cameraProvider!!.bindToLifecycle(/* lifecycleOwner= */ this, cameraSelector!!, previewUseCase)
+    camera = cameraProvider!!.bindToLifecycle(/* lifecycleOwner= */ this, cameraSelector!!, previewUseCase)
   }
 
   private fun bindAnalysisUseCase() {
@@ -319,38 +305,25 @@ class CameraXLivePreviewActivity :
           }
           IMAGE_LABELING_CUSTOM -> {
             Log.i(TAG, "Using Custom Image Label (Birds) Detector Processor")
-            val localClassifier =
-              LocalModel.Builder().setAssetFilePath("custom_models/bird_classifier.tflite").build()
-            val customImageLabelerOptions =
-              CustomImageLabelerOptions.Builder(localClassifier).build()
+            val localClassifier = LocalModel.Builder().setAssetFilePath("custom_models/bird_classifier.tflite").build()
+            val customImageLabelerOptions = CustomImageLabelerOptions.Builder(localClassifier).build()
             LabelDetectorProcessor(this, customImageLabelerOptions)
           }
           CUSTOM_AUTOML_LABELING -> {
             Log.i(TAG, "Using Custom AutoML Image Label Detector Processor")
-            val customAutoMLLabelLocalModel =
-              LocalModel.Builder().setAssetManifestFilePath("automl/manifest.json").build()
-            val customAutoMLLabelOptions =
-              CustomImageLabelerOptions.Builder(customAutoMLLabelLocalModel)
+            val customAutoMLLabelLocalModel = LocalModel.Builder().setAssetManifestFilePath("automl/manifest.json").build()
+            val customAutoMLLabelOptions = CustomImageLabelerOptions.Builder(customAutoMLLabelLocalModel)
                 .setConfidenceThreshold(0f)
                 .build()
             LabelDetectorProcessor(this, customAutoMLLabelOptions)
           }
           POSE_DETECTION -> {
             val poseDetectorOptions = PreferenceUtils.getPoseDetectorOptionsForLivePreview(this)
-            val shouldShowInFrameLikelihood =
-              PreferenceUtils.shouldShowPoseDetectionInFrameLikelihoodLivePreview(this)
+            val shouldShowInFrameLikelihood = PreferenceUtils.shouldShowPoseDetectionInFrameLikelihoodLivePreview(this)
             val visualizeZ = PreferenceUtils.shouldPoseDetectionVisualizeZ(this)
             val rescaleZ = PreferenceUtils.shouldPoseDetectionRescaleZForVisualization(this)
             val runClassification = PreferenceUtils.shouldPoseDetectionRunClassification(this)
-            PoseDetectorProcessor(
-              this,
-              poseDetectorOptions,
-              shouldShowInFrameLikelihood,
-              visualizeZ,
-              rescaleZ,
-              runClassification,
-              /* isStreamMode = */ true
-            )
+            PoseDetectorProcessor(this, poseDetectorOptions, shouldShowInFrameLikelihood, visualizeZ, rescaleZ, runClassification, true)
           }
           SELFIE_SEGMENTATION -> SegmenterProcessor(this)
           FACE_MESH_DETECTION -> FaceMeshDetectorProcessor(this)
@@ -362,8 +335,7 @@ class CameraXLivePreviewActivity :
           applicationContext,
           "Can not create image processor: " + e.localizedMessage,
           Toast.LENGTH_LONG
-        )
-          .show()
+        ).show()
         return
       }
 
@@ -373,12 +345,8 @@ class CameraXLivePreviewActivity :
       builder.setTargetResolution(targetResolution)
     }
     analysisUseCase = builder.build()
-
     needUpdateGraphicOverlayImageSourceInfo = true
-
     analysisUseCase?.setAnalyzer(
-      // imageProcessor.processImageProxy will use another thread to run the detection underneath,
-      // thus we can just runs the analyzer itself on main thread.
       ContextCompat.getMainExecutor(this),
       ImageAnalysis.Analyzer { imageProxy: ImageProxy ->
         if (needUpdateGraphicOverlayImageSourceInfo) {
@@ -399,7 +367,7 @@ class CameraXLivePreviewActivity :
         }
       }
     )
-    cameraProvider!!.bindToLifecycle(/* lifecycleOwner= */ this, cameraSelector!!, analysisUseCase)
+    cameraProvider!!.bindToLifecycle(this, cameraSelector!!, analysisUseCase)
   }
 
   companion object {
@@ -420,9 +388,8 @@ class CameraXLivePreviewActivity :
     private const val POSE_DETECTION = "Pose Detection"
     private const val SELFIE_SEGMENTATION = "Selfie Segmentation"
     private const val FACE_MESH_DETECTION = "Face Mesh Detection (Beta)"
-
     private const val EVIL_DETECTION = "Evil Detection"
-
     private const val STATE_SELECTED_MODEL = "selected_model"
   }
+
 }

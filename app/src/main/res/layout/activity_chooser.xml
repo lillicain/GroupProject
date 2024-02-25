@@ -3,11 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/padding_standard">
 
   <GridLayout
       android:layout_width="match_parent"
@@ -16,21 +13,16 @@
       android:rowCount="3"
       android:useDefaultMargins="true">
 
-  <ListView
-      android:id="@+id/test_activity_list_view"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:background="@color/charcoal"/>
+    <ListView
+        android:id="@+id/test_activity_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
-  <ImageButton
-      android:id="@+id/imageView"
-      android:contentDescription="@string/app_name"
-      android:layout_width="match_parent"
-      android:layout_height="32dp"
-      android:layout_marginTop="32dp"
-      android:padding="@dimen/settings_text_standard"
-      android:theme="@style/AppTheme"
-      />
-
-</GridLayout>
+    <ImageButton
+        android:id="@+id/imageView"
+        android:contentDescription="@string/app_name"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginTop="32dp"/>
+  </GridLayout>
 </LinearLayout>

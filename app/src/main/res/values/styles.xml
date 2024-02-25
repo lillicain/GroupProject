@@ -3,11 +3,21 @@
         <item name="android:backgroundTint">
             @color/cambridge_blue
         </item>
+        <item name="colorAccent">
+            @color/tea_green
+        </item>
         <item name="android:textColor">
-            @color/charcoal
+            @color/blue_munsell
+        </item>
+        <item name="android:textStyle">
+            bold
         </item>
         <item name="android:textSize">
             @dimen/text_standard
         </item>
+        <item name="android:color">
+            @color/tea_green
+        </item>
+
     </style>
 </resources>

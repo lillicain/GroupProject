@@ -67,43 +67,24 @@ class LivePreviewActivity :
 
     val spinner = findViewById<Spinner>(R.id.spinner)
     val options: MutableList<String> = ArrayList()
-
-//    options.add(OBJECT_DETECTION)
-//    options.add(OBJECT_DETECTION_CUSTOM)
-//    options.add(CUSTOM_AUTOML_OBJECT_DETECTION)
-//    options.add(FACE_DETECTION)
-//    options.add(BARCODE_SCANNING)
-//    options.add(IMAGE_LABELING)
-//    options.add(IMAGE_LABELING_CUSTOM)
-//    options.add(CUSTOM_AUTOML_LABELING)
-//    options.add(POSE_DETECTION)
-//    options.add(SELFIE_SEGMENTATION)
-//    options.add(TEXT_RECOGNITION_LATIN)
-//    options.add(TEXT_RECOGNITION_CHINESE)
-//    options.add(TEXT_RECOGNITION_DEVANAGARI)
-//    options.add(TEXT_RECOGNITION_JAPANESE)
-//    options.add(TEXT_RECOGNITION_KOREAN)
-//    options.add(FACE_MESH_DETECTION)
-
     options.add(OBJECT_DETECTION)
     options.add(OBJECT_DETECTION_CUSTOM)
     options.add(CUSTOM_AUTOML_OBJECT_DETECTION)
     options.add(EVIL_DETECTION)
     options.add(FACE_DETECTION)
     options.add(FACE_MESH_DETECTION)
+    options.add(POSE_DETECTION)
+    options.add(SELFIE_SEGMENTATION)
     options.add(BARCODE_SCANNING)
     options.add(IMAGE_LABELING)
     options.add(IMAGE_LABELING_CUSTOM)
     options.add(CUSTOM_AUTOML_LABELING)
-    options.add(POSE_DETECTION)
-    options.add(SELFIE_SEGMENTATION)
     options.add(TEXT_RECOGNITION_LATIN)
     options.add(TEXT_RECOGNITION_CHINESE)
     options.add(TEXT_RECOGNITION_DEVANAGARI)
     options.add(TEXT_RECOGNITION_JAPANESE)
     options.add(TEXT_RECOGNITION_KOREAN)
 
-    // Creating adapter for spinner
     val dataAdapter = ArrayAdapter(this, R.layout.spinner_style, options)
 
     // Drop down layout style - list view with radio button
@@ -154,7 +135,6 @@ class LivePreviewActivity :
   }
 
   private fun createCameraSource(model: String) {
-    // If there's no existing cameraSource, create one.
     if (cameraSource == null) {
       cameraSource = CameraSource(this, graphicOverlay)
     }
@@ -179,106 +159,68 @@ class LivePreviewActivity :
         }
         CUSTOM_AUTOML_OBJECT_DETECTION -> {
           Log.i(TAG, "Using Custom AutoML Object Detector Processor")
-          val customAutoMLODTLocalModel =
-            LocalModel.Builder().setAssetManifestFilePath("automl/manifest.json").build()
-          val customAutoMLODTOptions =
-            PreferenceUtils.getCustomObjectDetectorOptionsForLivePreview(
-              this,
-              customAutoMLODTLocalModel
-            )
-          cameraSource!!.setMachineLearningFrameProcessor(
-            ObjectDetectorProcessor(this, customAutoMLODTOptions)
-          )
+          val customAutoMLODTLocalModel = LocalModel.Builder().setAssetManifestFilePath("automl/manifest.json").build()
+          val customAutoMLODTOptions = PreferenceUtils.getCustomObjectDetectorOptionsForLivePreview(
+              this, customAutoMLODTLocalModel)
+          cameraSource!!.setMachineLearningFrameProcessor(ObjectDetectorProcessor(this, customAutoMLODTOptions))
         }
         TEXT_RECOGNITION_LATIN -> {
           Log.i(TAG, "Using on-device Text recognition Processor for Latin and Latin")
-          cameraSource!!.setMachineLearningFrameProcessor(
-            TextRecognitionProcessor(this, TextRecognizerOptions.Builder().build())
-          )
+          cameraSource!!.setMachineLearningFrameProcessor(TextRecognitionProcessor(this, TextRecognizerOptions.Builder().build()))
         }
         TEXT_RECOGNITION_CHINESE -> {
           Log.i(TAG, "Using on-device Text recognition Processor for Latin and Chinese")
-          cameraSource!!.setMachineLearningFrameProcessor(
-            TextRecognitionProcessor(this, ChineseTextRecognizerOptions.Builder().build())
-          )
+          cameraSource!!.setMachineLearningFrameProcessor(TextRecognitionProcessor(this, ChineseTextRecognizerOptions.Builder().build()))
         }
         TEXT_RECOGNITION_DEVANAGARI -> {
           Log.i(TAG, "Using on-device Text recognition Processor for Latin and Devanagari")
-          cameraSource!!.setMachineLearningFrameProcessor(
-            TextRecognitionProcessor(this, DevanagariTextRecognizerOptions.Builder().build())
-          )
+          cameraSource!!.setMachineLearningFrameProcessor(TextRecognitionProcessor(this, DevanagariTextRecognizerOptions.Builder().build()))
         }
         TEXT_RECOGNITION_JAPANESE -> {
           Log.i(TAG, "Using on-device Text recognition Processor for Latin and Japanese")
-          cameraSource!!.setMachineLearningFrameProcessor(
-            TextRecognitionProcessor(this, JapaneseTextRecognizerOptions.Builder().build())
-          )
+          cameraSource!!.setMachineLearningFrameProcessor(TextRecognitionProcessor(this, JapaneseTextRecognizerOptions.Builder().build()))
         }
         TEXT_RECOGNITION_KOREAN -> {
           Log.i(TAG, "Using on-device Text recognition Processor for Latin and Korean")
-          cameraSource!!.setMachineLearningFrameProcessor(
-            TextRecognitionProcessor(this, KoreanTextRecognizerOptions.Builder().build())
-          )
+          cameraSource!!.setMachineLearningFrameProcessor(TextRecognitionProcessor(this, KoreanTextRecognizerOptions.Builder().build()))
         }
         FACE_DETECTION -> {
           Log.i(TAG, "Using Face Detector Processor")
           val faceDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
-          cameraSource!!.setMachineLearningFrameProcessor(
-            FaceDetectorProcessor(this, faceDetectorOptions)
-          )
+          cameraSource!!.setMachineLearningFrameProcessor(FaceDetectorProcessor(this, faceDetectorOptions))
         }
-
 
         EVIL_DETECTION -> {
           Log.i(TAG, "Using Evil Detector Processor")
           val evilDetectorOptions = PreferenceUtils.getFaceDetectorOptions(this)
-          cameraSource!!.setMachineLearningFrameProcessor(
-            EvilDetectorProcessor(this, evilDetectorOptions)
-          )
+            cameraSource!!.setMachineLearningFrameProcessor(EvilDetectorProcessor(this, evilDetectorOptions))
         }
-
-//        EVIL_DETECTION -> {
-//          Log.i(TAG, "Using Evil Detector Processor")
-//          val objectDetectorOptions = PreferenceUtils.getObjectDetectorOptionsForLivePreview(this)
-//          EvilDetectorProcessor(this, objectDetectorOptions)
-//        }
-
+        
         BARCODE_SCANNING -> {
           Log.i(TAG, "Using Barcode Detector Processor")
           var zoomCallback: ZoomCallback? = null
           if (PreferenceUtils.shouldEnableAutoZoom(this)) {
             zoomCallback = ZoomCallback { zoomLevel: Float -> cameraSource!!.setZoom(zoomLevel) }
           }
-          cameraSource!!.setMachineLearningFrameProcessor(
-            BarcodeScannerProcessor(this, zoomCallback)
-          )
+          cameraSource!!.setMachineLearningFrameProcessor(BarcodeScannerProcessor(this, zoomCallback))
         }
         IMAGE_LABELING -> {
           Log.i(TAG, "Using Image Label Detector Processor")
-          cameraSource!!.setMachineLearningFrameProcessor(
-            LabelDetectorProcessor(this, ImageLabelerOptions.DEFAULT_OPTIONS)
-          )
+          cameraSource!!.setMachineLearningFrameProcessor(LabelDetectorProcessor(this, ImageLabelerOptions.DEFAULT_OPTIONS))
         }
         IMAGE_LABELING_CUSTOM -> {
           Log.i(TAG, "Using Custom Image Label Detector Processor")
-          val localClassifier =
-            LocalModel.Builder().setAssetFilePath("custom_models/bird_classifier.tflite").build()
+          val localClassifier = LocalModel.Builder().setAssetFilePath("custom_models/bird_classifier.tflite").build()
           val customImageLabelerOptions = CustomImageLabelerOptions.Builder(localClassifier).build()
-          cameraSource!!.setMachineLearningFrameProcessor(
-            LabelDetectorProcessor(this, customImageLabelerOptions)
-          )
+          cameraSource!!.setMachineLearningFrameProcessor(LabelDetectorProcessor(this, customImageLabelerOptions))
         }
         CUSTOM_AUTOML_LABELING -> {
           Log.i(TAG, "Using Custom AutoML Image Label Detector Processor")
-          val customAutoMLLabelLocalModel =
-            LocalModel.Builder().setAssetManifestFilePath("automl/manifest.json").build()
-          val customAutoMLLabelOptions =
-            CustomImageLabelerOptions.Builder(customAutoMLLabelLocalModel)
+          val customAutoMLLabelLocalModel = LocalModel.Builder().setAssetManifestFilePath("automl/manifest.json").build()
+          val customAutoMLLabelOptions = CustomImageLabelerOptions.Builder(customAutoMLLabelLocalModel)
               .setConfidenceThreshold(0f)
               .build()
-          cameraSource!!.setMachineLearningFrameProcessor(
-            LabelDetectorProcessor(this, customAutoMLLabelOptions)
-          )
+          cameraSource!!.setMachineLearningFrameProcessor(LabelDetectorProcessor(this, customAutoMLLabelOptions))
         }
         POSE_DETECTION -> {
           val poseDetectorOptions = PreferenceUtils.getPoseDetectorOptionsForLivePreview(this)
@@ -288,17 +230,7 @@ class LivePreviewActivity :
           val visualizeZ = PreferenceUtils.shouldPoseDetectionVisualizeZ(this)
           val rescaleZ = PreferenceUtils.shouldPoseDetectionRescaleZForVisualization(this)
           val runClassification = PreferenceUtils.shouldPoseDetectionRunClassification(this)
-          cameraSource!!.setMachineLearningFrameProcessor(
-            PoseDetectorProcessor(
-              this,
-              poseDetectorOptions,
-              shouldShowInFrameLikelihood,
-              visualizeZ,
-              rescaleZ,
-              runClassification,
-              /* isStreamMode = */ true
-            )
-          )
+          cameraSource!!.setMachineLearningFrameProcessor(PoseDetectorProcessor(this, poseDetectorOptions, shouldShowInFrameLikelihood, visualizeZ, rescaleZ, runClassification, true))
         }
         SELFIE_SEGMENTATION -> {
           cameraSource!!.setMachineLearningFrameProcessor(SegmenterProcessor(this))
@@ -314,8 +246,7 @@ class LivePreviewActivity :
           applicationContext,
           "Can not create image processor: " + e.message,
           Toast.LENGTH_LONG
-        )
-        .show()
+        ).show()
     }
   }
 
@@ -373,9 +304,8 @@ class LivePreviewActivity :
     private const val POSE_DETECTION = "Pose Detection"
     private const val SELFIE_SEGMENTATION = "Selfie Segmentation"
     private const val FACE_MESH_DETECTION = "Face Mesh Detection (Beta)"
-
     private const val EVIL_DETECTION = "Evil Detection"
-
     private const val TAG = "LivePreviewActivity"
   }
+
 }
