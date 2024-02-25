@@ -9,26 +9,28 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:orientation="vertical">
 
-  <ImageView
-      android:id="@+id/imageView"
-      android:contentDescription="@string/app_name"
-      android:layout_width="match_parent"
-      android:layout_height="50dp"
-      android:layout_marginTop="32dp" />
-
-  <TextView
+  <GridLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:paddingTop="32dp"
-      android:paddingBottom="32dp"
-      android:fontFamily="google-sans"
-      android:gravity="center_horizontal"
-      android:text="@string/app_name"
-      android:textColor="@color/white"
-      android:textSize="18sp"/>
+      android:columnCount="1"
+      android:rowCount="3"
+      android:useDefaultMargins="true">
 
   <ListView
       android:id="@+id/test_activity_list_view"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"/>
+      android:layout_height="match_parent"
+      android:background="@color/charcoal"/>
+
+  <ImageButton
+      android:id="@+id/imageView"
+      android:contentDescription="@string/app_name"
+      android:layout_width="match_parent"
+      android:layout_height="32dp"
+      android:layout_marginTop="32dp"
+      android:padding="@dimen/settings_text_standard"
+      android:theme="@style/AppTheme"
+      />
+
+</GridLayout>
 </LinearLayout>
