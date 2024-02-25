@@ -25,11 +25,16 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun updateUserXP(xpToAdd: Int) {
+        val currentXP = _userXP.value ?: 0
+        val newXP = currentXP + xpToAdd
+
         // Update _userXP without immediately updating the database
-        _userXP.value = (_userXP.value ?: 0) + xpToAdd
+        _userXP.postValue(newXP)
+
         // Optionally, update the Room database immediately if needed
         viewModelScope.launch {
-            userDao.addXP(_userXP.value ?: 0)
+            userDao.setXP(newXP)
         }
     }
+
 }

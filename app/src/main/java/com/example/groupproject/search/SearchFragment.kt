@@ -34,6 +34,7 @@ class SearchFragment: Fragment() {
 
 
         binding.searchButtonFragment.setOnClickListener {
+//            sharedViewModel.updateUserXP(10)
             viewModel.userInputSearchData = binding.searchEditText.text.toString()
             CoroutineScope(Dispatchers.Main).launch {
                 try {

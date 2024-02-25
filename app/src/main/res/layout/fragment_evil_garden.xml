@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     >
-    
+
     <data>
         <import type="com.example.groupproject.database.BindingAdapters"></import>
         <variable
@@ -61,7 +61,7 @@
                 tools:text="XP: " />
 
             <TextView
-                android:id="@+id/plantXp"
+                android:id="@+id/plantName"
                 android:layout_width="211dp"
                 android:layout_height="43dp"
                 android:text="@{viewModel.currentPlant.name}"
@@ -76,7 +76,7 @@
                 tools:text=" plant XP" />
 
             <TextView
-                android:id="@+id/nameOfPlant"
+                android:id="@+id/plantXp"
                 android:layout_width="211dp"
                 android:layout_height="43dp"
                 android:text="@{String.valueOf(viewModel.currentPlant.evilness)}"
@@ -86,7 +86,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/plantXp"
+                app:layout_constraintTop_toBottomOf="@+id/plantName"
                 app:layout_constraintVertical_bias="0.08"
                 tools:text="Name of plant" />
 
@@ -131,7 +131,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nameOfPlant"
+                app:layout_constraintTop_toBottomOf="@+id/plantXp"
                 tools:src="@drawable/evil_bush1"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 

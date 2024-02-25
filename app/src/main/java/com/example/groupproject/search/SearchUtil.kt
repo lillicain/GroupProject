@@ -60,7 +60,7 @@ class SearchUtil(
         }
         withContext(Dispatchers.IO) {
             try {
-                addXp()
+
                 val startsWithIs = userInputSearchData.startsWith("is", ignoreCase = true)
 
                 if (startsWithIs) {
@@ -103,7 +103,7 @@ class SearchUtil(
                 println("IOException: ${e.message}")
             }
         }
-
+        addXp()
     }
 
 //    private val moshi = Moshi.Builder()

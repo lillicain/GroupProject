@@ -13,6 +13,7 @@ import android.content.Context
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.groupproject.database.EvilDatabase
@@ -63,7 +64,13 @@ class EvilGardenFragment : Fragment() {
             this.findNavController().navigate(EvilGardenFragmentDirections.actionToEvilGardenShopFragment())
 
         }
-
+        binding.toolbar.title = "EVIL Garden"
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
         return binding.root
     }
     // Override the necessary methods for GestureDetector.OnGestureListener
