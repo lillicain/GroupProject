@@ -82,7 +82,6 @@ class MainActivity: AppCompatActivity() {
 //        binding.btnRequestPermission.setOnClickListener { requestPermissions() }
 //        if (!Permissions.isPermissionTaken(this)) {
 //            requestPermissions()
-
 //        }
     }
     private fun initNavController() {
