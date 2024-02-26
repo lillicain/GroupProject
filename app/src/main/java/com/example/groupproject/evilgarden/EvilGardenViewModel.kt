@@ -107,7 +107,7 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
                     PlantEnum.GLOOM_FRUIT -> R.drawable.gloom_fruit2
                     PlantEnum.DEATH_POTATO -> R.drawable.death_potato
                     PlantEnum.ANGRY_PUMPKIN -> R.drawable.angry_pumpkin
-                    else -> R.drawable.eight_ball
+                    else -> null
                 }
             }
         }
