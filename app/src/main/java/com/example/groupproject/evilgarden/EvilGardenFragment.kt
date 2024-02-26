@@ -91,7 +91,14 @@ class EvilGardenFragment : Fragment(), GestureDetector.OnGestureListener {
         binding.plantName.setOnClickListener {
             viewModel.startEditingPlantName()
         }
-
+        viewModel.evilnessRemainder.observe(viewLifecycleOwner) { remainder ->
+            // Update the progress bar with the calculated remainder
+            binding.evilnessProgressBar.progress = remainder
+        }
+        viewModel.evilnessDividedBy100.observe(viewLifecycleOwner) { evilnessDividedBy100 ->
+            binding.plantXp.text = "Plant Level: $evilnessDividedBy100"
+            // Update your UI or perform any actions based on the evilness divided by 100
+        }
 //        binding.editPlantName.setOnEditorActionListener { _, actionId, _ ->
 //            if (actionId == EditorInfo.IME_ACTION_DONE) {
 //                viewModel.stopEditingPlantName()

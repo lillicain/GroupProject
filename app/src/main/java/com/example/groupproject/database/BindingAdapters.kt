@@ -16,6 +16,6 @@ object BindingAdapters {
     }
     @BindingAdapter("android:visibility")
     @JvmStatic fun TextView.setVisibility(b: Boolean) {
-        visibility = if (b) View.VISIBLE else View.GONE
+        visibility = if (b) View.VISIBLE else View.INVISIBLE
     }
 }
