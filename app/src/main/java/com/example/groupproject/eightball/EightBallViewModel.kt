@@ -62,7 +62,7 @@ class EightBallViewModel(private val sharedViewModel: SharedViewModel) : ViewMod
             _selectedAnswer.value = _eightBall.value?.selectedAnswer
             canShake = false
             startCooldownTimer(shakeCooldownMillis)
-            startShakeTimer()
+//            startShakeTimer()
             println(" RINKLEE ${eightBall.value?.selectedAnswer?.value}")
             updateXP()
         } else {
@@ -120,7 +120,7 @@ class EightBallViewModel(private val sharedViewModel: SharedViewModel) : ViewMod
 
     override fun onCleared() {
         super.onCleared()
-        shakeTimer?.cancel()
+//        shakeTimer?.cancel()
         cooldownTimer?.cancel()
     }
 
