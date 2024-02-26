@@ -35,9 +35,8 @@
       android:layout_width="match_parent"
       android:layout_height="64dp"
       app:layout_constraintBottom_toBottomOf="parent"
-      android:backgroundTint="@color/blue_munsell"
-      android:background="#000"
-      android:orientation="horizontal">
+      android:orientation="horizontal"
+      android:textAlignment="center">
 
     <androidx.appcompat.widget.AppCompatToggleButton
         android:id="@+id/facing_switch"
