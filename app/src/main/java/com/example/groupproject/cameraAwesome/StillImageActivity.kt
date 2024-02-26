@@ -51,7 +51,6 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import java.io.IOException
 import java.util.ArrayList
 
-/** Activity demonstrating different image detector features with a still image from camera. */
 @KeepName
 class StillImageActivity : AppCompatActivity() {
   private var preview: ImageView? = null
@@ -60,9 +59,7 @@ class StillImageActivity : AppCompatActivity() {
   private var selectedSize: String? = SIZE_SCREEN
   private var isLandScape = false
   private var imageUri: Uri? = null
-  // Max width (portrait mode)
   private var imageMaxWidth = 0
-  // Max height (portrait mode)
   private var imageMaxHeight = 0
   private var imageProcessor: VisionImageProcessor? = null
 
@@ -70,7 +67,6 @@ class StillImageActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_still_image)
     findViewById<View>(R.id.select_image_button).setOnClickListener { view: View ->
-      // Menu for selecting either: a) take new photo b) select from existing
       val popup = PopupMenu(this@StillImageActivity, view)
       popup.setOnMenuItemClickListener { menuItem: MenuItem ->
         val itemId = menuItem.itemId
@@ -113,7 +109,6 @@ class StillImageActivity : AppCompatActivity() {
         }
       }
     )
-
     val settingsButton = findViewById<ImageView>(R.id.settings_button)
     settingsButton.setOnClickListener {
       val intent = Intent(applicationContext, SettingsActivity::class.java)
@@ -162,28 +157,17 @@ class StillImageActivity : AppCompatActivity() {
     if (VERSION.SDK_INT >= Build.VERSION_CODES.N) {
       options.add(SUBJECT_SEGMENTATION)
     }
-
-    // Creating adapter for featureSpinner
     val dataAdapter = ArrayAdapter(this, R.layout.spinner_style, options)
-    // Drop down layout style - list view with radio button
     dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-    // attaching data adapter to spinner
     featureSpinner.adapter = dataAdapter
-    featureSpinner.onItemSelectedListener =
-      object : OnItemSelectedListener {
-        override fun onItemSelected(
-          parentView: AdapterView<*>,
-          selectedItemView: View?,
-          pos: Int,
-          id: Long
-        ) {
+    featureSpinner.onItemSelectedListener = object : OnItemSelectedListener {
+        override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View?, pos: Int, id: Long) {
           if (pos >= 0) {
             selectedMode = parentView.getItemAtPosition(pos).toString()
             createImageProcessor()
             tryReloadAndDetectInImage()
           }
         }
-
         override fun onNothingSelected(arg0: AdapterView<*>?) {}
       }
   }
@@ -195,26 +179,17 @@ class StillImageActivity : AppCompatActivity() {
     options.add(SIZE_1024_768)
     options.add(SIZE_640_480)
     options.add(SIZE_ORIGINAL)
-    // Creating adapter for featureSpinner
     val dataAdapter = ArrayAdapter(this, R.layout.spinner_style, options)
-    // Drop down layout style - list view with radio button
     dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-    // attaching data adapter to spinner
     sizeSpinner.adapter = dataAdapter
     sizeSpinner.onItemSelectedListener =
       object : OnItemSelectedListener {
-        override fun onItemSelected(
-          parentView: AdapterView<*>,
-          selectedItemView: View?,
-          pos: Int,
-          id: Long
-        ) {
+        override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View?, pos: Int, id: Long) {
           if (pos >= 0) {
             selectedSize = parentView.getItemAtPosition(pos).toString()
             tryReloadAndDetectInImage()
           }
         }
-
         override fun onNothingSelected(arg0: AdapterView<*>?) {}
       }
   }
@@ -227,7 +202,7 @@ class StillImageActivity : AppCompatActivity() {
     outState.putString(KEY_SELECTED_SIZE, selectedSize)
   }
 
-  private fun startCameraIntentForResult() { // Clean up last time's image
+  private fun startCameraIntentForResult() {
     imageUri = null
     preview!!.setImageBitmap(null)
     val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -252,7 +227,6 @@ class StillImageActivity : AppCompatActivity() {
     if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
       tryReloadAndDetectInImage()
     } else if (requestCode == REQUEST_CHOOSE_IMAGE && resultCode == Activity.RESULT_OK) {
-      // In this case, imageUri is returned by the chooser, save it.
       imageUri = data!!.data
       tryReloadAndDetectInImage()
     } else {
@@ -266,14 +240,11 @@ class StillImageActivity : AppCompatActivity() {
       if (imageUri == null) {
         return
       }
-
       if (SIZE_SCREEN == selectedSize && imageMaxWidth == 0) {
-        // UI layout has not finished yet, will reload once it's ready.
         return
       }
 
       val imageBitmap = BitmapUtils.getBitmapFromContentUri(contentResolver, imageUri) ?: return
-      // Clear the overlay first
       graphicOverlay!!.clear()
 
       val resizedBitmap: Bitmap
@@ -281,29 +252,21 @@ class StillImageActivity : AppCompatActivity() {
         if (selectedSize == SIZE_ORIGINAL) {
           imageBitmap
         } else {
-          // Get the dimensions of the image view
           val targetedSize: Pair<Int, Int> = targetedWidthHeight
-
-          // Determine how much to scale down the image
-          val scaleFactor =
-            Math.max(
+          val scaleFactor = Math.max(
               imageBitmap.width.toFloat() / targetedSize.first.toFloat(),
-              imageBitmap.height.toFloat() / targetedSize.second.toFloat()
-            )
-          Bitmap.createScaledBitmap(
-            imageBitmap,
+              imageBitmap.height.toFloat() / targetedSize.second.toFloat())
+          Bitmap.createScaledBitmap(imageBitmap,
             (imageBitmap.width / scaleFactor).toInt(),
             (imageBitmap.height / scaleFactor).toInt(),
-            true
-          )
+            true)
         }
 
       preview!!.setImageBitmap(resizedBitmap)
       if (imageProcessor != null) {
         graphicOverlay!!.setImageSourceInfo(
           resizedBitmap.width,
-          resizedBitmap.height,
-          /* isFlipped= */ false
+          resizedBitmap.height, false
         )
         imageProcessor!!.processBitmap(resizedBitmap, graphicOverlay)
       } else {
@@ -314,7 +277,6 @@ class StillImageActivity : AppCompatActivity() {
       imageUri = null
     }
   }
-
   private val targetedWidthHeight: Pair<Int, Int>
     get() {
       val targetWidth: Int
@@ -347,21 +309,14 @@ class StillImageActivity : AppCompatActivity() {
         }
         OBJECT_DETECTION_CUSTOM -> {
           Log.i(TAG, "Using Custom Object Detector Processor")
-          val localModel =
-            LocalModel.Builder().setAssetFilePath("custom_models/object_labeler.tflite").build()
-          val customObjectDetectorOptions =
-            PreferenceUtils.getCustomObjectDetectorOptionsForStillImage(this, localModel)
+          val localModel = LocalModel.Builder().setAssetFilePath("custom_models/object_labeler.tflite").build()
+          val customObjectDetectorOptions = PreferenceUtils.getCustomObjectDetectorOptionsForStillImage(this, localModel)
           imageProcessor = ObjectDetectorProcessor(this, customObjectDetectorOptions)
         }
         CUSTOM_AUTOML_OBJECT_DETECTION -> {
           Log.i(TAG, "Using Custom AutoML Object Detector Processor")
-          val customAutoMLODTLocalModel =
-            LocalModel.Builder().setAssetManifestFilePath("automl/manifest.json").build()
-          val customAutoMLODTOptions =
-            PreferenceUtils.getCustomObjectDetectorOptionsForStillImage(
-              this,
-              customAutoMLODTLocalModel
-            )
+          val customAutoMLODTLocalModel = LocalModel.Builder().setAssetManifestFilePath("automl/manifest.json").build()
+          val customAutoMLODTOptions = PreferenceUtils.getCustomObjectDetectorOptionsForStillImage(this, customAutoMLODTLocalModel)
           imageProcessor = ObjectDetectorProcessor(this, customAutoMLODTOptions)
         }
         FACE_DETECTION -> {
@@ -376,35 +331,22 @@ class StillImageActivity : AppCompatActivity() {
         }
 
         BARCODE_SCANNING -> imageProcessor = BarcodeScannerProcessor(this, zoomCallback = null)
-        TEXT_RECOGNITION_LATIN ->
-          imageProcessor = TextRecognitionProcessor(this, TextRecognizerOptions.Builder().build())
-        TEXT_RECOGNITION_CHINESE ->
-          imageProcessor =
-            TextRecognitionProcessor(this, ChineseTextRecognizerOptions.Builder().build())
-        TEXT_RECOGNITION_DEVANAGARI ->
-          imageProcessor =
-            TextRecognitionProcessor(this, DevanagariTextRecognizerOptions.Builder().build())
-        TEXT_RECOGNITION_JAPANESE ->
-          imageProcessor =
-            TextRecognitionProcessor(this, JapaneseTextRecognizerOptions.Builder().build())
-        TEXT_RECOGNITION_KOREAN ->
-          imageProcessor =
-            TextRecognitionProcessor(this, KoreanTextRecognizerOptions.Builder().build())
-        IMAGE_LABELING ->
-          imageProcessor = LabelDetectorProcessor(this, ImageLabelerOptions.DEFAULT_OPTIONS)
+        TEXT_RECOGNITION_LATIN -> imageProcessor = TextRecognitionProcessor(this, TextRecognizerOptions.Builder().build())
+        TEXT_RECOGNITION_CHINESE -> imageProcessor = TextRecognitionProcessor(this, ChineseTextRecognizerOptions.Builder().build())
+        TEXT_RECOGNITION_DEVANAGARI -> imageProcessor = TextRecognitionProcessor(this, DevanagariTextRecognizerOptions.Builder().build())
+        TEXT_RECOGNITION_JAPANESE -> imageProcessor = TextRecognitionProcessor(this, JapaneseTextRecognizerOptions.Builder().build())
+        TEXT_RECOGNITION_KOREAN -> imageProcessor = TextRecognitionProcessor(this, KoreanTextRecognizerOptions.Builder().build())
+        IMAGE_LABELING -> imageProcessor = LabelDetectorProcessor(this, ImageLabelerOptions.DEFAULT_OPTIONS)
         IMAGE_LABELING_CUSTOM -> {
           Log.i(TAG, "Using Custom Image Label Detector Processor")
-          val localClassifier =
-            LocalModel.Builder().setAssetFilePath("custom_models/bird_classifier.tflite").build()
+          val localClassifier = LocalModel.Builder().setAssetFilePath("custom_models/bird_classifier.tflite").build()
           val customImageLabelerOptions = CustomImageLabelerOptions.Builder(localClassifier).build()
           imageProcessor = LabelDetectorProcessor(this, customImageLabelerOptions)
         }
         CUSTOM_AUTOML_LABELING -> {
           Log.i(TAG, "Using Custom AutoML Image Label Detector Processor")
-          val customAutoMLLabelLocalModel =
-            LocalModel.Builder().setAssetManifestFilePath("automl/manifest.json").build()
-          val customAutoMLLabelOptions =
-            CustomImageLabelerOptions.Builder(customAutoMLLabelLocalModel)
+          val customAutoMLLabelLocalModel = LocalModel.Builder().setAssetManifestFilePath("automl/manifest.json").build()
+          val customAutoMLLabelOptions = CustomImageLabelerOptions.Builder(customAutoMLLabelLocalModel)
               .setConfidenceThreshold(0f)
               .build()
           imageProcessor = LabelDetectorProcessor(this, customAutoMLLabelOptions)
@@ -417,16 +359,7 @@ class StillImageActivity : AppCompatActivity() {
           val visualizeZ = PreferenceUtils.shouldPoseDetectionVisualizeZ(this)
           val rescaleZ = PreferenceUtils.shouldPoseDetectionRescaleZForVisualization(this)
           val runClassification = PreferenceUtils.shouldPoseDetectionRunClassification(this)
-          imageProcessor =
-            PoseDetectorProcessor(
-              this,
-              poseDetectorOptions,
-              shouldShowInFrameLikelihood,
-              visualizeZ,
-              rescaleZ,
-              runClassification,
-              isStreamMode = false
-            )
+          imageProcessor = PoseDetectorProcessor(this, poseDetectorOptions, shouldShowInFrameLikelihood, visualizeZ, rescaleZ, runClassification, isStreamMode = false)
         }
         SELFIE_SEGMENTATION -> {
           imageProcessor = SegmenterProcessor(this, isStreamMode = false)
@@ -443,12 +376,7 @@ class StillImageActivity : AppCompatActivity() {
       }
     } catch (e: Exception) {
       Log.e(TAG, "Can not create image processor: $selectedMode", e)
-      Toast.makeText(
-          applicationContext,
-          "Can not create image processor: " + e.message,
-          Toast.LENGTH_LONG
-        )
-        .show()
+      Toast.makeText(applicationContext, "Can not create image processor: " + e.message, Toast.LENGTH_LONG).show()
     }
   }
 
@@ -472,7 +400,6 @@ class StillImageActivity : AppCompatActivity() {
     private const val SELFIE_SEGMENTATION = "Selfie Segmentation"
     private const val FACE_MESH_DETECTION = "Face Mesh Detection (Beta)"
     private const val SUBJECT_SEGMENTATION = "Subject Segmentation (Beta)"
-
     private const val SIZE_SCREEN = "w:screen" // Match screen width
     private const val SIZE_1024_768 = "w:1024" // ~1024*768 in a normal ratio
     private const val SIZE_640_480 = "w:640" // ~640*480 in a normal ratio

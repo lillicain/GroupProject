@@ -30,6 +30,7 @@
       app:layout_constraintRight_toRightOf="@id/preview_view"
       app:layout_constraintTop_toTopOf="@id/preview_view" />
 
+
   <LinearLayout
       android:id="@id/control"
       android:layout_width="match_parent"
@@ -54,7 +55,6 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
-
   </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
