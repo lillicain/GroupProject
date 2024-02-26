@@ -8,9 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.groupproject.evilgarden.SharedViewModel
 
-class EightBallViewModel(
-//    private val sharedViewModel: SharedViewModel
-) : ViewModel() {
+class EightBallViewModel(private val sharedViewModel: SharedViewModel) : ViewModel() {
 
 
     var greengusString = MutableLiveData<String>("")
@@ -20,6 +18,8 @@ class EightBallViewModel(
         get() = _buttonsVisible
     val eightBall: LiveData<EightBall>
         get() = _eightBall
+
+
 
     private var canShake = true
     private val shakeCooldownMillis = 2000L // Set the cooldown time in milliseconds
@@ -50,13 +50,19 @@ class EightBallViewModel(
             gridLayout.addView(button)
         }
     }
+    private fun updateXP() {
+        sharedViewModel.updateUserXP(xpToAdd = 5)
+    }
+    private fun updateXP2() {
+        sharedViewModel.updateUserXP(xpToAdd = 3)
+    }
     fun showAnswer() {
         if (canShake) {
             _eightBall.value?.setAnswer()
             _selectedAnswer.value = _eightBall.value?.selectedAnswer
             canShake = false
             startCooldownTimer(shakeCooldownMillis)
-            startShakeTimer()
+//            startShakeTimer()
             println(" RINKLEE ${eightBall.value?.selectedAnswer?.value}")
             updateXP()
         } else {
@@ -114,14 +120,9 @@ class EightBallViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        shakeTimer?.cancel()
+//        shakeTimer?.cancel()
         cooldownTimer?.cancel()
     }
-    private fun updateXP() {
-//        sharedViewModel.updateUserXP(xpToAdd = 5)
-    }
-    private fun updateXP2() {
-//        sharedViewModel.updateUserXP(xpToAdd = 3)
-    }
+
 
 }

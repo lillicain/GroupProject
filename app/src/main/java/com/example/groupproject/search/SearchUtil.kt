@@ -19,6 +19,7 @@ import java.io.IOException
 
 
 class SearchUtil(
+    private val sharedViewModel: SharedViewModel
 //    private val sharedViewModel: SharedViewModel
 ) : ViewModel() {
 
@@ -55,10 +56,11 @@ class SearchUtil(
             .addHeader("Authorization", "Bearer ${searchKey}")
             .build()
         fun addXp() {
-//            sharedViewModel.updateUserXP(10)
+            sharedViewModel.updateUserXP(10)
         }
         withContext(Dispatchers.IO) {
             try {
+
                 val startsWithIs = userInputSearchData.startsWith("is", ignoreCase = true)
 
                 if (startsWithIs) {
@@ -88,7 +90,7 @@ class SearchUtil(
                     if (phraseResponse != null) {
                         println(phraseResponse.suggestions.toString())
                     }
-                    addXp()
+
                 } else {
                     // Handle unsuccessful response
                     println("Error: ${searchResponse.code()}")
@@ -101,7 +103,7 @@ class SearchUtil(
                 println("IOException: ${e.message}")
             }
         }
-
+        addXp()
     }
 
 //    private val moshi = Moshi.Builder()

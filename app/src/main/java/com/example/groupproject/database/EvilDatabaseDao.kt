@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface UserDao {
@@ -14,6 +15,12 @@ interface UserDao {
     suspend fun getUser(): User?
     @Query("UPDATE user_table SET xp = xp + :xpToAdd WHERE id = 1")
     suspend fun addXP(xpToAdd: Int)
+    @Query("UPDATE user_table SET xp = xp - :xpToSubtract WHERE id = 1")
+    suspend fun subtractXP(xpToSubtract: Int)
+    @Query("UPDATE user_table SET xp = :newXP WHERE id = 1")
+    suspend fun setXP(newXP: Int)
+    @Update
+    suspend fun updateUser(user: User)
 }
 @Dao
 interface PlantDao {
@@ -25,4 +32,7 @@ interface PlantDao {
 
     @Query("SELECT * FROM plant_table")
     suspend fun getAllItems(): List<Plant>
+
+    @Update
+    suspend fun updatePlant(plant: Plant)
 }

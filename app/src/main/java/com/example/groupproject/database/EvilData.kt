@@ -21,7 +21,7 @@ enum class PlantEnum(val stringValue: String) {
     ANGRY_PUMPKIN("Angry Pumpkin"),
     DEATH_POTATO("Death Potato"),
     SIN_FLOWER("Sin Flower"),
-    HATER_GRASS("Victim Grass"),
+    HATER_GRASS("Hater Grass"),
 
 
 

@@ -8,11 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import android.R
+import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.content.Context
 import android.view.GestureDetector
 import android.view.MotionEvent
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.ImageButton
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.groupproject.database.EvilDatabase
@@ -20,7 +25,7 @@ import com.example.groupproject.database.User
 import com.example.groupproject.databinding.FragmentEvilGardenBinding
 import com.example.groupproject.home.HomeFragmentDirections
 
-class EvilGardenFragment : Fragment() {
+class EvilGardenFragment : Fragment(), GestureDetector.OnGestureListener {
 
     private lateinit var binding: FragmentEvilGardenBinding
     private lateinit var viewModel: EvilGardenViewModel
@@ -32,7 +37,6 @@ class EvilGardenFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
 
 
 //        val viewModelFactory = EvilGardenViewModelFactory(EvilDatabase)
@@ -63,17 +67,61 @@ class EvilGardenFragment : Fragment() {
             this.findNavController().navigate(EvilGardenFragmentDirections.actionToEvilGardenShopFragment())
 
         }
+        binding.toolbar.title = "EVIL Garden"
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+        binding.plantImage.setOnClickListener {
+            viewModel.water()
+            if ((viewModel.user.value?.xp ?: 49) >= 50) {
+            viewModel.startWiggleAnimation(binding.plantImage)
 
+            }
+        }
+//        gestureDetector = GestureDetector(requireContext(), this)
+//        binding.root.setOnTouchListener { _, event ->
+//            if (::viewModel.isInitialized) {
+//                gestureDetector.onTouchEvent(event)
+//            }
+//            true
+//        }
+        binding.plantName.setOnClickListener {
+            viewModel.startEditingPlantName()
+        }
+        viewModel.evilnessRemainder.observe(viewLifecycleOwner) { remainder ->
+            // Update the progress bar with the calculated remainder
+            binding.evilnessProgressBar.progress = remainder
+        }
+        viewModel.evilnessDividedBy100.observe(viewLifecycleOwner) { evilnessDividedBy100 ->
+            binding.plantXp.text = "Plant Level: $evilnessDividedBy100"
+            // Update your UI or perform any actions based on the evilness divided by 100
+        }
+//        binding.editPlantName.setOnEditorActionListener { _, actionId, _ ->
+//            if (actionId == EditorInfo.IME_ACTION_DONE) {
+//                viewModel.stopEditingPlantName()
+//                return@setOnEditorActionListener true
+//            }
+//            return@setOnEditorActionListener false
+//        }
         return binding.root
     }
+
     // Override the necessary methods for GestureDetector.OnGestureListener
-    fun onDown(e: MotionEvent?): Boolean {
+    override fun onDown(e: MotionEvent): Boolean {
         return true
     }
 
-    fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
-        val deltaX = e2?.x?.minus(e1?.x ?: 0f) ?: 0f
-        val deltaY = e2?.y?.minus(e1?.y ?: 0f) ?: 0f
+   override fun onFling(
+       e1: MotionEvent?,
+       e2: MotionEvent,
+       velocityX: Float,
+       velocityY: Float
+   ): Boolean {
+        val deltaX = e2.x.minus(e1?.x ?: 0f) ?: 0f
+        val deltaY = e2.y.minus(e1?.y ?: 0f) ?: 0f
 
         // You can customize these thresholds based on your requirements
         val swipeThreshold = 150
@@ -95,6 +143,9 @@ class EvilGardenFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        if (isAdded) {
+//            updateDataIfNeeded()
+        }
 //        viewModel.updateUser()
 //        viewModel.updatePlants()
     }
@@ -110,6 +161,30 @@ class EvilGardenFragment : Fragment() {
         viewModel.updateUser()
         viewModel.updatePlants()
     }
+
+
+    override fun onShowPress(e: MotionEvent) {
+
+    }
+
+    override fun onSingleTapUp(e: MotionEvent): Boolean {
+        return true
+    }
+
+    override fun onScroll(
+        e1: MotionEvent?,
+        e2: MotionEvent,
+        distanceX: Float,
+        distanceY: Float
+    ): Boolean {
+        return true
+    }
+
+    override fun onLongPress(e: MotionEvent) {
+
+    }
+
+
 //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 //        super.onViewCreated(view, savedInstanceState)
 //
