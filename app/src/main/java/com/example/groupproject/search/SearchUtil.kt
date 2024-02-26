@@ -59,11 +59,22 @@ class SearchUtil(
         }
         withContext(Dispatchers.IO) {
             try {
-                val startsWithIs = userInputSearchData.startsWith("is", ignoreCase = true)
+                val startsWithIs = userInputSearchData.startsWith("is ", ignoreCase = true)
 
                 if (startsWithIs) {
                     // Remove "is" from the beginning of the string
-                    userInputSearchData = userInputSearchData.substring(2)
+                    userInputSearchData = userInputSearchData.substring(3)
+                    println(userInputSearchData)
+                    println(userInputSearchData.toString())
+                    println(userInputSearchData.toString())
+                    println(userInputSearchData.toString())
+                    println(userInputSearchData.toString())
+                    println(userInputSearchData.toString())
+                    println(userInputSearchData.toString())
+                    println(userInputSearchData.toString())
+                    println(userInputSearchData.toString())
+                    println(userInputSearchData.toString())
+                    println(userInputSearchData.toString())
                 }
                 val searchResponse = client.newCall(request).execute()
                 println(userInputSearchData.toString())
