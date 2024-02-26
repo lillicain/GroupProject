@@ -54,6 +54,8 @@
         android:label="fragment_ringtone"
         tools:layout="@layout/fragment_ringtone" >
     </fragment>
+
+
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.groupproject.search.SearchFragment"
