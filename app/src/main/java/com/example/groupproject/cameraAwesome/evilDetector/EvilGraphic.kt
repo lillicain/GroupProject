@@ -178,11 +178,12 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
             )
         }
 
-        canvas.drawText("Aggressiveness: " + face.headEulerAngleX, left, top + yLabelOffset, idPaints[colorID])
+        canvas.drawText("Evilness: " + face.headEulerAngleX, left, top + yLabelOffset, idPaints[colorID])
         yLabelOffset += lineHeight
-        canvas.drawText("Irresponsible: " + face.headEulerAngleY.absoluteValue * 50, left, top + yLabelOffset, idPaints[colorID])
+        canvas.drawText("Greediness: " + face.headEulerAngleY.absoluteValue * 50, left, top + yLabelOffset, idPaints[colorID])
         yLabelOffset += lineHeight
-        canvas.drawText("Hater: " + face.headEulerAngleZ.absoluteValue * 25, left, top + yLabelOffset, idPaints[colorID])
+        canvas.drawText("Ego Level: " + face.headEulerAngleZ.absoluteValue * 10, left, top + yLabelOffset, idPaints[colorID])
+        yLabelOffset += lineHeight
 
         drawFaceLandmark(canvas, FaceLandmark.LEFT_EYE)
         drawFaceLandmark(canvas, FaceLandmark.RIGHT_EYE)
