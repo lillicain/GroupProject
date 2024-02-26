@@ -80,10 +80,11 @@ class ChooserActivity :
         )
       else
         arrayOf<Class<*>>(
-          LivePreviewActivity::class.java,
           StillImageActivity::class.java,
+          LivePreviewActivity::class.java,
+
           CameraXLivePreviewActivity::class.java,
-          CameraXSourceDemoActivity::class.java
+//          CameraXSourceDemoActivity::class.java
         )
     private val DESCRIPTION_IDS =
       if (VERSION.SDK_INT < VERSION_CODES.LOLLIPOP)
