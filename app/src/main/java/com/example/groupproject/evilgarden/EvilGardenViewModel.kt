@@ -1,10 +1,15 @@
 package com.example.groupproject.evilgarden
 
+import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,6 +24,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.UUID
+import kotlin.random.Random
 
 class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao) : ViewModel() {
 
@@ -37,6 +43,20 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
     private var _plantImage = MutableLiveData<Int>()
     val plantImage: LiveData<Int>
     get() = (_plantImage ?: R.drawable.eight_ball) as LiveData<Int>
+    private val _isEditingPlantName = MutableLiveData<Boolean>(false)
+    val isEditingPlantName: LiveData<Boolean> get() = _isEditingPlantName
+    private val _isShowingPlantText = MutableLiveData<Boolean>(true)
+    val isShowingPlantText: LiveData<Boolean> get() = _isShowingPlantText
+
+//    val evilnessRemainder: LiveData<Int>
+//        get() =  MutableLiveData(_currentPlant.value?.evilness?.rem(100) ?: 50)
+    private val _evilnessRemainder = MutableLiveData<Int>()
+
+    val evilnessRemainder: LiveData<Int>
+        get() = _evilnessRemainder
+    private val _evilnessDividedBy100 = MutableLiveData<Int>()
+    val evilnessDividedBy100: LiveData<Int>
+        get() = _evilnessDividedBy100
 
     init {
         viewModelScope.launch {
@@ -53,15 +73,26 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
                 if (currentIndex in _plants.value!!.indices) {
                     _currentPlant.value = _plants.value!![currentIndex]
                 }
+                _currentPlant.value?.let {
+                    updateEvilnessProgress(it.evilness)
+                }
             } else if (_user.value == null ) { // THIS NEEDS TO CHECK OTHER STUFF ELSE IF IS NOT INCLUSIVE
                 print("Eeffoc")
             } else if (_plants.value.isNullOrEmpty()) {
-                plantDatabase.insertPlant(Plant(id = UUID.randomUUID(), "Malicious Bush", PlantEnum.EVIL_BUSH, 1))
+                plantDatabase.insertPlant(Plant(id = UUID.randomUUID(), "Malicious Bush", PlantEnum.EVIL_BUSH, 101))
+                plantDatabase.insertPlant(Plant(id = UUID.randomUUID(), "Demon Tree", PlantEnum.DEMON_TREE, 101))
+                plantDatabase.insertPlant(Plant(id = UUID.randomUUID(), "Gloom fruitttt", PlantEnum.GLOOM_FRUIT, 101))
+                plantDatabase.insertPlant(Plant(id = UUID.randomUUID(), "Death Potato", PlantEnum.DEATH_POTATO, 101))
+                plantDatabase.insertPlant(Plant(id = UUID.randomUUID(), "Angry Pumpkin", PlantEnum.ANGRY_PUMPKIN, 101))
                 _plants.value = plantDatabase.getAllItems()
                 val currentIndex = _user.value?.currentPlantIndex ?: 0
                 if (currentIndex in _plants.value!!.indices) {
                     _currentPlant.value = _plants.value!![currentIndex]
                 }
+                _currentPlant.value?.let { updateEvilnessProgress(it.evilness) }
+//                _evilnessRemainder.addSource(_currentPlant) { plant ->
+//                    _evilnessRemainder.value = plant?.evilness?.rem(100) ?: 50
+//                }
 
             }
         }
@@ -74,6 +105,8 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
                     PlantEnum.EVIL_BUSH -> R.drawable.evil_bush1
                     PlantEnum.DEMON_TREE -> R.drawable.demon_tree
                     PlantEnum.GLOOM_FRUIT -> R.drawable.gloom_fruit2
+                    PlantEnum.DEATH_POTATO -> R.drawable.death_potato
+                    PlantEnum.ANGRY_PUMPKIN -> R.drawable.angry_pumpkin
                     else -> R.drawable.eight_ball
                 }
             }
@@ -81,6 +114,31 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
 
     }
 
+    fun updateEvilnessProgress(evilness: Int) {
+        // Calculate the level of evilness (total evilness divided by 100)
+        val evilnessLevel = evilness / 100
+        val evilnessLevel2 = evilness % 100
+
+        // Update the LiveData to trigger UI updates
+//        _currentPlant.value!!.evilness = evilnessLevel
+        _evilnessRemainder.value = evilnessLevel2
+        _evilnessDividedBy100.value = evilnessLevel
+    }
+
+    fun startWiggleAnimation(imageButton: ImageView) {
+        val wiggle = ObjectAnimator.ofFloat(
+            imageButton,
+            "rotation",
+            -5f,
+            5f,
+            -5f,
+            5f,
+            0f
+        )
+        wiggle.duration = 500 // Adjust the duration as needed
+        wiggle.interpolator = AccelerateDecelerateInterpolator()
+        wiggle.start()
+    }
     fun swipeRight() {
         val currentIndex = user.value?.currentPlantIndex ?: 0
 
@@ -88,8 +146,10 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
             val newIndex = (currentIndex + 1) % (_plants.value?.size ?: 0)
             user.value?.currentPlantIndex = newIndex
             _currentPlant.value = _plants.value?.get(newIndex)
+
+            // Update the evilness progress when swiping
+            _currentPlant.value?.let { updateEvilnessProgress(it.evilness) }
         }
-        println(currentPlant.value?.name)
     }
 
     fun swipeLeft() {
@@ -99,11 +159,42 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
             val newIndex = if (currentIndex > 0) currentIndex - 1 else _plants.value!!.lastIndex
             user.value?.currentPlantIndex = newIndex
             _currentPlant.value = _plants.value!![newIndex]
+
+            // Update the evilness progress when swiping
+            _currentPlant.value?.let { updateEvilnessProgress(it.evilness) }
         }
     }
-
     fun water() {
-        // Placeholder method
+        viewModelScope.launch {
+            // Step 1: Retrieve the current plant from the database
+            val currentPlant = _currentPlant.value
+
+            // Check if the currentPlant is not null
+            currentPlant?.let {
+                // Check if user's XP is greater than or equal to 50
+                if ((_user.value?.xp ?: 49) >= 50) {
+                    userDatabase.subtractXP(50)
+                    _user.value = userDatabase.getUser()
+                    // Step 2: Update the evilness value of the plant
+                    it.evilness += Random.nextInt(25, 40)
+
+                    // Step 3: Save the updated plant back to the database
+                    plantDatabase.updatePlant(it)
+                    updateEvilnessProgress(it.evilness)
+                    println("${_user.value?.xp}")
+                    // Step 4: Update the user's XP in the database
+
+                    // Step 5: Update the _currentPlant LiveData
+                    _currentPlant.value = it.copy()
+                }
+            }
+        }
+    }
+    fun buyXP() {
+        viewModelScope.launch {
+            userDatabase.addXP(100)
+            _user.value = userDatabase.getUser()
+        }
     }
     fun showUserNameDialog(context: Context) {
         val editText = EditText(context)
@@ -155,5 +246,20 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
 ////                plantDatabase.insertPlantList(it)
 //            }
         }
+    }
+    fun onEditPlantClicked() {
+        startEditingPlantName()
+    }
+    fun onSavePlantNameClicked() {
+        stopEditingPlantName()
+    }
+    fun startEditingPlantName() {
+        _isEditingPlantName.value = true
+        _isShowingPlantText.value = false
+    }
+
+    fun stopEditingPlantName() {
+        _isEditingPlantName.value = false
+        _isShowingPlantText.value = true
     }
 }
