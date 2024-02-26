@@ -6,6 +6,7 @@
 
     <data>
         <import type="com.example.groupproject.database.BindingAdapters"></import>
+<!--        <import type=""></import>-->
         <variable
             name="viewModel"
             type="com.example.groupproject.evilgarden.EvilGardenViewModel" />
@@ -67,13 +68,62 @@
                 android:text="@{viewModel.currentPlant.name}"
                 android:textColor="@color/white"
                 android:textSize="30sp"
+                android:visibility="@{viewModel.isShowingPlantText()}"
                 app:autoSizeTextType="uniform"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.011"
-                tools:text=" plant XP" />
+                tools:text=" plant name" />
+            <!-- ... (other views) ... -->
+
+            <!--            <ImageButton-->
+<!--                android:id="@+id/editPlantNameButton"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="8dp"-->
+<!--                android:alpha="0.5"-->
+<!--                android:src="@drawable/ic_pause"-->
+<!--            android:onClick="@{() -> viewModel.onEditPlantClicked()}"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/plantName"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/plantName"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/plantName"-->
+<!--            />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/savePlantNameButton"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Save"-->
+<!--                android:visibility="@{viewModel.isEditingPlantName()}"-->
+<!--                app:layout_constraintBottom_toBottomOf="@+id/plantName"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/editPlantNameButton"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/plantName"-->
+<!--                android:onClick="@{() -> viewModel.onSavePlantNameClicked()}"-->
+<!--                />-->
+
+            <!-- ... (other views) ... -->
+
+            <EditText
+                android:id="@+id/editPlantName"
+                android:layout_width="236dp"
+                android:layout_height="49dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="6dp"
+                android:hint="Edit Plant Name"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:visibility="@{viewModel.isEditingPlantName()}"
+                app:layout_constraintBottom_toBottomOf="@+id/plantName"
+                app:layout_constraintEnd_toEndOf="@+id/plantName"
+                app:layout_constraintHorizontal_bias="0.242"
+                app:layout_constraintStart_toStartOf="@+id/plantName"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.076"
+                app:layout_constraintWidth_default="spread"
+                app:layout_constraintWidth_max="wrap" />
 
             <TextView
                 android:id="@+id/plantXp"
@@ -87,8 +137,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/plantName"
-                app:layout_constraintVertical_bias="0.08"
-                tools:text="Name of plant" />
+                app:layout_constraintVertical_bias="0.094"
+                tools:text="Plant xp:" />
 
             <ImageButton
                 android:id="@+id/left_button"
@@ -124,7 +174,9 @@
                 />
 
             <ImageView
-                android:id="@+id/imageButton"
+
+                android:background="#00000000"
+                android:id="@+id/plantImage"
                 android:layout_width="295dp"
                 android:layout_height="422dp"
                 app:imageResource="@{viewModel.plantImage}"

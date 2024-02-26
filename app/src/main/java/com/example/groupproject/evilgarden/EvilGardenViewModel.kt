@@ -1,9 +1,13 @@
 package com.example.groupproject.evilgarden
 
+import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -37,6 +41,11 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
     private var _plantImage = MutableLiveData<Int>()
     val plantImage: LiveData<Int>
     get() = (_plantImage ?: R.drawable.eight_ball) as LiveData<Int>
+    private val _isEditingPlantName = MutableLiveData<Boolean>(false)
+    val isEditingPlantName: LiveData<Boolean> get() = _isEditingPlantName
+    private val _isShowingPlantText = MutableLiveData<Boolean>(true)
+    val isShowingPlantText: LiveData<Boolean> get() = _isShowingPlantText
+
 
     init {
         viewModelScope.launch {
@@ -80,7 +89,20 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
         }
 
     }
-
+    fun startWiggleAnimation(imageButton: ImageView) {
+        val wiggle = ObjectAnimator.ofFloat(
+            imageButton,
+            "rotation",
+            -5f,
+            5f,
+            -5f,
+            5f,
+            0f
+        )
+        wiggle.duration = 500 // Adjust the duration as needed
+        wiggle.interpolator = AccelerateDecelerateInterpolator()
+        wiggle.start()
+    }
     fun swipeRight() {
         val currentIndex = user.value?.currentPlantIndex ?: 0
 
@@ -103,6 +125,27 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
     }
 
     fun water() {
+        viewModelScope.launch {
+            // Step 1: Retrieve the current plant from the database
+            val currentPlant = _currentPlant.value
+
+            // Check if the currentPlant is not null
+            currentPlant?.let {
+                // Check if user's XP is greater than or equal to 50
+                if ((_user.value?.xp ?: 49) >= 50) {
+                    _user.value?.xp = (_user.value?.xp ?: 0) - 50
+                    // Step 2: Update the evilness value of the plant
+                    it.evilness += 50
+
+                    // Step 3: Save the updated plant back to the database
+                    plantDatabase.updatePlant(it)
+                    _user.value?.let { userDatabase.updateUser(it) }
+                    // Step 4: Update the _currentPlant LiveData
+                    _currentPlant.value = it.copy()
+                }
+            }
+        }
+
         // Placeholder method
     }
     fun showUserNameDialog(context: Context) {
@@ -155,5 +198,20 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
 ////                plantDatabase.insertPlantList(it)
 //            }
         }
+    }
+    fun onEditPlantClicked() {
+        startEditingPlantName()
+    }
+    fun onSavePlantNameClicked() {
+        stopEditingPlantName()
+    }
+    fun startEditingPlantName() {
+        _isEditingPlantName.value = true
+        _isShowingPlantText.value = false
+    }
+
+    fun stopEditingPlantName() {
+        _isEditingPlantName.value = false
+        _isShowingPlantText.value = true
     }
 }
