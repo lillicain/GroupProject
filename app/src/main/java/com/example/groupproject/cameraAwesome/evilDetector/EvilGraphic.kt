@@ -4,6 +4,8 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import android.graphics.Shader
+import androidx.compose.ui.graphics.RadialGradientShader
 import com.example.groupproject.cameraAwesome.facedetector.FaceGraphic
 import com.example.groupproject.preference.GraphicOverlay
 import com.google.mlkit.vision.face.Face
@@ -25,6 +27,7 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
     init {
         val selectedColor = Color.RED
         facePositionPaint = Paint()
+        facePositionPaint.isFakeBoldText = true
         facePositionPaint.color = selectedColor
 
         for (i in 0 until numColors) {

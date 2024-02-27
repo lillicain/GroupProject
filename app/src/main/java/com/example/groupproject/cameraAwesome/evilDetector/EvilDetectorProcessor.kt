@@ -27,7 +27,9 @@ class EvilDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
                 .enableTracking()
                 .build()
 
+
         detector = FaceDetection.getClient(options)
+detectorOptions.zzf()
 
         Log.v(MANUAL_TESTING_LOG, "Evil detector options: $options")
     }
