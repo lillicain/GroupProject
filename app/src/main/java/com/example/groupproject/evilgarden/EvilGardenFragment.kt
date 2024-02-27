@@ -52,6 +52,8 @@ class EvilGardenFragment : Fragment(), GestureDetector.OnGestureListener {
             if (user == null) {
                 // Show the user name dialog if there is no user data
                 viewModel.showUserNameDialog(requireContext())
+//                viewModel.updatePlants()
+//                viewModel.updateUser()
             } else {
 //                println("EEFFOC")
 //                viewModel.updateUser()

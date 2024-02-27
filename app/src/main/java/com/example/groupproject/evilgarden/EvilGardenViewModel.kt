@@ -81,7 +81,7 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
             } else if (_plants.value.isNullOrEmpty()) {
                 plantDatabase.insertPlant(Plant(id = UUID.randomUUID(), "Malicious Bush", PlantEnum.EVIL_BUSH, 101))
                 plantDatabase.insertPlant(Plant(id = UUID.randomUUID(), "Demon Tree", PlantEnum.DEMON_TREE, 101))
-                plantDatabase.insertPlant(Plant(id = UUID.randomUUID(), "Gloom fruitttt", PlantEnum.GLOOM_FRUIT, 101))
+                plantDatabase.insertPlant(Plant(id = UUID.randomUUID(), "Gloom fruit", PlantEnum.GLOOM_FRUIT, 101))
                 plantDatabase.insertPlant(Plant(id = UUID.randomUUID(), "Death Potato", PlantEnum.DEATH_POTATO, 101))
                 plantDatabase.insertPlant(Plant(id = UUID.randomUUID(), "Angry Pumpkin", PlantEnum.ANGRY_PUMPKIN, 101))
                 _plants.value = plantDatabase.getAllItems()
@@ -107,7 +107,7 @@ class EvilGardenViewModel(val userDatabase: UserDao, val plantDatabase: PlantDao
                     PlantEnum.GLOOM_FRUIT -> R.drawable.gloom_fruit2
                     PlantEnum.DEATH_POTATO -> R.drawable.death_potato
                     PlantEnum.ANGRY_PUMPKIN -> R.drawable.angry_pumpkin
-                    else -> null
+                    else -> R.drawable.evil_bush1
                 }
             }
         }

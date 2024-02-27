@@ -51,10 +51,10 @@ class EightBallViewModel(private val sharedViewModel: SharedViewModel) : ViewMod
         }
     }
     private fun updateXP() {
-        sharedViewModel.updateUserXP(xpToAdd = 5)
+        sharedViewModel.updateUserXP(xpToAdd = 25)
     }
     private fun updateXP2() {
-        sharedViewModel.updateUserXP(xpToAdd = 3)
+        sharedViewModel.updateUserXP(xpToAdd = 30)
     }
     fun showAnswer() {
         if (canShake) {
