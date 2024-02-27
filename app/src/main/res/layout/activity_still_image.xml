@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:background="#000"
-    android:backgroundTint="@color/charcoal"
+    android:backgroundTint="@color/tea_green"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -31,7 +31,7 @@
       android:id="@id/control"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:backgroundTint="@color/blue_munsell"
+      android:backgroundTint="@color/cambridge_blue"
       app:layout_constraintBottom_toBottomOf="parent"
       android:background="#000"
       android:padding="12dp"
@@ -50,7 +50,7 @@
     <LinearLayout
         android:id="@+id/control2"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="horizontal">
 
@@ -66,6 +66,7 @@
           android:layout_width="0dp"
           android:layout_weight="1"
           android:layout_height="wrap_content"
+          android:popupBackground="@color/charcoal"
           android:layout_gravity="center"/>
     </LinearLayout>
   </LinearLayout>

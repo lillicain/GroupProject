@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:backgroundTint="@color/tea_green"
+    android:contextClickable="true"
     android:background="#000">
 
     <androidx.appcompat.widget.Toolbar
@@ -22,8 +23,7 @@
         android:layout_height="wrap_content"
         android:columnCount="1"
         android:rowCount="3"
-        android:useDefaultMargins="true">
-
+        android:padding="18dp">
     <ListView
         android:id="@+id/test_activity_list_view"
         android:layout_width="match_parent"

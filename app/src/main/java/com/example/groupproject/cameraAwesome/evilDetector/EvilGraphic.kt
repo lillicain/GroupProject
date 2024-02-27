@@ -147,7 +147,7 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
                 labelPaints[colorID]
             )
             canvas.drawText(
-                "Evil",
+                "Evil  Left Eye",
                 leftEyeLeft,
                 translateY(leftEye.position.y) + ID_Y_OFFSET,
                 idPaints[colorID]
@@ -171,23 +171,26 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
                 labelPaints[colorID]
             )
             canvas.drawText(
-                "Evil",
+                "Right eye",
                 rightEyeLeft,
                 translateY(rightEye.position.y) + EvilGraphic.ID_Y_OFFSET,
                 idPaints[colorID]
+
             )
         }
 
-        canvas.drawText("Aggressiveness: " + face.headEulerAngleX, left, top + yLabelOffset, idPaints[colorID])
+        canvas.drawText("Evilness: " + face.headEulerAngleX, left, top + yLabelOffset, idPaints[colorID])
         yLabelOffset += lineHeight
-        canvas.drawText("Irresponsible: " + face.headEulerAngleY.absoluteValue * 50, left, top + yLabelOffset, idPaints[colorID])
+        canvas.drawText("Greediness: " + face.headEulerAngleY.absoluteValue * 50, left, top + yLabelOffset, idPaints[colorID])
         yLabelOffset += lineHeight
-        canvas.drawText("Hater: " + face.headEulerAngleZ.absoluteValue * 25, left, top + yLabelOffset, idPaints[colorID])
+        canvas.drawText("Ego Level: " + face.headEulerAngleZ.absoluteValue * 10, left, top + yLabelOffset, idPaints[colorID])
+        yLabelOffset += lineHeight
 
         drawFaceLandmark(canvas, FaceLandmark.LEFT_EYE)
         drawFaceLandmark(canvas, FaceLandmark.RIGHT_EYE)
         drawFaceLandmark(canvas, FaceLandmark.LEFT_CHEEK)
-        drawFaceLandmark(canvas, FaceLandmark.RIGHT_CHEEK)
+        drawFaceLandmark(canvas, FaceLandmarxk.RIGHT_CHEEK)
+        drawFaceLandmark(canvas, FaceLandmark.MOUTH_BOTTOM)
     }
 
     private fun drawFaceLandmark(canvas: Canvas, @FaceLandmark.LandmarkType landmarkType: Int) {
@@ -204,7 +207,7 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
 
     companion object {
         private const val FACE_POSITION_RADIUS = 8.0f
-        private const val ID_TEXT_SIZE = 30.0f
+        private const val ID_TEXT_SIZE = 40.0f
         private const val ID_Y_OFFSET = 40.0f
         private const val BOX_STROKE_WIDTH = 4.0f
         private const val NUM_COLORS = 10
