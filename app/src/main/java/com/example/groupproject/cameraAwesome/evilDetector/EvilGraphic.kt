@@ -37,7 +37,7 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
             boxPaints[i].strokeWidth = BOX_STROKE_WIDTH
             labelPaints[i] = Paint()
             labelPaints[i].color = COLORS[i][1]
-            labelPaints[i].style = Paint.Style.FILL_AND_STROKE
+            labelPaints[i].style = Paint.Style.FILL
         }
     }
     override fun draw(canvas: Canvas) {
@@ -67,29 +67,30 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
                 textWidth,
                 idPaints[colorID].measureText(
                     String.format(Locale.US, "Narcissistic: %.2f", face.smilingProbability!! * 100)
+
                 )
             )
         }
-        if (face.leftEyeOpenProbability != null) {
-            yLabelOffset -= lineHeight
-            textWidth =
-                max(
-                    textWidth,
-                    idPaints[colorID].measureText(
-                        String.format(Locale.US, "Hating: %.2f", face.leftEyeOpenProbability!! * 150)
-                    )
-                )
-        }
-        if (face.rightEyeOpenProbability != null) {
-            yLabelOffset -= lineHeight
-            textWidth =
-                max(
-                    textWidth,
-                    idPaints[colorID].measureText(
-                        String.format(Locale.US, "Liar: %.2f", face.rightEyeOpenProbability!! * 100)
-                    )
-                )
-        }
+//        if (face.leftEyeOpenProbability != null) {
+//            yLabelOffset -= lineHeight
+//            textWidth =
+//                max(
+//                    textWidth,
+//                    idPaints[colorID].measureText(
+//                        String.format(Locale.US, "Hating: %.2f", face.leftEyeOpenProbability!! * 150)
+//                    )
+//                )
+//        }
+//        if (face.rightEyeOpenProbability != null) {
+//            yLabelOffset -= lineHeight
+//            textWidth =
+//                max(
+//                    textWidth,
+//                    idPaints[colorID].measureText(
+//                        String.format(Locale.US, "Liar: %.2f", face.rightEyeOpenProbability!! * 100)
+//                    )
+//                )
+//        }
 
         yLabelOffset = yLabelOffset - 3 * lineHeight
 
@@ -126,64 +127,64 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
 
         // Draws smiling and left/right eye open probabilities.
         if (face.smilingProbability != null) {
-            canvas.drawText("Manipulative: " + String.format(Locale.US, "%.2f", face.smilingProbability!! * 100), left, top + yLabelOffset, idPaints[colorID])
+            canvas.drawText("Manipulative: " + String.format(Locale.US, "%.0", face.smilingProbability!! * 100), left, top + yLabelOffset, idPaints[colorID])
             yLabelOffset += lineHeight
         }
 
         val leftEye = face.getLandmark(FaceLandmark.LEFT_EYE)
-        if (face.leftEyeOpenProbability != null) {
-            canvas.drawText("Laziness: " + String.format(Locale.US, "%.2f", face.leftEyeOpenProbability!! * 50), left, top + yLabelOffset, idPaints[colorID])
-            yLabelOffset += lineHeight
-        }
-
-        if (leftEye != null) {
-            val leftEyeLeft =
-                translateX(leftEye.position.x) - idPaints[colorID].measureText("Evil") / 3.0f
-            canvas.drawRect(
-                leftEyeLeft - BOX_STROKE_WIDTH,
-                translateY(leftEye.position.y) + ID_Y_OFFSET - ID_TEXT_SIZE,
-                leftEyeLeft + idPaints[colorID].measureText("Evil") + BOX_STROKE_WIDTH,
-                translateY(leftEye.position.y) + ID_Y_OFFSET + BOX_STROKE_WIDTH,
-                labelPaints[colorID]
-            )
-            canvas.drawText(
-                "Evil  Left Eye",
-                leftEyeLeft,
-                translateY(leftEye.position.y) + ID_Y_OFFSET,
-                idPaints[colorID]
-            )
-        }
+//        if (face.leftEyeOpenProbability != null) {
+//            canvas.drawText("Laziness: " + String.format(Locale.US, "%.2f", face.leftEyeOpenProbability!! * 50), left, top + yLabelOffset, idPaints[colorID])
+//            yLabelOffset += lineHeight
+//        }
+//
+//        if (leftEye != null) {
+//            val leftEyeLeft =
+//                translateX(leftEye.position.x) - idPaints[colorID].measureText("Evil") / 2.0f
+//            canvas.drawRect(
+//                leftEyeLeft - BOX_STROKE_WIDTH,
+//                translateY(leftEye.position.y) + ID_Y_OFFSET - ID_TEXT_SIZE,
+//                leftEyeLeft + idPaints[colorID].measureText("Evil") + BOX_STROKE_WIDTH,
+//                translateY(leftEye.position.y) + ID_Y_OFFSET + BOX_STROKE_WIDTH,
+//                labelPaints[colorID]
+//            )
+//            canvas.drawText(
+//                "Evil  Left Eye",
+//                leftEyeLeft,
+//                translateY(leftEye.position.y) + ID_Y_OFFSET,
+//                idPaints[colorID]
+//            )
+//        }
 
         val rightEye = face.getLandmark(FaceLandmark.RIGHT_EYE)
-        if (face.rightEyeOpenProbability != null) {
-            canvas.drawText("Evilness: " + String.format(Locale.US, "%.2f", face.rightEyeOpenProbability!! * 100), left, top + yLabelOffset, idPaints[colorID])
-            yLabelOffset += lineHeight
-        }
+//        if (face.rightEyeOpenProbability != null) {
+//            canvas.drawText("Evilness: " + String.format(Locale.US, "%.2f", face.rightEyeOpenProbability!! * 100), left, top + yLabelOffset, idPaints[colorID])
+//            yLabelOffset += lineHeight
+//        }
+//
+//        if (rightEye != null) {
+//            val rightEyeLeft =
+//                translateX(rightEye.position.x) - idPaints[colorID].measureText("Hater") / 2.0f
+//            canvas.drawRect(
+//                rightEyeLeft - EvilGraphic.BOX_STROKE_WIDTH,
+//                translateY(rightEye.position.y) + EvilGraphic.ID_Y_OFFSET - EvilGraphic.ID_TEXT_SIZE,
+//                rightEyeLeft + idPaints[colorID].measureText("Instigator") + EvilGraphic.BOX_STROKE_WIDTH,
+//                translateY(rightEye.position.y) + EvilGraphic.ID_Y_OFFSET + EvilGraphic.BOX_STROKE_WIDTH,
+//                labelPaints[colorID]
+//            )
+//            canvas.drawText(
+//                "Right eye",
+//                rightEyeLeft,
+//                translateY(rightEye.position.y) + EvilGraphic.ID_Y_OFFSET,
+//                idPaints[colorID]
+//
+//            )
+//        }
 
-        if (rightEye != null) {
-            val rightEyeLeft =
-                translateX(rightEye.position.x) - idPaints[colorID].measureText("Hater") / 2.0f
-            canvas.drawRect(
-                rightEyeLeft - EvilGraphic.BOX_STROKE_WIDTH,
-                translateY(rightEye.position.y) + EvilGraphic.ID_Y_OFFSET - EvilGraphic.ID_TEXT_SIZE,
-                rightEyeLeft + idPaints[colorID].measureText("Instigator") + EvilGraphic.BOX_STROKE_WIDTH,
-                translateY(rightEye.position.y) + EvilGraphic.ID_Y_OFFSET + EvilGraphic.BOX_STROKE_WIDTH,
-                labelPaints[colorID]
-            )
-            canvas.drawText(
-                "Right eye",
-                rightEyeLeft,
-                translateY(rightEye.position.y) + EvilGraphic.ID_Y_OFFSET,
-                idPaints[colorID]
-
-            )
-        }
-
-        canvas.drawText("Evilness: " + face.headEulerAngleX, left, top + yLabelOffset, idPaints[colorID])
+        canvas.drawText("EVILNESS:" + String.format(Locale.US, "%.0f", face.headEulerAngleX * 50), left, top + yLabelOffset, idPaints[colorID])
         yLabelOffset += lineHeight
-        canvas.drawText("Greediness: " + face.headEulerAngleY.absoluteValue * 50, left, top + yLabelOffset, idPaints[colorID])
+        canvas.drawText("GREEDINESS:" + String.format(Locale.US, "%.0f", face.headEulerAngleX * 50), left, top + yLabelOffset, idPaints[colorID])
         yLabelOffset += lineHeight
-        canvas.drawText("Ego Level: " + face.headEulerAngleZ.absoluteValue * 10, left, top + yLabelOffset, idPaints[colorID])
+        canvas.drawText("EGO LEVEL:" + String.format(Locale.US, "%.0f", face.headEulerAngleX * 50), left, top + yLabelOffset, idPaints[colorID])
         yLabelOffset += lineHeight
 
         drawFaceLandmark(canvas, FaceLandmark.LEFT_EYE)
@@ -209,7 +210,7 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
         private const val FACE_POSITION_RADIUS = 8.0f
         private const val ID_TEXT_SIZE = 40.0f
         private const val ID_Y_OFFSET = 40.0f
-        private const val BOX_STROKE_WIDTH = 4.0f
+        private const val BOX_STROKE_WIDTH = 10.0f
         private const val NUM_COLORS = 10
         private val COLORS =
             arrayOf(

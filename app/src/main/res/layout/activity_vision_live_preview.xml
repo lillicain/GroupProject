@@ -46,6 +46,7 @@
         android:background="@drawable/ic_switch_camera_white_48dp"
         android:layout_gravity="center_vertical"
         android:checked="false"
+        android:textColor="@color/white"
         android:textOff=""
         android:textOn=""/>
 
