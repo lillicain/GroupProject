@@ -5,6 +5,7 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RawRes
@@ -48,6 +49,14 @@ class RingtoneFragment: Fragment() {
         mediaPlayer?.release()
         mediaPlayer = null
     }
+
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        viewModel.selectedRingtone(
+//            when (item.itemId) {
+//                R.id.
+//            }
+//        )
+//    }
 
     override fun onDestroy() {
         super.onDestroy()

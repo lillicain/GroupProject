@@ -6,16 +6,20 @@ import android.widget.GridLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.groupproject.evilgarden.SharedViewModel
 
-class EightBallViewModel : ViewModel() {
+class EightBallViewModel(private val sharedViewModel: SharedViewModel) : ViewModel() {
 
-    var greengusString = MutableLiveData<String>("GREENGUS")
+
+    var greengusString = MutableLiveData<String>("")
     private val _eightBall = MutableLiveData<EightBall>()
     var _buttonsVisible = MutableLiveData<Boolean>()
     val buttonsVisible: LiveData<Boolean>
         get() = _buttonsVisible
     val eightBall: LiveData<EightBall>
         get() = _eightBall
+
+
 
     private var canShake = true
     private val shakeCooldownMillis = 2000L // Set the cooldown time in milliseconds
@@ -46,20 +50,28 @@ class EightBallViewModel : ViewModel() {
             gridLayout.addView(button)
         }
     }
+    private fun updateXP() {
+        sharedViewModel.updateUserXP(xpToAdd = 5)
+    }
+    private fun updateXP2() {
+        sharedViewModel.updateUserXP(xpToAdd = 3)
+    }
     fun showAnswer() {
         if (canShake) {
             _eightBall.value?.setAnswer()
             _selectedAnswer.value = _eightBall.value?.selectedAnswer
             canShake = false
             startCooldownTimer(shakeCooldownMillis)
-            startShakeTimer()
+//            startShakeTimer()
             println(" RINKLEE ${eightBall.value?.selectedAnswer?.value}")
+            updateXP()
         } else {
             println("Shake is on cooldown")
         }
     }
     fun addAnswer(answer: Answer) {
         _eightBall.value?.addAnswer(answer)
+        updateXP2()
     }
 
     private fun startShakeTimer() {
@@ -108,7 +120,9 @@ class EightBallViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        shakeTimer?.cancel()
+//        shakeTimer?.cancel()
         cooldownTimer?.cancel()
     }
+
+
 }

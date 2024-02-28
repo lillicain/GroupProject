@@ -1,6 +1,272 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+        <import type="com.example.groupproject.database.BindingAdapters"></import>
+        <import type="android.view.View"/>
+        <import type="android.widget.ProgressBar"/>
+
+        <!--        <import type=""></import>-->
+        <variable
+            name="viewModel"
+            type="com.example.groupproject.evilgarden.EvilGardenViewModel" />
+
+    </data>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#3b6064"
+            app:title="EVIL Garden"
+            app:titleTextColor="@color/white">
+        <Button
+            android:id="@+id/hide_button"
+            android:backgroundTint="#3b6064"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginBottom="7dp"
+            android:onClick="@{() -> viewModel.buyXP()}"
+            app:contentInsetStartWithNavigation="110dp" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <!-- The rest of your layout goes here -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayoutOne"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#301934"
+            android:layout_below="@+id/toolbar">
+
+            <View
+                android:id="@+id/bottomOverlay"
+                android:layout_width="422dp"
+                android:layout_height="117dp"
+                android:layout_marginTop="24dp"
+                android:background="#80000000"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/nameOfUser"
+                tools:layout_editor_absoluteX="-11dp" />
+
+            <View
+                android:id="@+id/topOverlay"
+                android:layout_width="452dp"
+                android:layout_height="131dp"
+                android:background="#80000000"
+                app:layout_constraintBottom_toTopOf="@+id/nameOfUser"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/nameOfUser"
+                android:layout_width="246dp"
+                android:layout_height="49dp"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="3"
+                android:text="@{viewModel.user.username}"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.925"
+                tools:text="Name of users garden" />
+
+            <!-- ... (other views) ... -->
+
+            <!--            <ImageButton-->
+<!--                android:id="@+id/editPlantNameButton"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="8dp"-->
+<!--                android:alpha="0.5"-->
+<!--                android:src="@drawable/ic_pause"-->
+<!--            android:onClick="@{() -> viewModel.onEditPlantClicked()}"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/plantName"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/plantName"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/plantName"-->
+<!--            />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/savePlantNameButton"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Save"-->
+<!--                android:visibility="@{viewModel.isEditingPlantName()}"-->
+<!--                app:layout_constraintBottom_toBottomOf="@+id/plantName"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/editPlantNameButton"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/plantName"-->
+<!--                android:onClick="@{() -> viewModel.onSavePlantNameClicked()}"-->
+<!--                />-->
+
+            <!-- ... (other views) ... -->
+
+            <TextView
+                android:id="@+id/xp"
+                android:layout_width="343dp"
+                android:layout_height="44dp"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="3"
+                android:text="@{String.valueOf(viewModel.user.xp)}"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.455"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.974"
+                tools:text="XP: " />
+
+            <EditText
+                android:id="@+id/editPlantName"
+                android:layout_width="236dp"
+                android:layout_height="49dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="6dp"
+                android:hint="Edit Plant Name"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:visibility="@{viewModel.isEditingPlantName()}"
+                app:layout_constraintBottom_toBottomOf="@+id/plantName"
+                app:layout_constraintEnd_toEndOf="@+id/plantName"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/plantName"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.076"
+                app:layout_constraintWidth_default="spread"
+                app:layout_constraintWidth_max="wrap" />
+
+            <TextView
+                android:id="@+id/plantName"
+                android:layout_width="211dp"
+                android:layout_height="43dp"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="3"
+                android:text="@{viewModel.currentPlant.name}"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:visibility="@{viewModel.isShowingPlantText()}"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.125"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.011"
+                tools:text=" plant name" />
+
+            <TextView
+                android:id="@+id/plantXp"
+                android:layout_width="211dp"
+                android:layout_height="43dp"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="3"
+                android:text="@{String.valueOf(viewModel.evilnessDividedBy100)}"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.17"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/plantName"
+                app:layout_constraintVertical_bias="0.01"
+                tools:text="Plant xp:" />
+
+            <ProgressBar
+                android:id="@+id/evilnessProgressBar"
+                android:layout_width="384dp"
+                android:layout_height="26dp"
+                android:progress="@{viewModel.evilnessRemainder}"
+                android:max="100"
+                android:progressTint="@color/dark_state_gray"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/plantXp"
+                app:layout_constraintWidth_percent="0.8" />
+
+            <ImageButton
+                android:id="@+id/left_button"
+                android:layout_width="21dp"
+                android:layout_height="148dp"
+                android:layout_marginEnd="16dp"
+                android:alpha="0.2"
+                android:onClick="@{() -> viewModel.swipeLeft()}"
+                android:src="@drawable/triangle1"
+                android:text="Button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/right_button"
+                app:layout_constraintHorizontal_bias="0.038"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="left" />
+
+            <ImageButton
+                android:id="@+id/right_button"
+                android:layout_width="21dp"
+                android:layout_height="148dp"
+                android:layout_marginEnd="16dp"
+                android:alpha="0.2"
+                android:onClick="@{() -> viewModel.swipeRight()}"
+                android:rotation="180"
+                android:src="@drawable/triangle2"
+                android:text="Button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="right"
+
+                />
+
+            <ImageView
+
+                android:background="#00000000"
+                android:id="@+id/plantImage"
+                android:layout_width="295dp"
+                android:layout_height="422dp"
+                app:imageResource="@{viewModel.plantImage}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/plantXp"
+                tools:src="@drawable/evil_bush1"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+            <Button
+                android:id="@+id/shopButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shop"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/nameOfUser"
+                app:layout_constraintTop_toTopOf="@+id/nameOfUser" />
+
+            <!--        android:background="null"-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+</layout>
