@@ -184,7 +184,7 @@ class EvilGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
         yLabelOffset += lineHeight
         canvas.drawText("GREEDINESS:" + String.format(Locale.US, "%.0f", face.headEulerAngleX * 50), left, top + yLabelOffset, idPaints[colorID])
         yLabelOffset += lineHeight
-        canvas.drawText("EGO LEVEL:" + String.format(Locale.US, "%.0f", face.headEulerAngleX * 50), left, top + yLabelOffset, idPaints[colorID])
+        canvas.drawText("EGO LEVEL:" + String.format(Locale.US, "%.0f", face.headEulerAngleX * 10), left, top + yLabelOffset, idPaints[colorID])
         yLabelOffset += lineHeight
 
         drawFaceLandmark(canvas, FaceLandmark.LEFT_EYE)
